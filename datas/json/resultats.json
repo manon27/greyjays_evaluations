@@ -1,0 +1,41 @@
+{
+	"reponse": "ok",
+	"resultats" : [
+		{
+			"id_action": 1,
+			"id_joueur": 1,
+			"date_realisation": 1470338498,
+			"performance": 2,
+			"test": 0,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id_action": 1,
+			"id_joueur": 1,
+			"date_realisation": 1470338498,
+			"performance": 2,
+			"test": 0,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id_action": 1,
+			"id_joueur": 2,
+			"date_realisation": 1470338498,
+			"performance": 12,
+			"test": 0,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id_action": 3,
+			"id_joueur": 2,
+			"date_realisation": 1470338498,
+			"performance": 12,
+			"test": 0,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		}
+	]
+}

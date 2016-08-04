@@ -1,0 +1,26 @@
+{
+	"reponse": "ok",
+	"actions" : [
+		{
+			"id": 1,
+			"id_position": 1,
+			"libelle": "Action n°1 : .... sur la position 1",
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id": 2,
+			"id_position": 1,
+			"libelle": "Action n°2 : .... sur la position 1",
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id": 3,
+			"id_position": 2,
+			"libelle": "Action n°3 : .... sur la position 2",
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		}
+	]
+}

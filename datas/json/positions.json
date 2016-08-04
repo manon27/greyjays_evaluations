@@ -1,0 +1,19 @@
+{
+	"reponse": "ok",
+	"positions" : [
+		{
+			"id": 1,
+			"libelle": "69",
+			"description": "Toutes",
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id": 2,
+			"libelle": "Batteur",
+			"description": "Celui qui s'appelle bapt",
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		}
+	]
+}

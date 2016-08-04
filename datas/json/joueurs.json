@@ -1,0 +1,38 @@
+{
+	"reponse": "ok",
+	"joueurs" : [
+		{
+			"id": 1,
+			"nom": "LAVAUPOT",
+			"prenom" : "Manon",
+			"date_naissance": 1470338498,
+			"taille": 167,
+			"poids": 85,
+			"date_inscription": 1470338498,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id": 2,
+			"nom": "LEVIEUPOT",
+			"prenom" : "Maoui",
+			"date_naissance": 1470338498,
+			"taille": 167,
+			"poids": 85,
+			"date_inscription": 1470338498,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id": 3,
+			"nom": "LAMAUPOT",
+			"prenom" : "Roger",
+			"date_naissance": 1470338498,
+			"taille": 167,
+			"poids": 85,
+			"date_inscription": 1470338498,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		}
+	]
+}
