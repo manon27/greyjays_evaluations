@@ -14,4 +14,4 @@ Application pour enregistrer les évaluations baseball
 * PHP 5
 * CSS 3
 * Javascript ECMA 6
-* Bootstrap ?
+* Bootstrap ou foundation
