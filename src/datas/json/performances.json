@@ -1,0 +1,24 @@
+{
+	"performances" : [
+		{
+			"id": 1,
+			"action_id": 1,
+			"niveau": 0,
+			"valeur_min": 40,
+			"valeur_max": 1000,
+			"libelle": "Peut mieux faire...",
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"id": 2,
+			"action_id": 1,
+			"niveau": 1,
+			"valeur_min": 35,
+			"valeur_max": 40,
+			"libelle": "En progrès...",
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		}
+	]
+}

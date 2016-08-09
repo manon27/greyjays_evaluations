@@ -1,0 +1,40 @@
+{
+	"resultats" : [
+		{
+			"action_id": 1,
+			"joueur_id": 1,
+			"date_realisation": 1470338498,
+			"test": 0,
+			"valeur": 10,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"action_id": 2,
+			"joueur_id": 1,
+			"date_realisation": 1470338498,
+			"test": 0,
+			"valeur": 12,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"action_id": 1,
+			"joueur_id": 2,
+			"date_realisation": 1470338498,
+			"test": 0,
+			"valeur": 11,
+			"date_creation": 1470338498,
+			"date_modification": 1470338498
+		},
+		{
+			"action_id": 2,
+			"joueur_id": 1,
+			"date_realisation": 1470339498,
+			"test": 0,
+			"valeur": 9,
+			"date_creation": 1470339498,
+			"date_modification": 1470339498
+		}
+	]
+}
