@@ -1,21 +1,14 @@
 (function() {
-  'use strict';
+	'use strict';
 
-  angular
-    .module('greyjaysEvaluations')
-    .config(config);
+	angular
+		.module('greyjaysEvaluations')
+		.config(config);
 
-  /** @ngInject */
-  function config($logProvider, toastrConfig) {
-    // Enable log
-    $logProvider.debugEnabled(true);
-
-    // Set options third-party lib
-    toastrConfig.allowHtml = true;
-    toastrConfig.timeOut = 3000;
-    toastrConfig.positionClass = 'toast-top-right';
-    toastrConfig.preventDuplicates = true;
-    toastrConfig.progressBar = true;
-  }
+	/** @ngInject */
+	function config($logProvider, APPLICATION_ENV) {
+		// Enable log
+		$logProvider.debugEnabled(APPLICATION_ENV === 'local');
+	}
 
 })();

@@ -1,10 +1,19 @@
-/* global malarkey:false, moment:false */
-(function() {
-  'use strict';
+(function(__W) {
+	'use strict';
 
-  angular
-    .module('greyjaysEvaluations')
-    .constant('malarkey', malarkey)
-    .constant('moment', moment);
+	var APPLICATION_PARAMS = {
+		production: {
+			RESOURCE_URL: '/api/ws/'
+		},
+		local: {
+			RESOURCE_URL: ''
+		}
+	};
 
-})();
+	angular
+		.module('greyjaysEvaluations')
+		.constant('_', __W._)
+		.constant('APPLICATION_PARAMS', APPLICATION_PARAMS)
+		.constant('APPLICATION_ENV', __W.APPLICATION_ENV);
+
+})(window);

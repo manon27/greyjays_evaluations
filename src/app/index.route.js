@@ -1,20 +1,20 @@
 (function() {
-  'use strict';
+	'use strict';
 
-  angular
-    .module('greyjaysEvaluations')
-    .config(routeConfig);
+	angular
+		.module('greyjaysEvaluations')
+		.config(routeConfig);
 
-  function routeConfig($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'app/main/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  }
+	function routeConfig($routeProvider) {
+		$routeProvider
+		.when('/', {
+			templateUrl: 'app/main/main.html',
+			controller: 'MainController',
+			controllerAs: 'main'
+		})
+		.otherwise({
+			redirectTo: '/'
+		});
+	}
 
 })();
