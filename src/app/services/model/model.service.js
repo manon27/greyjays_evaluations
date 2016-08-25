@@ -41,6 +41,32 @@
 			});
 		};
 
+		MonService.prototype.delete = function(id) {
+			for (var i in this.all) {
+				if (this.all[i].id == id) {
+					this.all.splice(i, 1);
+				}
+			}
+		};
+
+		MonService.prototype.save = function (item) {
+			var self = this;
+			if (item.id === null) {
+				//if this is new contact, add it in contacts array
+				var uid = self.count();
+				item.id = uid++;
+				self.all.push(item);
+			} else {
+				//for existing contact, find this contact using id
+				//and update it.
+				for (var i in self.all) {
+					if (self.all[i].id == item.id) {
+						self.all[i] = item;
+					}
+				}
+			}
+		};
+
 		MonService.prototype.count = function() {
 			return this.all.length;
 		};
