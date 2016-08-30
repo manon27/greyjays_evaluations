@@ -11,7 +11,7 @@
 	};
 
 	angular
-		.module('greyjaysEvaluations')
+		.module('greyjays.evaluations')
 		.constant('_', __W._)
 		.constant('APPLICATION_PARAMS', APPLICATION_PARAMS)
 		.constant('APPLICATION_ENV', __W.APPLICATION_ENV);

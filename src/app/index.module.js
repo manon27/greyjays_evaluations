@@ -2,10 +2,10 @@
 	'use strict';
 
 	angular
-		.module('greyjaysEvaluations', ['ngRoute', 'ui.bootstrap']);
+		.module('greyjays.evaluations', ['ngRoute', 'ui.bootstrap']);
 
 	angular.element(__D).ready(function() {
-		angular.bootstrap(__D.getElementById('greyjaysEvaluations'), ['greyjaysEvaluations']);
+		angular.bootstrap(__D.getElementById('greyjaysEvaluations'), ['greyjays.evaluations']);
 	});
 
 })(document);

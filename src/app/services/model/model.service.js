@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('greyjaysEvaluation')
+		.module('greyjays.evaluations')
 		.service('ModelService', ModelService);
 
 	/** @ngInject */

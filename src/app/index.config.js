@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('greyjaysEvaluations')
+		.module('greyjays.evaluations')
 		.config(config);
 
 	/** @ngInject */

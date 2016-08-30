@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-		.module('greyjaysEvaluation')
+		.module('greyjays.evaluations')
 		.service('PositionService', PositionService);
 
 	/** @ngInject */
@@ -15,8 +15,9 @@
 		MonService.prototype = Object.create(ModelService);
 		MonService.prototype.constructor = MonService;
 
+		/* override */
 		MonService.prototype.parse = function(response) {
-			return response.versionoss;
+			return response.positions;
 		};
 
 		MonService.prototype.cleanDatas = function() {
