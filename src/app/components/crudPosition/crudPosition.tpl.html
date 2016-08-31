@@ -1,0 +1,40 @@
+<div class="container-fluid">
+	<h2>Positions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une position"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-hover table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Libellé</th>
+						<th>Description</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in items">
+						<td>{{item.id}}</td>
+						<td>{{item.libelle}}</td>
+						<td>{{item.description}}</td>
+						<td>
+							<div class="btn-group">
+							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier cette position"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary btn-xs" ng-click="effacer(item)" title="Supprimer cette position"><span class="glyphicon glyphicon-trash"></span></a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div>
+		<div ng-if="affichage.add||affichage.upd" class="col-sm-12">
+			<h3 ng-if="affichage.add">Ajouter...</h3>
+			<h3 ng-if="affichage.upd">Modifier...</h3>
+			<input type="hidden" ng-model="itemAdd.id" />
+			<input type="text" ng-model="itemAdd.libelle" placeholder="Libellé" />
+			<input type="text" ng-model="itemAdd.description" placeholder="Description" />
+			<input type="button" ng-click="enregistrer()" value="Enregistrer" />
+			<input type="button" ng-click="annuler()" value="Annuler" />
+		</div>
+	</div>
+</div>

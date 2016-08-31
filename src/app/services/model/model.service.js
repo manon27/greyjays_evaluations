@@ -16,7 +16,7 @@
 		MonService.prototype.setUrl = function(params, env, strObj) {
 			var monUrl = '';
 			if (env === 'local') {
-				monUrl = params[env].RESOURCE_URL + '/datas/' + strObj + '.json';
+				monUrl = params[env].RESOURCE_URL + '/datas/json/' + strObj + '.json';
 			} else {
 				monUrl = params[env].RESOURCE_URL + '&' + params[env].PORTLET_PARAM + 'type=list&' + params[env].PORTLET_PARAM + 'entity=' + strObj;
 			}
