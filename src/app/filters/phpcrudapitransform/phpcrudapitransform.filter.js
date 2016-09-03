@@ -8,7 +8,7 @@
 	/**
 	@name 		php_crud_api_transform
 	@desc 		filtre de transformation du json issu de l'API en json pour l'appli
-	@param 		librairie underscore
+	@param 		librairie underscore + input = json issu de api.php
 	@returns	objet json
 	*/
 
