@@ -64,11 +64,11 @@
 		};
 
 		/**
-		@name 		fetch
-		@desc 		
+		@name 		getAll
+		@desc 		récuperer tous les objets
 		@returns	promise http
 		*/
-		MonService.prototype.fetch = function() {
+		MonService.prototype.getAll = function() {
 			var self = this;
 			if (self.url === '') {
 				throw new Error('You must specify a url on the class');

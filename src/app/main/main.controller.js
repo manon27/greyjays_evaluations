@@ -22,7 +22,7 @@
 		];
 
 		_.each(models, function(Model) {
-			Model.fetch().then(function() {
+			Model.getAll().then(function() {
 				modelCount++;
 				if (modelCount === models.length) {
 
