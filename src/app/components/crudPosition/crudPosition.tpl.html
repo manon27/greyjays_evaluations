@@ -14,7 +14,7 @@
 				<tbody>
 					<tr ng-repeat="item in items">
 						<td>{{item.id}}</td>
-						<td>{{item.libelle}}</td>
+						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette position">{{item.libelle}}</a></td>
 						<td>{{item.description}}</td>
 						<td>
 							<div class="btn-group">

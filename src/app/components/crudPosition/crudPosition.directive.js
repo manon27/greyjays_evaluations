@@ -50,9 +50,7 @@
 			@param	 	it : item de position
 			*/
 			scope.afficherModification = function(it) {
-				scope.itemAdd.id = it.id;
-				scope.itemAdd.libelle = it.libelle;
-				scope.itemAdd.description = it.description;
+				scope.itemAdd = angular.copy(it);
 				scope.affichage.add=false;
 				scope.affichage.upd=true;
 			};
