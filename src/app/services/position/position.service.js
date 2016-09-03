@@ -5,27 +5,58 @@
 		.module('greyjays.evaluations')
 		.service('PositionService', PositionService);
 
+	/**
+	@name 		PositionService
+	@desc 		Service pour les positions
+	@param 		ModelService - Service qui sert de prototype de base
+	@param 		APPLICATION_PARAMS
+	@param  	APPLICATION_ENV
+	@param 		_ librairie underscore
+	@returns	Service
+	*/
+
 	/** @ngInject */
 	function PositionService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
 
+		/**
+		@name 		MonService
+		@desc 		constructeur
+		*/
 		var MonService = function() {
 			this.entite=ModelService.setEntite('position');
 			this.url = ModelService.setUrl(APPLICATION_PARAMS, APPLICATION_ENV,this.entite);
 		};
 
+		/**
+		prototype initial
+		*/
 		MonService.prototype = Object.create(ModelService);
 		MonService.prototype.constructor = MonService;
 
-		MonService.prototype.cleanDatas = function() {
-			
-		};
+		/**
+		@name 		cleanDatas
+		@desc 		methode pour nettoyer les donnees json
+		*/
+		MonService.prototype.cleanDatas = function() {};
 
+		/**
+		@name 		filtrerParId
+		@desc 		methode pour filtrer sur un identifiant
+		@param 		id : identifiant du filtre
+		@returns 	object correspondant
+		*/
 		MonService.prototype.filtrerParId = function(id) {
 			return _.find(this.all, function(item) {
 				return item.id === id;
 			});
 		};
 
+		/**
+		@name 		filtrerParActions
+		@desc 		Filtre les positions en fonction d'un tableau d'ids action
+		@param 		Tableau des ids d'action
+		@returns 	Tableau des positions filtrées
+		*/
 		MonService.prototype.filtrerParActions = function(actionIds) {
 			if (actionIds.length > 0) {
 				return _.filter(this.all, function(item) {

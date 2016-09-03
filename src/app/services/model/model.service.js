@@ -5,27 +5,44 @@
 		.module('greyjays.evaluations')
 		.service('ModelService', ModelService);
 
+	/**
+	*	@name		ModelService
+	*	@desc		Service qui va servir de socle pour les autres entités
+	*	@param  	http : service ajax
+	*	@param 		filter : service de filtre (pour faire appel au transformateur api_crud)
+	*	@param 		httpParamSerializer : service qui transforme un objet json en params de formulaire
+	*	@param 		_ : librairie underscore
+	*/
+
 	/** @ngInject */
 	function ModelService($http, $filter, $httpParamSerializer, _) {
 
 		/**
-		*	@name	Service Model
-		*	@desc	Service qui va servir de socle pour les autres entités
-		*	@param {} http
-		*	@param {} _ 
-		*	@returns	ModelService
+		@name	MonService
+		@desc	constructeur
 		*/
-
 		var MonService = function() {
 			this.all = [];
 			this.url = '';
 			this.entite='model';
 		};
 
+		/**
+		@name	setEntite
+		@desc 	setter classique
+		@param 	entiteNom
+		*/
 		MonService.prototype.setEntite = function(entiteNom) {
 			return entiteNom;
 		};
 
+		/**
+		@name 	setUrl
+		@desc 	setter classique
+		@param 	params : objet global de parametrage
+		@param 	env : environnement local ou production
+		@param 	entite : position, joueur....
+		*/
 		MonService.prototype.setUrl = function(params, env, entite) {
 			var monUrl = '';
 			if (env === 'local') {
@@ -36,10 +53,21 @@
 			return monUrl;
 		};
 
+		/**
+		@name		parse
+		@desc 		
+		@param 		response : json après application de la transformation
+		@returns	objet "entites" qui est un tableau d'objet de type entite
+		*/
 		MonService.prototype.parse = function(response) {
 			return response[this.entite+'s'];
 		};
 
+		/**
+		@name 		fetch
+		@desc 		
+		@returns	promise http
+		*/
 		MonService.prototype.fetch = function() {
 			var self = this;
 			if (self.url === '') {
@@ -53,12 +81,24 @@
 			});
 		};
 
+		/**
+		@name 		get
+		@desc 		
+		@param 		id de l'objet à obtenir
+		@returns	objet correspondant
+		*/
 		MonService.prototype.get = function(id) {
 			return _.find(this.all, function(item) {
 				return item.id === id;
 			});
 		};
 
+		/**
+		@name		delete
+		@desc 		efface via requete ajax
+		@param 		id de l'objet à effacer
+		@returns 	promise http
+		*/
 		MonService.prototype.delete = function(id) {
 			var self = this;
 			return $http({
@@ -69,6 +109,12 @@
 			});
 		};
 
+		/**
+		@name		save
+		@desc 		enregistre via requete ajax
+		@param 		item : objet à ajouter ou modifier
+		@returns 	promise http
+		*/
 		MonService.prototype.save = function (item) {
 			var self = this;
 			var requeteHttp;
@@ -92,6 +138,11 @@
 			});
 		};
 
+		/**
+		@name 		count
+		@desc 		compte le nombre d'objets
+		@returns 	le nombre total d'objets
+		*/
 		MonService.prototype.count = function() {
 			return this.all.length;
 		};
