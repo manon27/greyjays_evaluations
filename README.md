@@ -4,14 +4,12 @@ Application pour enregistrer les évaluations baseball
 * Manon
 * Olivier
 
-## Socle technique
-### Côté serveur
-* PHP v 5.3.8
-* MySQL v 5.5.16
+## Installation
+Voir la pa ge wiki https://github.com/manon27/greyjays_evaluations/wiki/Installation
+
+## Divers
+LocalStorage
+https://github.com/grevory/angular-local-storage
+bower install angular-local-storage --save
 
 
-### Côté client
-* PHP 5
-* CSS 3
-* Javascript ECMA 6
-* Bootstrap ou foundation
