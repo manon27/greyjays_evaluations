@@ -9,16 +9,12 @@
 	function PositionService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
 
 		var MonService = function() {
-			this.url = ModelService.setUrl(APPLICATION_PARAMS, APPLICATION_ENV, 'positions');
+			this.entite=ModelService.setEntite('position');
+			this.url = ModelService.setUrl(APPLICATION_PARAMS, APPLICATION_ENV,this.entite);
 		};
 
 		MonService.prototype = Object.create(ModelService);
 		MonService.prototype.constructor = MonService;
-
-		/* override */
-		MonService.prototype.parse = function(response) {
-			return response.positions;
-		};
 
 		MonService.prototype.cleanDatas = function() {
 			

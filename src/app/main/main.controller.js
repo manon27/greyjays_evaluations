@@ -10,6 +10,8 @@
 
 		var main = $scope;
 
+		main.loading = true;
+
 		DonneesService.updateDataSets();
 
 		main.positionService = PositionService;
@@ -40,12 +42,37 @@
 					
 					//---------------updateDataSets-----------------------
 					DonneesService.updateDataSets();
+					main.loading = false;
 				}
 			});
 		});
 
 		//Bind component data services to the scope, so we can use them in the views
 		main.donneesService = DonneesService;
+		
+		$scope.$on('refresh', function() {
+			var deferred = $q.defer();
+
+			function applyRefresh() {
+				_.delay(function() {
+					$scope.$apply(function() {
+						// mise à jour du jeu de donnees
+						DonneesService.updateDataSets();
+						deferred.resolve('Finished refresh');
+					});
+				}, 250);
+
+				return deferred.promise;
+			}
+
+			//	Calculs en cours
+			main.loading = true;
+
+			applyRefresh().then(function() {
+				//	Calculs en cours termine
+				main.loading = false;
+			});
+		});
 	}
 
 })();

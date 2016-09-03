@@ -3,7 +3,7 @@
 
 	var APPLICATION_PARAMS = {
 		production: {
-			RESOURCE_URL: '/api/ws/'
+			RESOURCE_URL: 'http://localhost/gj_evaluations/api.php/'
 		},
 		local: {
 			RESOURCE_URL: ''

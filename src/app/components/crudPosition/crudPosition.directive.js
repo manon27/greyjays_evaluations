@@ -6,10 +6,13 @@
 		.directive("crudPosition", crudPosition);
 
 	/** @ngInject */
-	function crudPosition(_) {
+	function crudPosition($rootScope) {
 		var directive = {
 			restrict: 'E',
-			scope: {items: '='},
+			scope: {
+				items: '=',
+				leService: '='
+			},
 			templateUrl: 'app/components/crudPosition/crudPosition.tpl.html',
 			link: linkF
 		};
@@ -41,31 +44,22 @@
 				itemAjout.description = scope.itemAdd.description;
 				if (typeof scope.itemAdd.id !== 'undefined') {
 					itemAjout.id=scope.itemAdd.id;
-					_.each(scope.items, function(item) {
-						if (item.id === itemAjout.id) {
-							item.libelle=itemAjout.libelle;
-							item.description=itemAjout.description;
-						}
-					});
-				} else {
-					itemAjout.id=scope.items.length+1;
-					scope.items.push(itemAjout);
 				}
+				scope.leService.save(itemAjout).then(function() {
+					$rootScope.$broadcast('refresh');
+				});
 				scope.affichage.add=false;
 				scope.affichage.upd=false;
+				
 			};
 			scope.annuler = function() {
 				scope.affichage.add=false;
 				scope.affichage.upd=false;
 			};
-			scope.effacer = function(it) {
-				var newItems = [];
-				_.each(scope.items, function(item){
-					if (item.id !== it.id) {
-						newItems.push(item);
-					}
+			scope.effacer = function(itemDel) {
+				scope.leService.delete(itemDel.id).then(function() {
+					$rootScope.$broadcast('refresh');
 				});
-				scope.items = newItems;
 			};
 
 		}
