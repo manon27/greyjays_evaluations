@@ -8,7 +8,7 @@
 	/**
 	@name		crudPosition
 	@desc 		<crud-position items="" le-service=""></crud-position>
-	@params		rootScope pour appeler la fonction refresh du scope root
+	@param		rootScope pour appeler la fonction refresh du scope root
 	@returns	GUI de gestion CRUD des positions
 	*/
 
@@ -47,7 +47,7 @@
 			/**
 			@name		afficherModification
 			@desc 		affichage de la GUI de modif
-			@params 	it : item de position
+			@param	 	it : item de position
 			*/
 			scope.afficherModification = function(it) {
 				scope.itemAdd.id = it.id;
