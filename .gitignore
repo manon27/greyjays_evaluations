@@ -1,7 +1,17 @@
 node_modules/
 bower_components/
 coverage/
+.bowerrc
+.editorconfig
+.eslintrc
+.yo-rc.json
+gulpfile.js
+karma.conf.js
+npm-debug.log
+protractor.conf.js
 .sass-cache/
 .idea/
 .tmp/
 dist/
+e2e/
+gulp/
