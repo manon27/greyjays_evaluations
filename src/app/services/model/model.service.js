@@ -46,7 +46,7 @@
 		MonService.prototype.setUrl = function(params, env, entite) {
 			var monUrl = '';
 			if (env === 'local') {
-				monUrl = params[env].RESOURCE_URL + '/datas/json/' + entite + '.json';
+				monUrl = params[env].RESOURCE_URL + '/datas/json/' + entite + 's.json';
 			} else {
 				monUrl = params[env].RESOURCE_URL + entite;
 			}
