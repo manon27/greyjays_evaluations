@@ -1,0 +1,29 @@
+<header>
+	<h1>Grey Jays Evaluation - Admin</h1>
+	<logged/>
+</header>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-6">
+			<crud-position items="donneesService.dataSets.positionListData" le-service="positionService"></crud-position>
+		</div>
+		<div class="col-sm-6">
+			<crud-joueur items="donneesService.dataSets.joueurListData" le-service="joueurService"></crud-joueur>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6">
+			<crud-action items="donneesService.dataSets.actionListData" le-service="actionService"></crud-action>
+		</div>
+		<div class="col-sm-6">
+			<crud-performance items="donneesService.dataSets.performanceListData" le-service="performanceService"></crud-performance>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<crud-resultat items="donneesService.dataSets.resultatListData" le-service="resultatService"></crud-resultat>
+		</div>
+	</div>
+</div>
+<mon-footer/>
+

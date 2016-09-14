@@ -15,7 +15,7 @@
 	*/
 
 	/** @ngInject */
-	function ModelService($http, $filter, $httpParamSerializer, _) {
+	function ModelService($rootScope, $http, $filter, $httpParamSerializer, localStorageService, _) {
 
 		/**
 		@name	MonService
@@ -76,9 +76,17 @@
 			return $http({
 				url: self.url,
 				method: 'GET'
-			}).success(function(response) {
-				self.all = self.parse($filter('php_crud_api_transform')(response));
-			});
+			}).then(
+				// callback success
+				function(response) {
+					self.all = self.parse($filter('php_crud_api_transform')(response.data));
+				}/*,
+				// callback erreur
+				function() {
+					self.all = localStorageService.get(self.entite+'s');
+					if (refresh) $rootScope.$broadcast('refresh');
+				}*/
+			);
 		};
 
 		/**
@@ -104,9 +112,25 @@
 			return $http({
 				url: self.url+'/'+id,
 				method: 'DELETE'
-			}).success(function(){
-				self.fetch();
-			});
+			}).then(
+				// callback success
+				function(){
+					$rootScope.$broadcast('refresh');
+				}/*,
+				// callback erreur
+				function() {
+					// suppression dans le local
+					var newItems = [];
+					_.each(self.all, function(item) {
+						if (item.id !== id) {
+							newItems.push(item);
+						}
+					});
+					localStorageService.set(self.entite+'s', newItems);
+					//
+					return self.getAll(true);
+				}*/
+			);
 		};
 
 		/**
@@ -118,6 +142,7 @@
 		MonService.prototype.save = function (item) {
 			var self = this;
 			var requeteHttp;
+			item.date_modification = new Date();
 			if (typeof item.id === 'undefined') {
 				// creation => POST
 				requeteHttp = $http({
@@ -132,9 +157,10 @@
 					method: 'PUT',
 					data: $httpParamSerializer(item)
 				});
+
 			}
-			return requeteHttp.success(function(){
-				self.fetch();
+			return requeteHttp.then(function(){
+				$rootScope.$broadcast('refresh');
 			});
 		};
 

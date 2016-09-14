@@ -3,11 +3,11 @@
 
 	angular
 		.module('greyjays.evaluations')
-		.service('PositionService', PositionService);
+		.service('JoueurService', JoueurService);
 
 	/**
-	@name 		PositionService
-	@desc 		Service pour les positions
+	@name 		JoueurService
+	@desc 		Service pour les joueurs
 	@param 		ModelService - Service qui sert de prototype de base
 	@param 		APPLICATION_PARAMS
 	@param  	APPLICATION_ENV
@@ -16,14 +16,14 @@
 	*/
 
 	/** @ngInject */
-	function PositionService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
+	function JoueurService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
 
 		/**
 		@name 		MonService
 		@desc 		constructeur
 		*/
 		var MonService = function() {
-			this.entite=ModelService.setEntite('position');
+			this.entite=ModelService.setEntite('joueur');
 			this.url = ModelService.setUrl(APPLICATION_PARAMS, APPLICATION_ENV,this.entite);
 		};
 
@@ -37,7 +37,9 @@
 		@name 		cleanDatas
 		@desc 		methode pour nettoyer les donnees json
 		*/
-		MonService.prototype.cleanDatas = function() {};
+		MonService.prototype.cleanDatas = function() {
+			
+		};
 
 		/**
 		@name 		filtrerParId
@@ -51,18 +53,6 @@
 			});
 		};
 
-		/**
-		@name 		filtrerParLibelle
-		@desc 		methode pour filtrer sur un libelle
-		@param 		libelle : libelle pour filtre
-		@returns 	object correspondant
-		*/
-		MonService.prototype.filtrerParLibelle = function(lib) {
-			return _.find(this.all, function(item) {
-				return item.libelle === lib;
-			});
-		};
-		
 		/**
 		@name 		filtrerParActions
 		@desc 		Filtre les positions en fonction d'un tableau d'ids action

@@ -3,24 +3,24 @@
 
 	angular
 		.module('greyjays.evaluations')
-		.directive("crudPosition", crudPosition);
+		.directive("crudPerformance", crudPerformance);
 
 	/**
-	@name		crudPosition
-	@desc 		<crud-position items="" le-service=""></crud-position>
-	@param		rootScope pour appeler la fonction refresh du scope root
-	@returns	GUI de gestion CRUD des positions
+	@name		crudPerformance
+	@desc 		<crud-performance items="" le-service=""></crud-performance>
+	@param		service ActionService pour afficher la liste des actions pour une perf
+	@returns	GUI de gestion CRUD des performances
 	*/
 
 	/** @ngInject */
-	function crudPosition() {
+	function crudPerformance(ActionService) {
 		var directive = {
 			restrict: 'E',
 			scope: {
 				items: '=',
 				leService: '='
 			},
-			templateUrl: 'app/components/crudPosition/crudPosition.tpl.html',
+			templateUrl: 'app/components/crudPerformance/crudPerformance.tpl.html',
 			link: linkF
 		};
 		return directive;
@@ -40,6 +40,7 @@
 			*/
 			scope.afficherAjout = function() {
 				scope.itemAdd = {};
+				scope.allActions = ActionService.all;
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
 			};
@@ -51,6 +52,7 @@
 			*/
 			scope.afficherModification = function(it) {
 				scope.itemAdd = {};
+				scope.allActions = ActionService.all;
 				for (var noeud in it) {
 					if (angular.isString(it[noeud])) {
 						scope.itemAdd[noeud] = it[noeud];
@@ -66,7 +68,7 @@
 			*/
 			scope.enregistrer = function() {
 				var itemAjout = {};
-				itemAjout=scope.itemAdd;
+				itemAjout = scope.itemAdd;
 				if (typeof scope.itemAdd.id !== 'undefined') {
 					itemAjout.id=scope.itemAdd.id;
 				}

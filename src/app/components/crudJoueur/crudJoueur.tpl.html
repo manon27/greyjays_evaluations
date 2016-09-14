@@ -1,0 +1,51 @@
+<div class="container-fluid">
+	<h2>Joueurs <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un joueur"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-hover table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Prénom NOM</th>
+						<th>Inscrit(e) le</th>
+						<th>Né(e) le</th>
+						<th>Taille / Poids</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in items">
+						<td>{{item.id}}</td>
+						<td><a href="" ng-click="afficherModification(item)" title="Modifier ce joueur">{{item.prenom}} {{item.nom | uppercase}}</a></td>
+						<td>{{item.date_inscription | formaterDate : 'JJ/MM/AAAA'}}</td>
+						<td>{{item.date_naissance | formaterDate : 'JJ/MM/AAAA'}}</td>
+						<td>{{item.taille}}cm / {{item.poids}}kg</td>
+						<td>
+							<div class="btn-group">
+							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier ce joueur"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary btn-xs" ng-click="effacer(item)" title="Supprimer ce joueur"><span class="glyphicon glyphicon-trash"></span></a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div>
+		<div ng-if="affichage.add||affichage.upd" class="col-sm-12">
+			<h3 ng-if="affichage.add">Ajouter...</h3>
+			<h3 ng-if="affichage.upd">Modifier...</h3>
+			<form novalidate>
+			<input type="hidden" ng-model="itemAdd.id" />
+			<input type="text" ng-model="itemAdd.prenom" placeholder="Prénom" required="true" />
+			<input type="text" ng-model="itemAdd.nom" placeholder="Nom" required="true" />
+			<input type="email" ng-model="itemAdd.email" required="true" />
+			<input type="date" id="di" ng-model="itemAdd.date_inscription" required="true" />
+			<input type="date" id="dn" ng-model="itemAdd.date_naissance" required="true" />
+			<input type="text" ng-model="itemAdd.poids" placeholder="Poids" />Kg
+			<input type="text" ng-model="itemAdd.taille" placeholder="Taille en cm" />cm
+			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
+			<input type="button" ng-click="annuler()" value="Annuler" />
+			</form>
+		</div>
+	</div>
+</div>

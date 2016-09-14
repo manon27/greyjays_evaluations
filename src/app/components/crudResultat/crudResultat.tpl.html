@@ -1,0 +1,50 @@
+<div class="container-fluid">
+	<h2>Résultats <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un résultat"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-hover table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Action par Joueur le Date</th>
+						<th>Performance</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in items">
+						<td>{{item.id}}</td>
+						<td><a href="" ng-click="afficherModification(item)" title="Modifier ce résultat">{{item.action.libelle}} par {{item.joueur.prenom}} {{item.joueur.nom}} le {{item.date_realisation | formaterDate : 'JJ/MM/AAAA'}}</a></td>
+						<td>{{item.performance}}</td>
+						<td>
+							<div class="btn-group">
+							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier ce résultat"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary btn-xs" ng-click="effacer(item)" title="Supprimer ce résultat"><span class="glyphicon glyphicon-trash"></span></a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div>
+		<div ng-if="affichage.add||affichage.upd" class="col-sm-12">
+			<h3 ng-if="affichage.add">Ajouter un résultat...</h3>
+			<h3 ng-if="affichage.upd">Modifier ce résultat...</h3>
+			<form novalidate>
+			<input type="hidden" ng-model="itemAdd.id" />
+			<select size="1" ng-model="itemAdd.id_action">
+				<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>
+			</select>
+			<select size="1" ng-model="itemAdd.id_joueur">
+				<option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option>
+			</select>
+			<input type="date" ng-model="itemAdd.date_realisation" required="true" />
+			<input type="text" ng-model="itemAdd.performance" placeholder="Performance" required="true" />
+			<input type="text" ng-model="itemAdd.test" placeholder="Entraînement" required="true" />
+			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
+			<input type="button" ng-click="annuler()" value="Annuler" />
+			</form>
+		</div>
+	</div>
+</div>
+<hr style="margin-bottom: 20px"/>

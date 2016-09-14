@@ -1,5 +1,5 @@
 <div class="container-fluid">
-	<h2>Positions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une position"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<h2>Actions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une action"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
 		<div class="col-sm-12">
 			<table class="table table-hover table-condensed table-striped">
@@ -7,19 +7,19 @@
 					<tr>
 						<th>#</th>
 						<th>Libellé</th>
-						<th>Description</th>
+						<th>Position</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="item in items">
 						<td>{{item.id}}</td>
-						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette position">{{item.libelle}}</a></td>
-						<td>{{item.description}}</td>
+						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette action">{{item.libelle}}</a></td>
+						<td>{{item.position.libelle}}</td>
 						<td>
 							<div class="btn-group">
-							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier cette position"><span class="glyphicon glyphicon-edit"></span></a>
-							<a class="btn btn-primary btn-xs" ng-click="effacer(item)" title="Supprimer cette position"><span class="glyphicon glyphicon-trash"></span></a>
+							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier cette action"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary btn-xs" ng-click="effacer(item)" title="Supprimer cette action"><span class="glyphicon glyphicon-trash"></span></a>
 							</div>
 						</td>
 					</tr>
@@ -33,7 +33,9 @@
 			<form novalidate>
 			<input type="hidden" ng-model="itemAdd.id" />
 			<input type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
-			<input type="text" ng-model="itemAdd.description" placeholder="Description" />
+			<select size="1" ng-model="itemAdd.id_position">
+				<option ng-repeat="itemP in allPositions" value="{{itemP.id}}">{{itemP.libelle}}</option>
+			</select>
 			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
 			<input type="button" ng-click="annuler()" value="Annuler" />
 			</form>

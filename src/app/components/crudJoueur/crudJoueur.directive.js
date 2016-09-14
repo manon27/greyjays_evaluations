@@ -3,24 +3,24 @@
 
 	angular
 		.module('greyjays.evaluations')
-		.directive("crudPosition", crudPosition);
+		.directive("crudJoueur", crudJoueur);
 
 	/**
-	@name		crudPosition
-	@desc 		<crud-position items="" le-service=""></crud-position>
-	@param		rootScope pour appeler la fonction refresh du scope root
-	@returns	GUI de gestion CRUD des positions
+	@name		crudJoueur
+	@desc 		<crud-joueur items="" le-service=""></crud-position>
+	@param		filter
+	@returns	GUI de gestion CRUD des joueurs
 	*/
 
 	/** @ngInject */
-	function crudPosition() {
+	function crudJoueur() {
 		var directive = {
 			restrict: 'E',
 			scope: {
 				items: '=',
 				leService: '='
 			},
-			templateUrl: 'app/components/crudPosition/crudPosition.tpl.html',
+			templateUrl: 'app/components/crudJoueur/crudJoueur.tpl.html',
 			link: linkF
 		};
 		return directive;
@@ -56,6 +56,8 @@
 						scope.itemAdd[noeud] = it[noeud];
 					}
 				}
+				scope.itemAdd.date_naissance = new Date(scope.itemAdd.date_naissance);
+				scope.itemAdd.date_inscription = new Date(scope.itemAdd.date_inscription);
 				scope.affichage.add=false;
 				scope.affichage.upd=true;
 			};
@@ -66,7 +68,7 @@
 			*/
 			scope.enregistrer = function() {
 				var itemAjout = {};
-				itemAjout=scope.itemAdd;
+				itemAjout = scope.itemAdd;
 				if (typeof scope.itemAdd.id !== 'undefined') {
 					itemAjout.id=scope.itemAdd.id;
 				}

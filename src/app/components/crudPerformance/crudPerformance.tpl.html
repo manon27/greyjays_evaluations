@@ -1,0 +1,49 @@
+<div class="container-fluid">
+	<h2>Performances <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une performance"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<div class="row">
+		<div class="col-sm-12">
+			<table class="table table-hover table-condensed table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Libellé</th>
+						<th>Action</th>
+						<th>Note : [min...max]</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="item in items">
+						<td>{{item.id}}</td>
+						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette performance">{{item.libelle}}</a></td>
+						<td>{{item.action.libelle}}</td>
+						<td>{{item.note}} : [{{item.min}}...{{item.max}}]</td>
+						<td>
+							<div class="btn-group">
+							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier cette performance"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary btn-xs" ng-click="effacer(item)" title="Supprimer cette performance"><span class="glyphicon glyphicon-trash"></span></a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div>
+		<div ng-if="affichage.add||affichage.upd" class="col-sm-12">
+			<h3 ng-if="affichage.add">Ajouter une performance...</h3>
+			<h3 ng-if="affichage.upd">Modifier une performance...</h3>
+			<form novalidate>
+			<input type="hidden" ng-model="itemAdd.id" />
+			<input type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
+			<input type="text" ng-model="itemAdd.note" placeholder="Note" required="true">
+			<input type="text" ng-model="itemAdd.min" placeholder="Min" required="true">
+			<input type="text" ng-model="itemAdd.max" placeholder="Max" required="true">
+			<select size="1" ng-model="itemAdd.id_action">
+				<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>
+			</select>
+			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
+			<input type="button" ng-click="annuler()" value="Annuler" />
+			</form>
+		</div>
+	</div>
+</div>

@@ -26,6 +26,14 @@
 				str += lesJours[maDate.getDay()] + ' ' + maDate.getDate() + ' ' + lesMois[maDate.getMonth()].toLowerCase();
 			} else if (format == 'mois') {
 				str += lesMois[maDate.getMonth()];
+			} else if (format == 'JJ/MM/AAAA') {
+				if (maDate.getDate() < 10) { str += '0'; }
+				str += maDate.getDate();
+				str += '/';
+				if (maDate.getMonth() < 9) { str += '0'; }
+				str += maDate.getMonth()+1;
+				str += '/';
+				str += maDate.getFullYear();
 			}
 			return str;
 		};

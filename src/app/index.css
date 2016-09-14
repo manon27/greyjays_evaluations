@@ -12,3 +12,24 @@
 .thumbnail img.pull-right {
   width: 50px;
 }
+footer {
+	position: fixed;
+	bottom:0;
+	width:100%;
+	text-align: center;
+	background-color: green;
+	padding: 5px;
+	color: white;
+	font-weight:bold;
+	font-size: 1.1em;
+}
+logged {
+	position:fixed;
+	top:0;
+	right:0;
+	width:50px;
+	background-color: green;
+	color: white;
+	padding:5px;
+	z-index:9999;
+}

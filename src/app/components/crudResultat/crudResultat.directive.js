@@ -3,24 +3,24 @@
 
 	angular
 		.module('greyjays.evaluations')
-		.directive("crudPosition", crudPosition);
+		.directive("crudResultat", crudResultat);
 
 	/**
-	@name		crudPosition
-	@desc 		<crud-position items="" le-service=""></crud-position>
-	@param		rootScope pour appeler la fonction refresh du scope root
+	@name		crudResultat
+	@desc 		<crud-resultat items="" le-service=""></crud-resultat>
+	@param		Services pour les listes liées
 	@returns	GUI de gestion CRUD des positions
 	*/
 
 	/** @ngInject */
-	function crudPosition() {
+	function crudResultat(ActionService, JoueurService) {
 		var directive = {
 			restrict: 'E',
 			scope: {
 				items: '=',
 				leService: '='
 			},
-			templateUrl: 'app/components/crudPosition/crudPosition.tpl.html',
+			templateUrl: 'app/components/crudResultat/crudResultat.tpl.html',
 			link: linkF
 		};
 		return directive;
@@ -40,6 +40,8 @@
 			*/
 			scope.afficherAjout = function() {
 				scope.itemAdd = {};
+				scope.allActions = ActionService.all;
+				scope.allJoueurs = JoueurService.all;
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
 			};
@@ -51,11 +53,14 @@
 			*/
 			scope.afficherModification = function(it) {
 				scope.itemAdd = {};
+				scope.allActions = ActionService.all;
+				scope.allJoueurs = JoueurService.all;
 				for (var noeud in it) {
 					if (angular.isString(it[noeud])) {
 						scope.itemAdd[noeud] = it[noeud];
 					}
 				}
+				scope.itemAdd.date_realisation = new Date(scope.itemAdd.date_realisation);
 				scope.affichage.add=false;
 				scope.affichage.upd=true;
 			};
@@ -66,7 +71,7 @@
 			*/
 			scope.enregistrer = function() {
 				var itemAjout = {};
-				itemAjout=scope.itemAdd;
+				itemAjout = scope.itemAdd;
 				if (typeof scope.itemAdd.id !== 'undefined') {
 					itemAjout.id=scope.itemAdd.id;
 				}
