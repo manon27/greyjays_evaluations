@@ -12,7 +12,16 @@
 
 		main.loading = true;
 
-		DonneesService.updateDataSets();
+		//initialisation des filtres pour chaque entite
+		main.filterData = {
+			actionIds: [],
+			joueurIds: [],
+			performanceIds: [],
+			positionIds: [],
+			resultatIds: []
+		};
+
+		DonneesService.updateDataSets(main.filterData);
 
 		main.actionService = ActionService;
 		main.joueurService = JoueurService;
@@ -25,7 +34,7 @@
 		//Bind component data services to the scope, so we can use them in the views
 		main.donneesService = DonneesService;
 		
-		$scope.$on('refresh', function() {
+		main.$on('refresh', function() {
 			var deferred = $q.defer();
 
 			function applyRefresh() {
@@ -80,12 +89,14 @@
 						PerformanceService.linkModels(actionsById);
 						ResultatService.linkModels(actionsById, joueursById);
 
-						DonneesService.updateDataSets();
+						DonneesService.updateDataSets(main.filterData);
+
 						main.loading = false;
 					}
 				});
 			});
 		}
+
 	}
 
 })();

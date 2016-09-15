@@ -11,7 +11,7 @@
 	*/
 
 	/** @ngInject */
-	function SessionService() {
+	function SessionService($cookies) {
 
 		/**
 		@name	MonService
@@ -30,6 +30,7 @@
 			this.id = sessionId;
 			this.userId = userId;
 			this.userRole = userRole;
+			$cookies.putObject("gjSession", {'sessionId':sessionId, 'userId':userId, 'userRole':userRole});
 		};
 
 		/**
@@ -41,6 +42,7 @@
 			this.id = null;
 			this.userId = null;
 			this.userRole = null;
+			$cookies.remove("gjSession");
 		};
 
 		return new MonService();

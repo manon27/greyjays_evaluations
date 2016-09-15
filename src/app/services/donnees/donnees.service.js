@@ -23,7 +23,7 @@
 		@name 	updateDataSets
 		@desc 	fonction pour alimenter le jeu de données
 		*/
-		this.updateDataSets = function() {
+		this.updateDataSets = function(filterData) {
 
 			var data = this.dataSets;
 
@@ -50,6 +50,10 @@
 				localStorageService.set('positions', lesPositions);
 			}
 			*/
+			// si le filtre est initialise -> superFiltre !
+			if (typeof(filterData) !== 'undefined') {
+				this.actualiser(filterData);
+			}
 
 		};
 
@@ -122,6 +126,89 @@
 			});
 			return resultats;
 		};
+
+		this.actualiser = function(filterData) {
+
+			this.filtrer(filterData);
+			//-----------------------------------------------------------
+			//	trier
+			//-----------------------------------------------------------
+			this.dataSets.joueurListData = _.sortBy(this.dataSets.joueurListData, 'nom');
+			this.dataSets.positionListData = _.sortBy(this.dataSets.positionListData, 'libelle');
+			this.dataSets.actionListData = _.sortBy(this.dataSets.actionListData, 'libelle');
+			
+		};
+
+		this.filtrer = function(filterData) {
+			var component = this;
+			var aJoueurs = [];
+			var aPositions = [];
+			var aActions = [];
+			var aPerformances = [];
+			var aResultats = [];
+
+			if (filterData.actionIds.length > 0) {
+				aActions.push(ActionService.filtrerParId(filterData.actionIds[0]));
+			} else {
+				aActions = component.dataSets.actionListData;
+			}
+
+			if (filterData.positionIds.length > 0) {
+				aPositions.push(PositionService.filtrerParId(filterData.positionIds[0]));
+			} else {
+				aPositions = component.dataSets.positionListData;
+			}
+
+			if (filterData.joueurIds.length > 0) {
+				aJoueurs.push(JoueurService.filtrerParId(filterData.joueurIds[0]));
+			} else {
+				aJoueurs = component.dataSets.joueurListData;
+			}
+
+			//	si selection du joueur ==> filtre des resultats
+			if ((aJoueurs.length === 1) && (aResultats.length > 1)) {
+				aResultats = component.propager(
+					aJoueurs,
+					ResultatService,
+					"filtrerParJoueurs"
+				);
+			}
+
+			//	si selection de position ==> filtre des actions
+			if ((aPositions.length === 1) && (aActions.length > 1)) {
+				aActions = component.propager(
+					aPositions,
+					ActionService,
+					"filtrerParPositions"
+				);
+			}
+
+			//	si selection de action ==> filtre des positions
+			if ((aActions.length === 1) && (aPositions.length > 1)) {
+				aPositions = component.propager(
+					aActions,
+					PositionService,
+					"filtrerParActions"
+				);
+			}
+
+			aPerformances = component.propager(aActions, PerformanceService, "filtrerParActions");
+			aResultats = component.dataSets.resultatListData;
+			aResultats = _.intersection(aResultats, component.propager(aActions, ResultatService, "filtrerParActions"));
+			aResultats = _.intersection(aResultats, component.propager(aJoueurs, ResultatService, "filtrerParJoueurs"));
+
+			this.dataSets.joueurListData = aJoueurs;
+			this.dataSets.positionListData = aPositions;
+			this.dataSets.actionListData = aActions;
+			this.dataSets.performanceListData = aPerformances;
+			this.dataSets.resultatListData = aResultats;
+
+		};
+
+		this.propager = function(donneesDepuis, ModelService, functionModel) {
+			return ModelService[functionModel](_.pluck(donneesDepuis, 'id'));
+		};
+
 	}
 
 })();

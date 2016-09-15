@@ -24,14 +24,12 @@
 		.when('/login', {
 			templateUrl: 'app/views/login/login.html',
 			controller: 'LoginController',
-			controllerAs: 'login',
-			roles: {authorizedRoles: [AUTH_ROLES.admin, AUTH_ROLES.user, AUTH_ROLES.public]}
+			controllerAs: 'login'
 		})
 		.when('/logout', {
 			templateUrl: 'app/views/logout/logout.html',
 			controller: 'LogoutController',
-			controllerAs: 'logout',
-			roles: {authorizedRoles: [AUTH_ROLES.admin, AUTH_ROLES.user, AUTH_ROLES.public]}
+			controllerAs: 'logout'
 		})
 		.otherwise({
 			redirectTo: '/login'

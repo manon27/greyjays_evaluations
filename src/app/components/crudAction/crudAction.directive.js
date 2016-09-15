@@ -13,7 +13,7 @@
 	*/
 
 	/** @ngInject */
-	function crudAction(PositionService) {
+	function crudAction(PositionService, _) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -33,14 +33,25 @@
 			scope.affichage.liste=true;
 			scope.items = scope.items || [];
 			scope.itemAdd = {};
-			
+			scope.allPositions = PositionService.all;
+			scope.positionSel = "-1";
+				
+			scope.$watch('positionSel', function(newPos){
+				if (newPos == "-1") {
+					scope.itemsF = scope.items;
+				} else {
+					scope.itemsF = _.filter(scope.items, function(item) {
+						return item.position.id == newPos;
+					});
+				}
+			});
+
 			/**
 			@name	afficherAjout
 			@desc 	affichage de la GUI d'ajout avec init du param
 			*/
 			scope.afficherAjout = function() {
 				scope.itemAdd = {};
-				scope.allPositions = PositionService.all;
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
 			};
@@ -52,7 +63,6 @@
 			*/
 			scope.afficherModification = function(it) {
 				scope.itemAdd = {};
-				scope.allPositions = PositionService.all;
 				for (var noeud in it) {
 					if (angular.isString(it[noeud])) {
 						scope.itemAdd[noeud] = it[noeud];

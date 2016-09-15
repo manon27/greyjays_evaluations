@@ -106,49 +106,37 @@
 		MonService.prototype.filtrerParActions = function(actionIds) {
 			if (actionIds.length > 0) {
 				return _.filter(this.all, function(item) {
-					if (typeof item.action_ids === 'undefined') {
+					if (typeof item.id_action === 'undefined') {
 						return false;
 					}
-					if (item.action_ids.length === 0) {
+					if (item.id_action.length === 0) {
 						return false;
 					}
-					if (item.action_ids.length > actionIds.length) {
-						return _.find(actionIds, function(idItem) {
-							return _.contains(item.action_ids, idItem);
-						});
-					} else {
-						return _.find(item.action_ids, function(idItem) {
-							return _.contains(actionIds, idItem);
-						});
-					}
+					return _.find(actionIds, function(idItem) {
+						return _.contains(item.id_action, idItem);
+					});
 				});
 			}
 		};
 
 		/**
 		@name 		filtrerParJoueurs
-		@desc 		Filtre les resultats en fonction d'un tableau d'ids action
-		@param 		Tableau des ids de actions
+		@desc 		Filtre les resultats en fonction d'un tableau d'ids joueur
+		@param 		Tableau des ids de joueurs
 		@returns 	Tableau des resultats filtrés
 		*/
 		MonService.prototype.filtrerParJoueurs = function(joueurIds) {
 			if (joueurIds.length > 0) {
 				return _.filter(this.all, function(item) {
-					if (typeof item.joueur_ids === 'undefined') {
+					if (typeof item.id_joueur === 'undefined') {
 						return false;
 					}
-					if (item.joueur_ids.length === 0) {
+					if (item.id_joueur.length === 0) {
 						return false;
 					}
-					if (item.joueur_ids.length > joueurIds.length) {
-						return _.find(joueurIds, function(idItem) {
-							return _.contains(item.joueur_ids, idItem);
-						});
-					} else {
-						return _.find(item.joueur_ids, function(idItem) {
-							return _.contains(joueurIds, idItem);
-						});
-					}
+					return _.find(joueurIds, function(idItem) {
+						return _.contains(item.id_joueur, idItem);
+					});
 				});
 			}
 		};

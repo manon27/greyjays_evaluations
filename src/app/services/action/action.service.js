@@ -89,21 +89,15 @@
 		MonService.prototype.filtrerParPositions = function(positionIds) {
 			if (positionIds.length > 0) {
 				return _.filter(this.all, function(item) {
-					if (typeof item.position_ids === 'undefined') {
+					if (typeof item.id_position === 'undefined') {
 						return false;
 					}
-					if (item.position_ids.length === 0) {
+					if (item.id_position.length === 0) {
 						return false;
 					}
-					if (item.position_ids.length > positionIds.length) {
-						return _.find(positionIds, function(idItem) {
-							return _.contains(item.position_ids, idItem);
-						});
-					} else {
-						return _.find(item.position_ids, function(idItem) {
-							return _.contains(positionIds, idItem);
-						});
-					}
+					return _.find(positionIds, function(idItem) {
+						return _.contains(item.id_position, idItem);
+					});
 				});
 			}
 		};

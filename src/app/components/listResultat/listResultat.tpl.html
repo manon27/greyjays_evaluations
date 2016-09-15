@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+	<div class="panel-heading"><span class="glyphicon glyphicon-tasks"></span> Résultats <span class="badge">{{items.length}}</div>
+	<div class="panel-body">
+		<table class="table table-hover table-condensed table-striped">
+			<thead>
+				<tr>
+					<th ng-if="!joueurSelected">Joueur</th>
+					<th ng-if="!actionSelected">Action</th>
+					<th ng-if="!positionSelected">Position</th>
+					<th>Date</th>
+					<th>Performance</th>
+					<th>Note</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in items">
+					<td ng-if="!joueurSelected">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
+					<td ng-if="!actionSelected">{{item.action.libelle}}</td>
+					<td ng-if="!positionSelected">{{item.action.position.description}}</td>
+					<td>{{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
+					<td>{{item.performance}}</td>
+					<td><span class="glyphicon glyphicon-star" ng-repeat="star in item.maNote"></span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

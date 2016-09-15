@@ -11,7 +11,7 @@
 	*/
 
 	/** @ngInject */
-	function AuthService($http, SessionService) {
+	function AuthService($http, SessionService, $cookies) {
 
 		/**
 		@name	MonService
@@ -54,6 +54,9 @@
 			var self = this;
 			if (!angular.isArray(authorizedRoles)) {
 				authorizedRoles = [authorizedRoles];
+			}
+			if ($cookies.getObject("gjSession")) {
+				return (authorizedRoles.indexOf($cookies.getObject("gjSession").userRole) !== -1);
 			}
 			return (self.isAuthenticated() && authorizedRoles.indexOf(SessionService.userRole) !== -1);
 		};

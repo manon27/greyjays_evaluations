@@ -13,7 +13,7 @@
 	*/
 
 	/** @ngInject */
-	function crudResultat(ActionService, JoueurService) {
+	function crudResultat(ActionService, JoueurService, PerformanceService, _) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -33,15 +33,63 @@
 			scope.affichage.liste=true;
 			scope.items = scope.items || [];
 			scope.itemAdd = {};
-			
+			scope.allActions = ActionService.all;
+			scope.allJoueurs = JoueurService.all;
+				
+			scope.actionSel = "-1";
+			scope.joueurSel = "-1";
+				
+			scope.$watch('actionSel', function(newPos){
+				filtrer(newPos,scope.joueurSel);
+			});
+
+			scope.$watch('joueurSel', function(newPos){
+				filtrer(scope.actionSel,newPos);
+			});
+
+			scope.$watch('items', function(newVal) {
+				_.each(newVal, function(val) {
+					var laNote = PerformanceService.getNote(val.id_action, val.performance);
+					var aStars = [];
+					if (laNote != '???') {
+						for (var i=0; i<parseInt(laNote,10) ; i++) {
+							aStars.push(""+i);
+						}
+					}
+					val.maNote = aStars;
+				});
+
+			});
+
+			var filtrer = function(actionS, joueurS) {
+				if (joueurS == "-1") {
+					if (actionS == "-1") {
+						scope.itemsF = scope.items;
+					} else {
+						scope.itemsF = _.filter(scope.items, function(item) {
+							return item.action.id == actionS;
+						});
+					}
+				} else {
+					scope.itemsF = _.filter(scope.items, function(item) {
+						return item.joueur.id == joueurS;
+					});
+					if (actionS != "-1") {
+						scope.itemsF = _.filter(scope.itemsF, function(item) {
+							return item.action.id == actionS;
+						});
+					}
+				}
+
+			};
+
 			/**
 			@name	afficherAjout
 			@desc 	affichage de la GUI d'ajout avec init du param
 			*/
 			scope.afficherAjout = function() {
 				scope.itemAdd = {};
-				scope.allActions = ActionService.all;
-				scope.allJoueurs = JoueurService.all;
+				scope.itemAdd.date_realisation = new Date();				
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
 			};
@@ -53,8 +101,6 @@
 			*/
 			scope.afficherModification = function(it) {
 				scope.itemAdd = {};
-				scope.allActions = ActionService.all;
-				scope.allJoueurs = JoueurService.all;
 				for (var noeud in it) {
 					if (angular.isString(it[noeud])) {
 						scope.itemAdd[noeud] = it[noeud];

@@ -89,23 +89,44 @@
 		MonService.prototype.filtrerParActions = function(actionIds) {
 			if (actionIds.length > 0) {
 				return _.filter(this.all, function(item) {
-					if (typeof item.action_ids === 'undefined') {
+					if (typeof item.id_action === 'undefined') {
 						return false;
 					}
-					if (item.action_ids.length === 0) {
+					if (item.id_action.length === 0) {
 						return false;
 					}
-					if (item.action_ids.length > actionIds.length) {
-						return _.find(actionIds, function(idItem) {
-							return _.contains(item.action_ids, idItem);
-						});
-					} else {
-						return _.find(item.action_ids, function(idItem) {
-							return _.contains(actionIds, idItem);
-						});
-					}
+					return _.find(actionIds, function(idItem) {
+						return _.contains(item.id_action, idItem);
+					});
 				});
 			}
+		};
+
+		/**
+		@name 		getNote
+		@desc 		obtenir la note pour une action et une perf données
+		@param 		
+		@returns 	Note
+		*/
+		MonService.prototype.getNote = function(actionId, noteVal) {
+			var maNote = '???';
+			_.each(this.all, function(item) {
+				if (item.id_action === actionId) {
+					var maVal = parseInt(noteVal,10);
+					var min = parseInt(item.min,10);
+					var max = parseInt(item.max,10);
+					if (min > max) {
+						if ((maVal >= max) && (maVal <= min)) {
+							maNote = item.note;
+						}
+					} else {
+						if ((maVal <= max) && (maVal >= min)) {
+							maNote = item.note;
+						}
+					}
+				}
+			});
+			return maNote;
 		};
 
 		return new MonService();

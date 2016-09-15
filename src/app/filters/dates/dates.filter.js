@@ -34,6 +34,17 @@
 				str += maDate.getMonth()+1;
 				str += '/';
 				str += maDate.getFullYear();
+			} else if (format == 'JJ/MM/AAAA à HHhMM') {
+				if (maDate.getDate() < 10) { str += '0'; }
+				str += maDate.getDate();
+				str += '/';
+				if (maDate.getMonth() < 9) { str += '0'; }
+				str += maDate.getMonth()+1;
+				str += '/';
+				str += maDate.getFullYear();
+				str += ' à ' + maDate.getHours() + 'h';
+				if (maDate.getMinutes() < 10) { str += '0'; }
+				str += maDate.getMinutes();
 			}
 			return str;
 		};

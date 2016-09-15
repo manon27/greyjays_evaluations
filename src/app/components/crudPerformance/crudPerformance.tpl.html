@@ -1,5 +1,6 @@
 <div class="container-fluid">
 	<h2>Performances <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une performance"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<p>Filtrer sur l'action <select size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select></p>
 	<div class="row">
 		<div class="col-sm-12">
 			<table class="table table-hover table-condensed table-striped">
@@ -13,7 +14,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in items">
+					<tr ng-repeat="item in itemsF">
 						<td>{{item.id}}</td>
 						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette performance">{{item.libelle}}</a></td>
 						<td>{{item.action.libelle}}</td>

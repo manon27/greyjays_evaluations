@@ -1,0 +1,22 @@
+<div ng-if="items.length==1" class="panel panel-success">
+	<div class="panel-heading">
+		<span class="glyphicon glyphicon-user"></span> {{items[0].prenom}} {{items[0].nom | uppercase}} <a href="" ng-if="selected" ng-click="deselectionner()"><span class="glyphicon glyphicon-trash"></span></a>
+	</div>
+</div>
+<div uib-accordion-group class="panel-default" is-open="estOuvert" ng-if="items.length>1">
+	<uib-accordion-heading><span class="glyphicon glyphicon-user"></span> Sélection du joueur</uib-accordion-heading>
+	<table class="table table-hover table-condensed table-striped">
+		<thead>
+			<tr>
+				<th>Prénom NOM</th>
+				<th>Inscrit(e) le</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in items | orderBy: 'nom'">
+				<td><a href="" ng-click="selectionner(item)" title="Sélectionner ce joueur">{{item.prenom}} {{item.nom | uppercase}}</a></td>
+				<td>{{item.date_inscription | formaterDate : 'JJ/MM/AAAA'}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

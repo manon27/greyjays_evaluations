@@ -4,24 +4,16 @@
 </header>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-sm-6">
-			<user-position></user-position>
-		</div>
-		<div class="col-sm-6">
-			<crud-joueur items="donneesService.dataSets.joueurListData" le-service="joueurService"></crud-joueur>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-6">
-			<crud-action items="donneesService.dataSets.actionListData" le-service="actionService"></crud-action>
-		</div>
-		<div class="col-sm-6">
-			<crud-performance items="donneesService.dataSets.performanceListData" le-service="performanceService"></crud-performance>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<crud-resultat items="donneesService.dataSets.resultatListData" le-service="resultatService"></crud-resultat>
+		<div class="col-xs-12">
+			<uib-accordion>
+				<select-joueur items="donneesService.dataSets.joueurListData" selected="filterData.joueurIds.length>0"></select-joueur>
+				<br/>
+				<select-position items="donneesService.dataSets.positionListData" selected="filterData.positionIds.length>0"></select-position>
+				<br/>
+				<select-action items="donneesService.dataSets.actionListData" selected="filterData.actionIds.length>0"></select-action>
+				<br/>
+				<list-resultat items="donneesService.dataSets.resultatListData" joueur-selected="filterData.joueurIds.length>0" position-selected="filterData.positionIds.length>0" action-selected="filterData.actionIds.length>0"></list-resultat>
+			</uib-accordion>
 		</div>
 	</div>
 </div>

@@ -1,5 +1,6 @@
 <div class="container-fluid">
 	<h2>Actions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une action"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<p>Filtrer sur la position <select size="1" ng-model="positionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select></p>
 	<div class="row">
 		<div class="col-sm-12">
 			<table class="table table-hover table-condensed table-striped">
@@ -12,10 +13,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in items">
+					<tr ng-repeat="item in itemsF">
 						<td>{{item.id}}</td>
 						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette action">{{item.libelle}}</a></td>
-						<td>{{item.position.libelle}}</td>
+						<td>{{item.position.libelle}} : {{item.position.description}}</td>
 						<td>
 							<div class="btn-group">
 							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier cette action"><span class="glyphicon glyphicon-edit"></span></a>
@@ -34,7 +35,7 @@
 			<input type="hidden" ng-model="itemAdd.id" />
 			<input type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
 			<select size="1" ng-model="itemAdd.id_position">
-				<option ng-repeat="itemP in allPositions" value="{{itemP.id}}">{{itemP.libelle}}</option>
+				<option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option>
 			</select>
 			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
 			<input type="button" ng-click="annuler()" value="Annuler" />

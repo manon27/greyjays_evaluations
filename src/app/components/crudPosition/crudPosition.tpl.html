@@ -12,7 +12,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in items">
+					<tr ng-repeat="item in items | orderBy: 'libelle'">
 						<td>{{item.id}}</td>
 						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette position">{{item.libelle}}</a></td>
 						<td>{{item.description}}</td>

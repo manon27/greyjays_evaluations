@@ -1,21 +1,30 @@
 <div class="container-fluid">
 	<h2>Résultats <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un résultat"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<p>Filtrer sur l'action <select size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select>
+	et sur le joueur <select size="1" ng-model="joueurSel"><option value="-1">Sans filtre</option><option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option></select>
+	</p>
 	<div class="row">
 		<div class="col-sm-12">
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>Action par Joueur le Date</th>
+						<th ng-if="actionSel=='-1'">Action</th>
+						<th ng-if="joueurSel=='-1'">Joueur</th>
+						<th>Date</th>
 						<th>Performance</th>
+						<th>Note</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in items">
-						<td>{{item.id}}</td>
-						<td><a href="" ng-click="afficherModification(item)" title="Modifier ce résultat">{{item.action.libelle}} par {{item.joueur.prenom}} {{item.joueur.nom}} le {{item.date_realisation | formaterDate : 'JJ/MM/AAAA'}}</a></td>
+					<tr ng-repeat="item in itemsF">
+						<td><a href="" ng-click="afficherModification(item)" title="Modifier ce résultat">{{item.id}}</a></td>
+						<td ng-if="actionSel=='-1'">{{item.action.libelle}}</td>
+						<td ng-if="joueurSel=='-1'">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
+						<td>Le {{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
 						<td>{{item.performance}}</td>
+						<td><span class="glyphicon glyphicon-star" ng-repeat="star in item.maNote"></span></td>
 						<td>
 							<div class="btn-group">
 							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier ce résultat"><span class="glyphicon glyphicon-edit"></span></a>
@@ -38,7 +47,7 @@
 			<select size="1" ng-model="itemAdd.id_joueur">
 				<option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option>
 			</select>
-			<input type="date" ng-model="itemAdd.date_realisation" required="true" />
+			<input type="datetime-local" ng-model="itemAdd.date_realisation" required="true" />
 			<input type="text" ng-model="itemAdd.performance" placeholder="Performance" required="true" />
 			<input type="text" ng-model="itemAdd.test" placeholder="Entraînement" required="true" />
 			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
