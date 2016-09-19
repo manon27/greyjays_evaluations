@@ -20,7 +20,6 @@
 					<td>{{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
 					<td>{{item.performance}}</td>
 					<td>
-						{{item.maNote}}
 						<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
 						<div ng-if="item.maNote!='???'">
 							<span class="glyphicon glyphicon-star stars" ng-repeat="star in item.maNote"></span>
