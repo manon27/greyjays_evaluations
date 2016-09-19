@@ -50,6 +50,7 @@
 			scope.$watch('items', function(newList){
 				scope.itemsF = newList;
 				scope.count = newList.length;
+				filtrer(scope.actionSel);
 			});
 
 			/**
@@ -60,16 +61,25 @@
 			@return 	void
 			*/	
 			scope.$watch('actionSel', function(newVal){
-				if (newVal == "-1") {
+				filtrer(newVal);
+			});
+
+			/**
+			@name		filtrer
+			@desc 		filtre les items en fonction des params
+			@param		actionS	action selectionnee
+			@return 	void
+			*/	
+			var filtrer = function(actionS) {
+				if (actionS == "-1") {
 					scope.itemsF = scope.items;
 				} else {
 					scope.itemsF = _.filter(scope.items, function(item) {
-						return item.action.id == newVal;
+						return item.action.id == actionS;
 					});
 				}
 				scope.count = scope.itemsF.length;
-			});
-
+			};
 			/**
 			@name		pageItems
 			@desc 		liste des items en fonction de la pagination

@@ -52,6 +52,7 @@
 			scope.$watch('items', function(newList) {
 				scope.itemsF = newList;
 				scope.count = scope.itemsF.length;
+				filtrer(scope.actionSel,scope.joueurSel);
 			});
 
 			/**

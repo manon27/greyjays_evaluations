@@ -50,6 +50,7 @@
 			scope.$watch('items', function(newList){
 				scope.itemsF = newList;
 				scope.count = newList.length;
+				filtrer(scope.positionSel);
 			});
 
 			/**
@@ -60,14 +61,25 @@
 			@return 	void
 			*/	
 			scope.$watch('positionSel', function(newVal){
-				if (newVal == "-1") {
+				filtrer(newVal);
+			});
+
+			/**
+			@name		filtrer
+			@desc 		filtre les items en fonction des params
+			@param		positionS	position selectionnee
+			@return 	void
+			*/	
+			var filtrer = function(positionS) {
+				if (positionS == "-1") {
 					scope.itemsF = scope.items;
 				} else {
 					scope.itemsF = _.filter(scope.items, function(item) {
-						return item.position.id == newVal;
+						return item.position.id == positionS;
 					});
 				}
-			});
+				scope.count = scope.itemsF.length;
+			};
 
 			/**
 			@name		pageItems
