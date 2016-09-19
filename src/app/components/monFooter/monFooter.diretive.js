@@ -15,9 +15,14 @@
 	function monFooter() {
 		var directive = {
 			restrict: 'E',
-			templateUrl: 'app/components/monFooter/monFooter.tpl.html'
+			templateUrl: 'app/components/monFooter/monFooter.tpl.html',
+			link: linkF
 		};
 		return directive;
+
+		function linkF(scope) {
+			scope.aujourdhui = new Date();
+		}
 	}
 
 })();

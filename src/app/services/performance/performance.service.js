@@ -37,7 +37,13 @@
 		@name 		cleanDatas
 		@desc 		methode pour nettoyer les donnees json
 		*/
-		MonService.prototype.cleanDatas = function() {};
+		MonService.prototype.cleanDatas = function() {
+			_.each(this.all, function(performance) {
+				performance.note = parseInt(performance.note,10);
+				performance.min = parseInt(performance.min,10);
+				performance.max = parseInt(performance.max,10);
+			});
+		};
 
 		/**
 		@name 		linkModels
@@ -113,8 +119,8 @@
 			_.each(this.all, function(item) {
 				if (item.id_action === actionId) {
 					var maVal = parseInt(noteVal,10);
-					var min = parseInt(item.min,10);
-					var max = parseInt(item.max,10);
+					var min = item.min;
+					var max = item.max;
 					if (min > max) {
 						if ((maVal >= max) && (maVal <= min)) {
 							maNote = item.note;

@@ -1,7 +1,7 @@
 <div class="container-fluid">
 	<h2>Joueurs <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un joueur"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-8">
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
@@ -14,7 +14,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in items">
+					<tr ng-repeat="item in pageItems()">
 						<td>{{item.id}}</td>
 						<td><a href="" ng-click="afficherModification(item)" title="Modifier ce joueur">{{item.prenom}} {{item.nom | uppercase}}</a></td>
 						<td>{{item.date_inscription | formaterDate : 'JJ/MM/AAAA'}}</td>
@@ -31,21 +31,83 @@
 			</table>
 			
 		</div>
-		<div ng-if="affichage.add||affichage.upd" class="col-sm-12">
-			<h3 ng-if="affichage.add">Ajouter...</h3>
-			<h3 ng-if="affichage.upd">Modifier...</h3>
-			<form novalidate>
-			<input type="hidden" ng-model="itemAdd.id" />
-			<input type="text" ng-model="itemAdd.prenom" placeholder="Prénom" required="true" />
-			<input type="text" ng-model="itemAdd.nom" placeholder="Nom" required="true" />
-			<input type="email" ng-model="itemAdd.email" required="true" />
-			<input type="date" id="di" ng-model="itemAdd.date_inscription" required="true" />
-			<input type="date" id="dn" ng-model="itemAdd.date_naissance" required="true" />
-			<input type="text" ng-model="itemAdd.poids" placeholder="Poids" />Kg
-			<input type="text" ng-model="itemAdd.taille" placeholder="Taille en cm" />cm
-			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
-			<input type="button" ng-click="annuler()" value="Annuler" />
-			</form>
+		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
+			<div class="panel panel-default">
+  				<div class="panel-heading">
+  					<span ng-if="affichage.add">Ajouter...</span>
+					<span ng-if="affichage.upd">Modifier...</span>
+				</div>
+				<div class="panel-body">
+					<form name="monFormJoueur" ng-submit="enregistrer(monFormJoueur.$valid)" novalidate>
+					<input type="hidden" ng-model="itemAdd.id" />
+					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.prenomField.$invalid && alertesJoueur}">
+						<label for="prenomField" class="control-label">Prénom</label>
+						<input id="prenomField" name="prenomField" class="form-control" type="text" ng-model="itemAdd.prenom" placeholder="Prénom" required="true" />
+						<div ng-if="monFormJoueur.prenomField.$invalid && alertesJoueur" ng-messages="monFormJoueur.prenomField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">Le prénom est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.nomField.$invalid && alertesJoueur}">
+						<label for="nomField" class="control-label">Nom</label>
+						<input id="nomField" name="nomField" class="form-control" type="text" ng-model="itemAdd.nom" placeholder="Nom" required="true" />
+						<div ng-if="monFormJoueur.nomField.$invalid && alertesJoueur" ng-messages="monFormJoueur.nomField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">Le nom est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.emailField.$invalid && alertesJoueur}">
+						<label for="emailField" class="control-label">E-mail</label>
+						<input id="emailField" name="emailField" class="form-control" type="email" ng-model="itemAdd.email" placeholder="E-mail" required="true" />
+						<div ng-if="monFormJoueur.emailField.$invalid && alertesJoueur" ng-messages="monFormJoueur.emailField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">L'e-mail est obligatoire.</p>
+							<p ng-message="email">L'e-mail est mal-formé.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.diField.$invalid && alertesJoueur}">
+						<label for="diField" class="control-label">Date inscription</label>
+						<input id="diField" name="diField" class="form-control" type="date" ng-model="itemAdd.date_inscription" required="true" />
+						<div ng-if="monFormJoueur.diField.$invalid && alertesJoueur" ng-messages="monFormJoueur.diField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">La date d'inscription est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.dnField.$invalid && alertesJoueur}">
+						<label for="dnField" class="control-label">Date naissance</label>
+						<input id="dnField" name="dnField" class="form-control" type="date" ng-model="itemAdd.date_naissance" required="true" />
+						<div ng-if="monFormJoueur.dnField.$invalid && alertesJoueur" ng-messages="monFormJoueur.dnField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">La date de naissance est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="poidsField" class="control-label">Poids (en Kg)</label>
+						<input id="poidsField" class="form-control" type="number" ng-model="itemAdd.poids" placeholder="Poids" />
+					</div>
+					<div class="form-group">
+						<label for="tailleField" class="control-label">Taille (en cm)</label>
+						<input id="tailleField" class="form-control" type="number" ng-model="itemAdd.taille" placeholder="Taille" />
+					</div>
+					<div class="btn-group btn-group-justified" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="submit" class="btn btn-primary">Enregistrer</button>
+						</div>
+						<div class="btn-group" role="group">
+							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
+				<option value="10">10 joueurs par page</option>
+				<option value="20">20 joueurs par page</option>
+				<option value="50">50 joueurs par page</option>
+			</select>
+		</div>
+		<div class="col-sm-8">
+			<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
 		</div>
 	</div>
 </div>
+<hr style="margin-bottom: 20px"/>

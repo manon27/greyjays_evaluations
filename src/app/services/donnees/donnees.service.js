@@ -52,9 +52,12 @@
 			*/
 			// si le filtre est initialise -> superFiltre !
 			if (typeof(filterData) !== 'undefined') {
-				this.actualiser(filterData);
+				this.filtrer(filterData);
 			}
 
+			data.joueurListData = _.sortBy(data.joueurListData, 'nom');
+			data.positionListData = _.sortBy(data.positionListData, 'libelle');
+			data.actionListData = _.sortBy(data.actionListData, 'libelle');
 		};
 
 		/**
@@ -125,18 +128,6 @@
 				resultat.type = 'resultat';
 			});
 			return resultats;
-		};
-
-		this.actualiser = function(filterData) {
-
-			this.filtrer(filterData);
-			//-----------------------------------------------------------
-			//	trier
-			//-----------------------------------------------------------
-			this.dataSets.joueurListData = _.sortBy(this.dataSets.joueurListData, 'nom');
-			this.dataSets.positionListData = _.sortBy(this.dataSets.positionListData, 'libelle');
-			this.dataSets.actionListData = _.sortBy(this.dataSets.actionListData, 'libelle');
-			
 		};
 
 		this.filtrer = function(filterData) {

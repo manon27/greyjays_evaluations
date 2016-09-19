@@ -34,11 +34,27 @@
 			scope.items = scope.items || [];
 			scope.itemAdd = {};
 			
+			scope.$watch('items', function(newVal) {
+				scope.count = newVal.length;
+			});
+
+			scope.maxSize = 5;
+			scope.itemsPerPage = 20;
+			scope.currentPage = 1;
+			scope.count = 1000;
+			scope.pageItems = function() {
+				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
+				var limit = parseInt(scope.itemsPerPage, 10);
+				var lesItems = scope.items.slice(start, start + limit);
+				return lesItems;
+			};
+
 			/**
 			@name	afficherAjout
 			@desc 	affichage de la GUI d'ajout avec init du param
 			*/
 			scope.afficherAjout = function() {
+				scope.alertesJoueur=false;
 				scope.itemAdd = {};
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
@@ -50,9 +66,13 @@
 			@param	 	it : item de position
 			*/
 			scope.afficherModification = function(it) {
+				scope.alertesJoueur=false;
 				scope.itemAdd = {};
 				for (var noeud in it) {
 					if (angular.isString(it[noeud])) {
+						scope.itemAdd[noeud] = it[noeud];
+					}
+					if (angular.isNumber(it[noeud])) {
 						scope.itemAdd[noeud] = it[noeud];
 					}
 				}
@@ -66,16 +86,20 @@
 			@name		enregistrer
 			@desc 		appel du service save + refresh via la root
 			*/
-			scope.enregistrer = function() {
-				var itemAjout = {};
-				itemAjout = scope.itemAdd;
-				if (typeof scope.itemAdd.id !== 'undefined') {
-					itemAjout.id=scope.itemAdd.id;
+			scope.enregistrer = function(estValide) {
+				scope.alertesJoueur=true;
+				if (estValide) {
+					var itemAjout = {};
+					itemAjout = scope.itemAdd;
+					if (typeof scope.itemAdd.id !== 'undefined') {
+						itemAjout.id=scope.itemAdd.id;
+					}
+					scope.leService.save(itemAjout);
+					scope.affichage.add=false;
+					scope.affichage.upd=false;
+				} else {
+					return false;
 				}
-				scope.leService.save(itemAjout);
-				scope.affichage.add=false;
-				scope.affichage.upd=false;
-				
 			};
 
 			/**

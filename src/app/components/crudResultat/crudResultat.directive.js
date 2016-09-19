@@ -32,6 +32,8 @@
 			scope.affichage.upd=false;
 			scope.affichage.liste=true;
 			scope.items = scope.items || [];
+			scope.itemsF = [];
+
 			scope.itemAdd = {};
 			scope.allActions = ActionService.all;
 			scope.allJoueurs = JoueurService.all;
@@ -39,6 +41,11 @@
 			scope.actionSel = "-1";
 			scope.joueurSel = "-1";
 				
+			scope.maxSize = 5;
+			scope.itemsPerPage = 20;
+			scope.currentPage = 1;
+			scope.count = 1000;
+
 			scope.$watch('actionSel', function(newPos){
 				filtrer(newPos,scope.joueurSel);
 			});
@@ -58,7 +65,8 @@
 					}
 					val.maNote = aStars;
 				});
-
+				scope.itemsF = newVal;
+				scope.count = scope.itemsF.length;
 			});
 
 			var filtrer = function(actionS, joueurS) {
@@ -80,7 +88,14 @@
 						});
 					}
 				}
+				scope.count = scope.itemsF.length;
+			};
 
+			scope.pageItems = function() {
+				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
+				var limit = parseInt(scope.itemsPerPage, 10);
+				var lesItems = scope.itemsF.slice(start, start + limit);
+				return lesItems;
 			};
 
 			/**
@@ -88,8 +103,10 @@
 			@desc 	affichage de la GUI d'ajout avec init du param
 			*/
 			scope.afficherAjout = function() {
+				scope.alertesResultat=false;
 				scope.itemAdd = {};
 				scope.itemAdd.date_realisation = new Date();				
+				scope.itemAdd.test = 0;				
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
 			};
@@ -100,9 +117,13 @@
 			@param	 	it : item de position
 			*/
 			scope.afficherModification = function(it) {
+				scope.alertesResultat=false;
 				scope.itemAdd = {};
 				for (var noeud in it) {
 					if (angular.isString(it[noeud])) {
+						scope.itemAdd[noeud] = it[noeud];
+					}
+					if (angular.isNumber(it[noeud])) {
 						scope.itemAdd[noeud] = it[noeud];
 					}
 				}
@@ -115,16 +136,20 @@
 			@name		enregistrer
 			@desc 		appel du service save + refresh via la root
 			*/
-			scope.enregistrer = function() {
-				var itemAjout = {};
-				itemAjout = scope.itemAdd;
-				if (typeof scope.itemAdd.id !== 'undefined') {
-					itemAjout.id=scope.itemAdd.id;
+			scope.enregistrer = function(estValide) {
+				scope.alertesResultat=true;
+				if (estValide) {
+					var itemAjout = {};
+					itemAjout = scope.itemAdd;
+					if (typeof scope.itemAdd.id !== 'undefined') {
+						itemAjout.id=scope.itemAdd.id;
+					}
+					scope.leService.save(itemAjout);
+					scope.affichage.add=false;
+					scope.affichage.upd=false;
+				} else {
+					return false;
 				}
-				scope.leService.save(itemAjout);
-				scope.affichage.add=false;
-				scope.affichage.upd=false;
-				
 			};
 
 			/**

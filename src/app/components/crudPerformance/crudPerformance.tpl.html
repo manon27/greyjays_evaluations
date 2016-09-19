@@ -1,8 +1,8 @@
 <div class="container-fluid">
 	<h2>Performances <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une performance"><span class="glyphicon glyphicon-plus"></span></a></h2>
-	<p>Filtrer sur l'action <select size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select></p>
+	<form novalidate class="form-inline">Filtrer sur l'action <select class="form-control" size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select></form>
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-8">
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
@@ -14,7 +14,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in itemsF">
+					<tr ng-repeat="item in pageItems()">
 						<td>{{item.id}}</td>
 						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette performance">{{item.libelle}}</a></td>
 						<td>{{item.action.libelle}}</td>
@@ -30,21 +30,80 @@
 			</table>
 			
 		</div>
-		<div ng-if="affichage.add||affichage.upd" class="col-sm-12">
-			<h3 ng-if="affichage.add">Ajouter une performance...</h3>
-			<h3 ng-if="affichage.upd">Modifier une performance...</h3>
-			<form novalidate>
-			<input type="hidden" ng-model="itemAdd.id" />
-			<input type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
-			<input type="text" ng-model="itemAdd.note" placeholder="Note" required="true">
-			<input type="text" ng-model="itemAdd.min" placeholder="Min" required="true">
-			<input type="text" ng-model="itemAdd.max" placeholder="Max" required="true">
-			<select size="1" ng-model="itemAdd.id_action">
-				<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>
+		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
+			<div class="panel panel-default">
+  				<div class="panel-heading">
+  					<span ng-if="affichage.add">Ajouter...</span>
+					<span ng-if="affichage.upd">Modifier...</span>
+				</div>
+				<div class="panel-body">
+					<form name="monFormPerformance" ng-submit="enregistrer(monFormPerformance.$valid)" novalidate>
+					<input type="hidden" ng-model="itemAdd.id" />
+					<div class="form-group" ng-class="{ 'has-error' : monFormPerformance.libelleField.$invalid && alertesPerformance}">
+						<label for="libelleField" class="control-label">Libellé</label>
+						<input id="libelleField" name="libelleField" class="form-control" type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
+						<div ng-if="monFormPerformance.libelleField.$invalid && alertesPerformance" ng-messages="monFormPerformance.libelleField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">Le libellé est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormPerformance.noteField.$invalid && alertesPerformance}">
+						<label for="noteField" class="control-label">Note {{item.note}}</label>
+						<input id="noteField" name="noteField" class="form-control" type="number" ng-model="itemAdd.note" placeholder="Note" required="true" min="1" max="5" />
+						<div ng-if="monFormPerformance.noteField.$invalid && alertesPerformance" ng-messages="monFormPerformance.noteField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="min">La note doit être supérieure ou égale à 1.</p>
+							<p ng-message="max">La note doit être inférieure ou égale à 5.</p>
+							<p ng-message="required">La note est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormPerformance.minField.$invalid && alertesPerformance }">
+						<label for="minField" class="control-label">Min</label>
+						<input id="minField" name="minField" class="form-control" type="number" ng-model="itemAdd.min" placeholder="Min" required="true" min="0" />
+						<div ng-if="monFormPerformance.minField.$invalid && alertesPerformance" ng-messages="monFormPerformance.minField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="min">Le min doit être supérieure ou égale à 0.</p>
+							<p ng-message="required">Le min est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormPerformance.maxField.$invalid && alertesPerformance }">
+						<label for="maxField" class="control-label">Max</label>
+						<input id="maxField" name="maxField" class="form-control" type="number" ng-model="itemAdd.max" placeholder="Max" required="true" min="0" />
+						<div ng-if="monFormPerformance.maxField.$invalid && alertesPerformance" ng-messages="monFormPerformance.maxField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="min">Le max doit être supérieure ou égale à 0.</p>
+							<p ng-message="required">Le max est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : !monFormPerformance.actionList.$modelValue  && alertesPerformance}">
+						<label for="actionList" class="control-label">Action</label>
+						<select id="actionList" name="actionList" class="form-control" size="1" ng-model="itemAdd.id_action">
+							<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>
+						</select>
+						<div ng-if="!monFormPerformance.actionList.$modelValue  && alertesPerformance" class="alert alert-warning" role="alert">
+							<p>Aucune action n'est sélectionnée.</p>
+						</div>
+					</div>
+					<div class="btn-group btn-group-justified" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="submit" class="btn btn-primary">Enregistrer</button>
+						</div>
+						<div class="btn-group" role="group">
+							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
+				<option value="10">10 performances par page</option>
+				<option value="20">20 performances par page</option>
+				<option value="50">50 performances par page</option>
 			</select>
-			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
-			<input type="button" ng-click="annuler()" value="Annuler" />
-			</form>
+		</div>
+		<div class="col-sm-8">
+			<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
 		</div>
 	</div>
 </div>
+<hr style="margin-bottom: 20px"/>

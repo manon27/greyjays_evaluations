@@ -1,0 +1,29 @@
+a {
+	color: #D02630;
+}
+a:hover, a:focus {
+	color: #D02630;
+	text-decoration: underline;
+}
+footer {
+	width:100%;
+	text-align: center;
+	background-color: #D02630;
+	padding: 5px;
+	color: white;
+	font-weight:bold;
+	font-size: 1.1em;
+}
+footer img {
+	float:left;
+}
+.navbar-gj {
+	background-color: #D02630;
+}
+.navbar-gj a {
+	color: #FFFFFF;
+}
+.navbar-gj a:hover {
+	background-color: #d8d8d8;
+	color:#000000;
+}

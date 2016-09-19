@@ -38,7 +38,10 @@
 		@desc 		methode pour nettoyer les donnees json
 		*/
 		MonService.prototype.cleanDatas = function() {
-			
+			_.each(this.all, function(joueur) {
+				joueur.poids = parseInt(joueur.poids,10);
+				joueur.taille = parseInt(joueur.taille,10);
+			});
 		};
 
 		/**

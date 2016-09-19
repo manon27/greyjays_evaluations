@@ -13,7 +13,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="item in items">
+				<tr ng-repeat="item in pageItems()">
 					<td ng-if="!joueurSelected">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
 					<td ng-if="!actionSelected">{{item.action.libelle}}</td>
 					<td ng-if="!positionSelected">{{item.action.position.description}}</td>
@@ -23,5 +23,17 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="row">
+			<div class="col-sm-4">
+				<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
+					<option value="10">10 résultats par page</option>
+					<option value="20">20 résultats par page</option>
+					<option value="50">50 résultats par page</option>
+				</select>
+			</div>
+			<div class="col-sm-8">
+				<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
+			</div>
+		</div>
 	</div>
 </div>

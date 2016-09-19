@@ -42,9 +42,21 @@
 					}
 					val.maNote = aStars;
 				});
-
+				scope.count = newVal.length;
 			});
 			
+			scope.maxSize = 5;
+			scope.itemsPerPage = 20;
+			scope.currentPage = 1;
+			scope.count = 1000;
+			scope.pageItems = function() {
+				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
+				var limit = parseInt(scope.itemsPerPage, 10);
+				var lesItems = scope.items.slice(start, start + limit);
+				return lesItems;
+			};
+
+
 		}
 	}
 

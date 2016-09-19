@@ -1,0 +1,15 @@
+<nav class="navbar navbar-gj">
+  <div class="container-fluid">
+      <ul class="nav navbar-nav">
+        <li ng-if="interfaceAdmin && user_role=='admin'">
+          <a href="#/main" title="Aller à l'interface utilisateur"><span class="glyphicon glyphicon-share-alt"></span> Vue utilisateur</a>
+        </li>
+        <li ng-if="!interfaceAdmin && user_role=='admin'">
+          <a href="#/admin" title="Aller à l'interface administrateur"><span class="glyphicon glyphicon-share-alt"></span> Vue Administrateur</a>
+        </li>
+        <li>
+          <a href="#/logout" title="Quitter" alt="Quitter"><span class="glyphicon glyphicon-off"></span></a>
+        </li>
+      </ul>
+  </div>
+</nav>

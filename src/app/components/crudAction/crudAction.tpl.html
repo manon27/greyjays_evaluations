@@ -1,8 +1,8 @@
 <div class="container-fluid">
 	<h2>Actions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une action"><span class="glyphicon glyphicon-plus"></span></a></h2>
-	<p>Filtrer sur la position <select size="1" ng-model="positionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select></p>
+	<form novalidate class="form-inline">Filtrer sur la position <select class="form-control" size="1" ng-model="positionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select></form>
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-8">
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
@@ -13,7 +13,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="item in itemsF">
+					<tr ng-repeat="item in pageItems()">
 						<td>{{item.id}}</td>
 						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette action">{{item.libelle}}</a></td>
 						<td>{{item.position.libelle}} : {{item.position.description}}</td>
@@ -28,18 +28,55 @@
 			</table>
 			
 		</div>
-		<div ng-if="affichage.add||affichage.upd" class="col-sm-12">
-			<h3 ng-if="affichage.add">Ajouter...</h3>
-			<h3 ng-if="affichage.upd">Modifier...</h3>
-			<form novalidate>
-			<input type="hidden" ng-model="itemAdd.id" />
-			<input type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
-			<select size="1" ng-model="itemAdd.id_position">
-				<option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option>
+		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
+			<div class="panel panel-default">
+  				<div class="panel-heading">
+  					<span ng-if="affichage.add">Ajouter...</span>
+					<span ng-if="affichage.upd">Modifier...</span>
+				</div>
+				<div class="panel-body">
+					<form name="monFormAction" ng-submit="enregistrer(monFormAction.$valid)" novalidate>
+					<input type="hidden" ng-model="itemAdd.id" />
+					<div class="form-group" ng-class="{ 'has-error' : monFormAction.libelleField.$invalid && alertesAction}">
+						<label for="libelleField" class="control-label">Libellé</label>
+						<input id="libelleField" name="libelleField" class="form-control" type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
+						<div ng-if="monFormAction.libelleField.$invalid && alertesAction" ng-messages="monFormAction.libelleField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">Le libellé est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : !monFormAction.positionList.$modelValue && alertesAction}">
+						<label for="positionList" class="control-label">Position</label>
+						<select id="positionList" name="positionList" size="1" class="form-control" ng-model="itemAdd.id_position">
+							<option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option>
+						</select>
+						<div ng-if="!monFormAction.positionList.$modelValue && alertesAction" class="alert alert-warning" role="alert">
+							<p>Aucune position n'est sélectionnée.</p>
+						</div>
+					</div>
+					<div class="btn-group btn-group-justified" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="submit" class="btn btn-primary">Enregistrer</button>
+						</div>
+						<div class="btn-group" role="group">
+							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
+				<option value="10">10 actions par page</option>
+				<option value="20">20 actions par page</option>
+				<option value="50">50 actions par page</option>
 			</select>
-			<input type="submit" ng-click="enregistrer()" value="Enregistrer" />
-			<input type="button" ng-click="annuler()" value="Annuler" />
-			</form>
+		</div>
+		<div class="col-sm-8">
+			<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
 		</div>
 	</div>
 </div>
+<hr style="margin-bottom: 20px"/>
