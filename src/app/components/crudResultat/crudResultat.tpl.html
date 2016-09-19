@@ -25,7 +25,12 @@
 						<td ng-if="joueurSel=='-1'">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
 						<td>Le {{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
 						<td>{{item.performance}}</td>
-						<td><span class="glyphicon glyphicon-star" style="color:purple" ng-repeat="star in item.maNote"></span></td>
+						<td>
+							<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
+							<div ng-if="item.maNote!='???'">
+								<span class="glyphicon glyphicon-star stars" ng-repeat="star in item.maNote"></span>
+							</div>
+						</td>
 						<td>
 							<span ng-if="item.test=='0'" class="glyphicon glyphicon-eye-close" title="Entraînement"></span>
 							<span ng-if="item.test=='1'" class="glyphicon glyphicon-eye-open" style="color:green" title="Match"></span>

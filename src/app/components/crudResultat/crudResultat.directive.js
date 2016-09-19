@@ -50,16 +50,6 @@
 			@return 	void
 			*/	
 			scope.$watch('items', function(newList) {
-				_.each(newList, function(val) {
-					var laNote = PerformanceService.getNote(val.id_action, val.performance);
-					var aStars = [];
-					if (laNote != '???') {
-						for (var i=0; i<parseInt(laNote,10) ; i++) {
-							aStars.push(""+i);
-						}
-					}
-					val.maNote = aStars;
-				});
 				scope.itemsF = newList;
 				scope.count = scope.itemsF.length;
 			});

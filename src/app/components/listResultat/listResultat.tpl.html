@@ -19,7 +19,13 @@
 					<td ng-if="!positionSelected">{{item.action.position.description}}</td>
 					<td>{{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
 					<td>{{item.performance}}</td>
-					<td><span class="glyphicon glyphicon-star" ng-repeat="star in item.maNote"></span></td>
+					<td>
+						{{item.maNote}}
+						<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
+						<div ng-if="item.maNote!='???'">
+							<span class="glyphicon glyphicon-star stars" ng-repeat="star in item.maNote"></span>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>

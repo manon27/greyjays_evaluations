@@ -16,7 +16,7 @@
 	*/
 
 	/** @ngInject */
-	function ResultatService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
+	function ResultatService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _, PerformanceService) {
 
 		/**
 		@name 		MonService
@@ -40,6 +40,16 @@
 		MonService.prototype.cleanDatas = function() {
 			_.each(this.all, function(resultat) {
 				resultat.performance=parseInt(resultat.performance,10);
+				var laNote = PerformanceService.getNote(resultat.id_action, resultat.performance);
+				if (angular.isNumber(laNote)) {
+					var aNote = [];
+					for (var i=0; i<laNote; i++) {
+						aNote.push(i);
+					}
+					resultat.maNote = aNote;
+				} else {
+					resultat.maNote = laNote;
+				}
 			});
 		};
 
