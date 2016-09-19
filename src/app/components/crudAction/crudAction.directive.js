@@ -36,26 +36,44 @@
 			scope.itemAdd = {};
 			scope.allPositions = PositionService.all;
 			scope.positionSel = "-1";
-				
+			scope.maxSize = 5;
+			scope.itemsPerPage = 20;
+			scope.currentPage = 1;
+			scope.count = 1000;
+			
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur les items
+			@param		newList	nouvelle valeur
+			@return 	void
+			*/	
 			scope.$watch('items', function(newList){
 				scope.itemsF = newList;
 				scope.count = newList.length;
 			});
 
-			scope.$watch('positionSel', function(newPos){
-				if (newPos == "-1") {
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur la positionSel
+						et filtre les items
+			@param		newVal	nouvelle valeur
+			@return 	void
+			*/	
+			scope.$watch('positionSel', function(newVal){
+				if (newVal == "-1") {
 					scope.itemsF = scope.items;
 				} else {
 					scope.itemsF = _.filter(scope.items, function(item) {
-						return item.position.id == newPos;
+						return item.position.id == newVal;
 					});
 				}
 			});
 
-			scope.maxSize = 5;
-			scope.itemsPerPage = 20;
-			scope.currentPage = 1;
-			scope.count = 1000;
+			/**
+			@name		pageItems
+			@desc 		liste des items en fonction de la pagination
+			@return 	lesItems à afficher
+			*/	
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);

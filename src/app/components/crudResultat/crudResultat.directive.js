@@ -33,29 +33,24 @@
 			scope.affichage.liste=true;
 			scope.items = scope.items || [];
 			scope.itemsF = [];
-
 			scope.itemAdd = {};
 			scope.allActions = ActionService.all;
-			scope.allJoueurs = JoueurService.all;
-				
+			scope.allJoueurs = JoueurService.all;				
 			scope.actionSel = "-1";
-			scope.joueurSel = "-1";
-				
+			scope.joueurSel = "-1";				
 			scope.maxSize = 5;
 			scope.itemsPerPage = 20;
 			scope.currentPage = 1;
 			scope.count = 1000;
 
-			scope.$watch('actionSel', function(newPos){
-				filtrer(newPos,scope.joueurSel);
-			});
-
-			scope.$watch('joueurSel', function(newPos){
-				filtrer(scope.actionSel,newPos);
-			});
-
-			scope.$watch('items', function(newVal) {
-				_.each(newVal, function(val) {
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur les items
+			@param		newList	nouvelle valeur
+			@return 	void
+			*/	
+			scope.$watch('items', function(newList) {
+				_.each(newList, function(val) {
 					var laNote = PerformanceService.getNote(val.id_action, val.performance);
 					var aStars = [];
 					if (laNote != '???') {
@@ -65,10 +60,39 @@
 					}
 					val.maNote = aStars;
 				});
-				scope.itemsF = newVal;
+				scope.itemsF = newList;
 				scope.count = scope.itemsF.length;
 			});
 
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur actionSel
+						et filtre les items
+			@param		newVal	nouvelle valeur
+			@return 	void
+			*/	
+			scope.$watch('actionSel', function(newVal){
+				filtrer(newVal,scope.joueurSel);
+			});
+
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur joueurSel
+						et filtre les items
+			@param		newVal	nouvelle valeur
+			@return 	void
+			*/	
+			scope.$watch('joueurSel', function(newVal){
+				filtrer(scope.actionSel,newVal);
+			});
+
+			/**
+			@name		filtrer
+			@desc 		filtre les items en fonction des params
+			@param		actionS	action selectionnee
+			@param 		joueurS joueur selectionne
+			@return 	void
+			*/	
 			var filtrer = function(actionS, joueurS) {
 				if (joueurS == "-1") {
 					if (actionS == "-1") {
@@ -91,6 +115,11 @@
 				scope.count = scope.itemsF.length;
 			};
 
+			/**
+			@name		pageItems
+			@desc 		liste des items en fonction de la pagination
+			@return 	lesItems à afficher
+			*/	
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);

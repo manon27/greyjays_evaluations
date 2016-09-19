@@ -35,33 +35,51 @@
 			scope.itemAdd = {};
 			scope.allActions = ActionService.all;
 			scope.actionSel = "-1";
+			scope.maxSize = 5;
+			scope.itemsPerPage = 20;
+			scope.currentPage = 1;
+			scope.count = 1000;
 				
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur les items
+			@param		newList	nouvelle valeur
+			@return 	void
+			*/	
 			scope.$watch('items', function(newList){
 				scope.itemsF = newList;
 				scope.count = newList.length;
 			});
 
-			scope.maxSize = 5;
-			scope.itemsPerPage = 20;
-			scope.currentPage = 1;
-			scope.count = 1000;
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur actionSel
+						et filtre les items
+			@param		newVal	nouvelle valeur
+			@return 	void
+			*/	
+			scope.$watch('actionSel', function(newVal){
+				if (newVal == "-1") {
+					scope.itemsF = scope.items;
+				} else {
+					scope.itemsF = _.filter(scope.items, function(item) {
+						return item.action.id == newVal;
+					});
+				}
+				scope.count = scope.itemsF.length;
+			});
+
+			/**
+			@name		pageItems
+			@desc 		liste des items en fonction de la pagination
+			@return 	lesItems à afficher
+			*/	
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);
 				var lesItems = scope.itemsF.slice(start, start + limit);
 				return lesItems;
 			};
-
-			scope.$watch('actionSel', function(newPos){
-				if (newPos == "-1") {
-					scope.itemsF = scope.items;
-				} else {
-					scope.itemsF = _.filter(scope.items, function(item) {
-						return item.action.id == newPos;
-					});
-				}
-				scope.count = scope.itemsF.length;
-			});
 
 			/**
 			@name	afficherAjout

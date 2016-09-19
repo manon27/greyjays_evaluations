@@ -33,15 +33,26 @@
 			scope.affichage.liste=true;
 			scope.items = scope.items || [];
 			scope.itemAdd = {};
-			
-			scope.$watch('items', function(newVal) {
-				scope.count = newVal.length;
-			});
-
 			scope.maxSize = 5;
 			scope.itemsPerPage = 20;
 			scope.currentPage = 1;
 			scope.count = 1000;
+			
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur les items
+			@param		newList	nouvelle valeur
+			@return 	void
+			*/	
+			scope.$watch('items', function(newList) {
+				scope.count = newList.length;
+			});
+
+			/**
+			@name		pageItems
+			@desc 		liste des items en fonction de la pagination
+			@return 	lesItems à afficher
+			*/	
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);
