@@ -9,7 +9,7 @@
 				<br/>
 				<select-action items="donneesService.dataSets.actionListData" selected="filterData.actionIds.length>0"></select-action>
 				<br/>
-				<list-resultat items="donneesService.dataSets.resultatListData" joueur-selected="filterData.joueurIds.length>0" position-selected="filterData.positionIds.length>0" action-selected="filterData.actionIds.length>0"></list-resultat>
+				<list-resultat items="donneesService.dataSets.resultatListData" joueur-selected="filterData.joueurIds" position-selected="filterData.positionIds" action-selected="filterData.actionIds" le-service="resultatService"></list-resultat>
 			</uib-accordion>
 		</div>
 	</div>

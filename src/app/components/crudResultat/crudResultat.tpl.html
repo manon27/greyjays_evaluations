@@ -57,7 +57,7 @@
 					<input type="hidden" ng-model="itemAdd.id" />
 					<div class="form-group" ng-class="{ 'has-error' : !monFormResultat.actionList.$modelValue && alertesResultat}">
 						<label for="actionList" class="control-label">Action</label>
-						<select id="actionList" name="actionList" class="form-control" size="1" ng-model="itemAdd.id_action">
+						<select id="actionList" name="actionList" class="form-control" size="1" ng-model="itemAdd.id_action" convert-to-number>
 							<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>
 						</select>
 						<div ng-if="!monFormResultat.actionList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">
@@ -66,7 +66,7 @@
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : !monFormResultat.joueurList.$modelValue && alertesResultat}">
 						<label for="joueurList" class="control-label">Joueur</label>
-						<select id="joueurList" name="joueurList" class="form-control" size="1" ng-model="itemAdd.id_joueur">
+						<select id="joueurList" name="joueurList" class="form-control" size="1" ng-model="itemAdd.id_joueur" convert-to-number>
 							<option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option>
 						</select>
 						<div ng-if="!monFormResultat.joueurList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">

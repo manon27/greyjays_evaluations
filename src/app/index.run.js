@@ -7,8 +7,7 @@
 
 	/** @ngInject */
 	function runBlock($location, $rootScope, AuthService) {
-		var root = $rootScope;
-		root.$on('$routeChangeStart', function (event, next) {
+		$rootScope.$on('$routeChangeStart', function (event, next) {
 			if (typeof next.roles !== 'undefined') {
 				var authorizedRoles = next.roles.authorizedRoles;
 				if (!AuthService.isAuthorized(authorizedRoles)) {

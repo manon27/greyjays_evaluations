@@ -25,7 +25,7 @@
 		//Bind component data services to the scope, so we can use them in the views
 		admin.donneesService = DonneesService;
 		
-		$scope.$on('refresh', function() {
+		admin.$on('refresh', function() {
 			var deferred = $q.defer();
 
 			function applyRefresh() {

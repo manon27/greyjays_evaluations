@@ -49,6 +49,7 @@
 			data.joueurListData = _.sortBy(data.joueurListData, 'nom');
 			data.positionListData = _.sortBy(data.positionListData, 'libelle');
 			data.actionListData = _.sortBy(data.actionListData, 'libelle');
+			data.performanceListData = _.sortBy(data.performanceListData, 'id_action');
 			data.resultatListData = _.sortBy(data.resultatListData, 'performance').reverse();
 		};
 

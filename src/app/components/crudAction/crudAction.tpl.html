@@ -46,7 +46,7 @@
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : !monFormAction.positionList.$modelValue && alertesAction}">
 						<label for="positionList" class="control-label">Position</label>
-						<select id="positionList" name="positionList" size="1" class="form-control" ng-model="itemAdd.id_position">
+						<select id="positionList" name="positionList" size="1" class="form-control" ng-model="itemAdd.id_position" convert-to-number>
 							<option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option>
 						</select>
 						<div ng-if="!monFormAction.positionList.$modelValue && alertesAction" class="alert alert-warning" role="alert">

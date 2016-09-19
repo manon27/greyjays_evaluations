@@ -39,10 +39,11 @@
 		*/
 		MonService.prototype.cleanDatas = function() {
 			_.each(this.all, function(resultat) {
-				resultat.id = parseInt(resultat.id,10);
-				resultat.id_action = parseInt(resultat.id_action,10);
-				resultat.id_joueur = parseInt(resultat.id_joueur,10);
-				resultat.performance=parseInt(resultat.performance,10);
+				resultat.id 		= parseInt(resultat.id,10);
+				resultat.id_action 	= parseInt(resultat.id_action,10);
+				resultat.id_joueur 	= parseInt(resultat.id_joueur,10);
+				resultat.performance= parseInt(resultat.performance,10);
+				resultat.test		= parseInt(resultat.test,10);
 				var laNote = PerformanceService.getNote(resultat.id_action, resultat.performance);
 				if (angular.isNumber(laNote)) {
 					var aNote = [];

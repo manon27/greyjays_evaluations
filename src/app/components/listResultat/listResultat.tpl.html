@@ -1,12 +1,13 @@
 <div class="panel panel-default">
 	<div class="panel-heading"><span class="glyphicon glyphicon-tasks"></span> Résultats <span class="badge">{{items.length}}</div>
 	<div class="panel-body">
+		<a ng-click="afficherAjout()" class="btn btn-default" ng-class="{'disabled' : joueurSelected.length<1 || actionSelected.length<1}" title="Ajouter un résultat"><span class="glyphicon glyphicon-plus"></span></a>
 		<table class="table table-hover table-condensed table-striped">
 			<thead>
 				<tr>
-					<th ng-if="!joueurSelected">Joueur</th>
-					<th ng-if="!actionSelected">Action</th>
-					<th ng-if="!positionSelected">Position</th>
+					<th ng-if="joueurSelected.length!=1">Joueur</th>
+					<th ng-if="actionSelected.length!=1">Action</th>
+					<th ng-if="positionSelected.length!=1">Position</th>
 					<th>Date</th>
 					<th>Performance</th>
 					<th>Note</th>
@@ -14,9 +15,9 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in pageItems()">
-					<td ng-if="!joueurSelected">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
-					<td ng-if="!actionSelected">{{item.action.libelle}}</td>
-					<td ng-if="!positionSelected">{{item.action.position.description}}</td>
+					<td ng-if="joueurSelected.length!=1">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
+					<td ng-if="actionSelected.length!=1">{{item.action.libelle}}</td>
+					<td ng-if="positionSelected.length!=1">{{item.action.position.description}}</td>
 					<td>{{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
 					<td>{{item.performance}}</td>
 					<td>
@@ -28,6 +29,57 @@
 				</tr>
 			</tbody>
 		</table>
+		<div ng-if="affichage.add">
+			<div class="panel panel-default">
+  				<div class="panel-heading">
+  					<span ng-if="affichage.add">Ajouter un résultat</span>
+				</div>
+				<div class="panel-body">
+					<form name="monFormResultat" ng-submit="enregistrer(monFormResultat.$valid)" novalidate>
+					<input type="hidden" ng-model="itemAdd.id" />
+					<div class="form-group">
+						<label for="actionList" class="control-label">Action</label>
+						<input type="hidden" name="id_action" ng-model="itemAdd.action.id" />{{itemAdd.action.libelle}}
+					</div>
+					<div class="form-group">
+						<label for="joueurList" class="control-label">Joueur</label>
+						<input type="hidden" name="id_joueur" ng-model="itemAdd.joueur.id" />{{itemAdd.joueur.prenom}} {{itemAdd.joueur.nom}}
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormResultat.dateRealisationField.$invalid && alertesResultat}">
+						<label for="dateRealisationField" class="control-label">Date réalisation</label>
+						<input id="dateRealisationField" name="dateRealisationField" class="form-control" type="datetime-local" ng-model="itemAdd.date_realisation" required="true" />
+						<div ng-if="monFormResultat.dateRealisationField.$invalid && alertesResultat" ng-messages="monFormResultat.dateRealisationField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">La date de réalisation est obligatoire.</p>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : monFormResultat.performanceField.$invalid && alertesResultat}">
+						<label for="performanceField" class="control-label">Performance</label>
+						<input id="performanceField" name="performanceField" class="form-control" type="number" class="form-control" ng-model="itemAdd.performance" placeholder="Performance" required="true" min="0" />
+						<div ng-if="monFormResultat.performanceField.$invalid && alertesResultat" ng-messages="monFormResultat.performanceField.$error" class="alert alert-warning" role="alert">
+							<p ng-message="required">La performance est obligatoire.</p>
+							<p ng-message="min">La performance est supérieure ou égale à 0.</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="testField1" class="radio-inline">
+						<input id="testField1" name="testField" type="radio" ng-model="itemAdd.test" value="0" />Entraînement
+						</label>
+						<label for="testField2" class="radio-inline">
+						<input id="testField2" name="testField" type="radio" ng-model="itemAdd.test" value="1" />Match
+						</label>
+					</div>
+					<div class="btn-group btn-group-justified" role="group" aria-label="...">
+						<div class="btn-group" role="group">
+							<button type="submit" class="btn btn-primary">Enregistrer</button>
+						</div>
+						<div class="btn-group" role="group">
+							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-sm-4">
 				<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
