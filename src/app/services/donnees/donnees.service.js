@@ -20,8 +20,10 @@
 		this.dataSets = {};
 
 		/**
-		@name 	updateDataSets
-		@desc 	fonction pour alimenter le jeu de données
+		@name 		updateDataSets
+		@desc 		fonction pour alimenter le jeu de données
+		@param 		filterData : données de filtre
+		@return 	void
 		*/
 		this.updateDataSets = function(filterData) {
 
@@ -39,17 +41,6 @@
 			data.positionListData = lesPositions;
 			data.resultatListData = lesResultats;
 			
-			/*
-			if (lesPositions.length===0) { // pas de données ou pas de connexion
-				if (localStorageService.get('positions') !== null) { // presence dans le localstorage
-					lesPositions=localStorageService.get('positions');
-				}
-			}
-			data.positionListData = lesPositions;
-			if (localStorageService.isSupported) {
-				localStorageService.set('positions', lesPositions);
-			}
-			*/
 			// si le filtre est initialise -> superFiltre !
 			if (typeof(filterData) !== 'undefined') {
 				this.filtrer(filterData);
@@ -64,6 +55,7 @@
 		/**
 		@name	actionListData
 		@desc 	ajout la propriété type dans les objets
+		@param 	actions
 		*/
 		this.actionListData = function(actions) {
 			if (typeof actions === 'undefined') {
@@ -78,6 +70,7 @@
 		/**
 		@name	joueurListData
 		@desc 	ajout la propriété type dans les objets
+		@param 	joueurs
 		*/
 		this.joueurListData = function(joueurs) {
 			if (typeof joueurs === 'undefined') {
@@ -92,6 +85,7 @@
 		/**
 		@name	performanceListData
 		@desc 	ajout la propriété type dans les objets
+		@param 	performances
 		*/
 		this.performanceListData = function(performances) {
 			if (typeof performances === 'undefined') {
@@ -106,6 +100,7 @@
 		/**
 		@name	positionListData
 		@desc 	ajout la propriété type dans les objets
+		@param 	positions
 		*/
 		this.positionListData = function(positions) {
 			if (typeof positions === 'undefined') {
@@ -120,6 +115,7 @@
 		/**
 		@name	resultatListData
 		@desc 	ajout la propriété type dans les objets
+		@param 	resultats
 		*/
 		this.resultatListData = function(resultats) {
 			if (typeof resultats === 'undefined') {
@@ -131,6 +127,12 @@
 			return resultats;
 		};
 
+		/**
+		@name 	filtrer
+		@desc 	filtre les datas enfonction du filtre
+		@param 	filterData
+		@return void
+		*/
 		this.filtrer = function(filterData) {
 			var component = this;
 			var aJoueurs = [];
@@ -197,6 +199,14 @@
 
 		};
 
+		/**
+		@name		propager
+		@desc 		propagation générique
+		@param		donneesDepuis
+		@param		ModelService
+		@param		functionModel
+		@return 	
+		*/
 		this.propager = function(donneesDepuis, ModelService, functionModel) {
 			return ModelService[functionModel](_.pluck(donneesDepuis, 'id'));
 		};
