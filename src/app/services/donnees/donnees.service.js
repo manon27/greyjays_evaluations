@@ -14,7 +14,7 @@
 	*/
 
 	/** @ngInject */
-	function DonneesService(ActionService, JoueurService, PerformanceService, PositionService, ResultatService, localStorageService, _) {
+	function DonneesService(ActionService, JoueurService, PerformanceService, PositionService, ResultatService, _) {
 
 		/* jeu de donnees : dataSets */
 		this.dataSets = {};
