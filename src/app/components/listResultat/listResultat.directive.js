@@ -30,9 +30,19 @@
 		function linkF(scope) {
 
 			scope.items = scope.items || [];
+			scope.maxSize = 5;
+			scope.itemsPerPage = 20;
+			scope.currentPage = 1;
+			scope.count = 1000;
 
-			scope.$watch('items', function(newVal) {
-				_.each(newVal, function(val) {
+			/**
+			@name		watcher
+			@desc 		surveille les modifications sur les items
+			@param		newList	nouvelle valeur
+			@return 	void
+			*/	
+			scope.$watch('items', function(newList) {
+				_.each(newList, function(val) {
 					var laNote = PerformanceService.getNote(val.id_action, val.performance);
 					var aStars = [];
 					if (laNote != '???') {
@@ -42,13 +52,14 @@
 					}
 					val.maNote = aStars;
 				});
-				scope.count = newVal.length;
+				scope.count = newList.length;
 			});
 			
-			scope.maxSize = 5;
-			scope.itemsPerPage = 20;
-			scope.currentPage = 1;
-			scope.count = 1000;
+			/**
+			@name		pageItems
+			@desc 		liste des items en fonction de la pagination
+			@return 	lesItems à afficher
+			*/	
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);

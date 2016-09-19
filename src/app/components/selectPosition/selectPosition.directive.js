@@ -30,7 +30,9 @@
 
 			/**
 			@name		selectionner
-			@desc 		
+			@desc 		filtre des donnees selon la position
+			@param 		item : position selectionnée
+			@return 	void
 			*/
 			scope.selectionner = function(item) {
 				scope.$parent.filterData.positionIds.push(item.id);
@@ -39,6 +41,11 @@
 				$rootScope.$broadcast('refresh');
 			};
 
+			/**
+			@name		deselectionner
+			@desc 		supprimer le filtre des donnees selon la position
+			@return 	void
+			*/
 			scope.deselectionner = function() {
 				scope.$parent.filterData.positionIds=[];
 				scope.selected=false;

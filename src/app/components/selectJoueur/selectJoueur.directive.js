@@ -29,6 +29,12 @@
 
 			scope.items = scope.items || [];
 
+			/**
+			@name		selectionner
+			@desc 		filtre des donnees selon le joueur
+			@param 		item : joueur selectionné
+			@return 	void
+			*/
 			scope.selectionner = function(item) {
 				scope.$parent.filterData.joueurIds.push(item.id);
 				scope.selected=true;
@@ -36,6 +42,11 @@
 				$rootScope.$broadcast('refresh');
 			};
 
+			/**
+			@name		deselectionner
+			@desc 		supprimer le filtre des donnees selon la position
+			@return 	void
+			*/
 			scope.deselectionner = function() {
 				scope.$parent.filterData.joueurIds=[];
 				scope.selected=false;

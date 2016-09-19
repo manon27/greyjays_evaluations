@@ -31,7 +31,9 @@
 
 			/**
 			@name		selectionner
-			@desc 		
+			@desc 		filtre des donnees selon l action
+			@param 		item : action selectionnée
+			@return 	void
 			*/
 			scope.selectionner = function(item) {
 				scope.$parent.filterData.actionIds.push(item.id);
@@ -40,6 +42,11 @@
 				$rootScope.$broadcast('refresh');
 			};
 
+			/**
+			@name		deselectionner
+			@desc 		supprimer le filtre des donnees selon l action
+			@return 	void
+			*/
 			scope.deselectionner = function() {
 				scope.$parent.filterData.actionIds=[];
 				scope.selected=false;
