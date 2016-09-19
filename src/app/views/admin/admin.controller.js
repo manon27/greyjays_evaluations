@@ -49,6 +49,11 @@
 			});
 		});
 
+		/**
+		@name		init
+		@desc 		actualisation des données via les services
+		@return 	void
+		*/
 		function init() {
 			var modelCount = 0;
 			var models = [
