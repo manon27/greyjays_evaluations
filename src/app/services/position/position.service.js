@@ -37,7 +37,11 @@
 		@name 		cleanDatas
 		@desc 		methode pour nettoyer les donnees json
 		*/
-		MonService.prototype.cleanDatas = function() {};
+		MonService.prototype.cleanDatas = function() {
+			_.each(this.all, function(position) {
+				position.id = parseInt(position.id,10);
+			});
+		};
 
 		/**
 		@name 		filtrerParId

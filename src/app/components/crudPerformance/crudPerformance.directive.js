@@ -32,6 +32,7 @@
 			scope.affichage.upd=false;
 			scope.affichage.liste=true;
 			scope.items = scope.items || [];
+			scope.itemsF = [];
 			scope.itemAdd = {};
 			scope.allActions = ActionService.all;
 			scope.actionSel = "-1";

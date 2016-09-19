@@ -39,6 +39,8 @@
 		*/
 		MonService.prototype.cleanDatas = function() {
 			_.each(this.all, function(performance) {
+				performance.id = parseInt(performance.id,10);
+				performance.id_action = parseInt(performance.id_action,10);
 				performance.note = parseInt(performance.note,10);
 				performance.min = parseInt(performance.min,10);
 				performance.max = parseInt(performance.max,10);
@@ -102,7 +104,7 @@
 						return false;
 					}
 					return _.find(actionIds, function(idItem) {
-						return _.contains(item.id_action, idItem);
+						return item.id_action === idItem;
 					});
 				});
 			}

@@ -39,6 +39,9 @@
 		*/
 		MonService.prototype.cleanDatas = function() {
 			_.each(this.all, function(resultat) {
+				resultat.id = parseInt(resultat.id,10);
+				resultat.id_action = parseInt(resultat.id_action,10);
+				resultat.id_joueur = parseInt(resultat.id_joueur,10);
 				resultat.performance=parseInt(resultat.performance,10);
 				var laNote = PerformanceService.getNote(resultat.id_action, resultat.performance);
 				if (angular.isNumber(laNote)) {
@@ -127,7 +130,7 @@
 						return false;
 					}
 					return _.find(actionIds, function(idItem) {
-						return _.contains(item.id_action, idItem);
+						return item.id_action === idItem;
 					});
 				});
 			}
@@ -149,7 +152,7 @@
 						return false;
 					}
 					return _.find(joueurIds, function(idItem) {
-						return _.contains(item.id_joueur, idItem);
+						return item.id_joueur === idItem;
 					});
 				});
 			}

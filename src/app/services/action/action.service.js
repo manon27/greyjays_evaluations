@@ -37,7 +37,12 @@
 		@name 		cleanDatas
 		@desc 		methode pour nettoyer les donnees json
 		*/
-		MonService.prototype.cleanDatas = function() {};
+		MonService.prototype.cleanDatas = function() {
+			_.each(this.all, function(action) {
+				action.id = parseInt(action.id,10);
+				action.id_position = parseInt(action.id_position,10);
+			});
+		};
 
 		/**
 		@name 		linkModels
@@ -96,7 +101,7 @@
 						return false;
 					}
 					return _.find(positionIds, function(idItem) {
-						return _.contains(item.id_position, idItem);
+						return item.id_position === idItem;
 					});
 				});
 			}

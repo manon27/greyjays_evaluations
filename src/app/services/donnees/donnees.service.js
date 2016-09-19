@@ -159,6 +159,8 @@
 				aJoueurs = component.dataSets.joueurListData;
 			}
 
+			aResultats = component.dataSets.resultatListData;
+
 			//	si selection du joueur ==> filtre des resultats
 			if ((aJoueurs.length === 1) && (aResultats.length > 1)) {
 				aResultats = component.propager(
@@ -187,10 +189,8 @@
 			}
 
 			aPerformances = component.propager(aActions, PerformanceService, "filtrerParActions");
-			aResultats = component.dataSets.resultatListData;
 			aResultats = _.intersection(aResultats, component.propager(aActions, ResultatService, "filtrerParActions"));
-			aResultats = _.intersection(aResultats, component.propager(aJoueurs, ResultatService, "filtrerParJoueurs"));
-
+			
 			this.dataSets.joueurListData = aJoueurs;
 			this.dataSets.positionListData = aPositions;
 			this.dataSets.actionListData = aActions;

@@ -39,6 +39,7 @@
 		*/
 		MonService.prototype.cleanDatas = function() {
 			_.each(this.all, function(joueur) {
+				joueur.id = parseInt(joueur.id,10);
 				joueur.poids = parseInt(joueur.poids,10);
 				joueur.taille = parseInt(joueur.taille,10);
 			});
