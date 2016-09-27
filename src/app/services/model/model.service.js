@@ -145,6 +145,7 @@
 			item.date_modification = new Date();
 			if (typeof item.id === 'undefined') {
 				// creation => POST
+				item.date_creation = new Date();
 				requeteHttp = $http({
 					url: self.url,
 					method: 'POST',
