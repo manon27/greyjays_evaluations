@@ -30,3 +30,9 @@ footer img {
 .stars {
 	color: #D02630;
 }
+.requis {
+	text-align: center;
+	font-style: italic;
+	font-size: 0.8em;
+	padding-top: 15px;
+}
