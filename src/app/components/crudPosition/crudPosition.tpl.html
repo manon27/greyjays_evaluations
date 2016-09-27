@@ -36,17 +36,17 @@
 				<div class="panel-body">
 					<form name="monFormPosition" ng-submit="enregistrer(monFormPosition.$valid)" novalidate>
 					<input type="hidden" ng-model="itemAdd.id" />
-					<div class="form-group" ng-class="{ 'has-error' : monFormPosition.libelleField.$invalid && !monFormPosition.libelleField.$pristine && alertesPosition}">
+					<div class="form-group" ng-class="{ 'has-error' : monFormPosition.libelleField.$invalid && alertesPosition}">
 						<label for="libelleField">Libellé</label>
 						<input id="libelleField" name="libelleField" class="form-control" type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
-						<div ng-if="alertesPosition" ng-messages="monFormPosition.libelleField.$error" class="alert alert-warning" role="alert">
+						<div ng-if="monFormPosition.libelleField.$invalid && alertesPosition" ng-messages="monFormPosition.libelleField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">Le libellé est obligatoire.</p>
 						</div>
 					</div>
-					<div class="form-group" ng-class="{ 'has-error' : monFormPosition.descriptionField.$error && alertesPosition}">
+					<div class="form-group" ng-class="{ 'has-error' : monFormPosition.descriptionField.$invalid && alertesPosition}">
 						<label for="descriptionField">Description</label>
 						<input id="descriptionField" name="descriptionField" class="form-control" type="text" ng-model="itemAdd.description" placeholder="Description" required="true" />
-						<div ng-if="alertesPosition" ng-messages="monFormPosition.descriptionField.$error" class="alert alert-warning" role="alert">
+						<div ng-if="monFormPosition.descriptionField.$invalid && alertesPosition" ng-messages="monFormPosition.descriptionField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">La description est obligatoire.</p>
 						</div>
 					</div>
