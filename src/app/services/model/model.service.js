@@ -15,7 +15,7 @@
 	*/
 
 	/** @ngInject */
-	function ModelService($rootScope, $http, $filter, $httpParamSerializer, localStorageService, _) {
+	function ModelService($rootScope, $http, $filter, $httpParamSerializer, _) {
 
 		/**
 		@name	MonService
