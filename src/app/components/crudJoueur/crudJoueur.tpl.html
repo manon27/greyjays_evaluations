@@ -32,7 +32,7 @@
 			
 		</div>
 		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
   				<div class="panel-heading">
   					<span ng-if="affichage.add">Ajouter...</span>
 					<span ng-if="affichage.upd">Modifier...</span>
@@ -41,21 +41,21 @@
 					<form name="monFormJoueur" ng-submit="enregistrer(monFormJoueur.$valid)" novalidate>
 					<input type="hidden" ng-model="itemAdd.id" />
 					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.prenomField.$invalid && alertesJoueur}">
-						<label for="prenomField" class="control-label">Prénom</label>
+						<label for="prenomField" class="control-label">Prénom *</label>
 						<input id="prenomField" name="prenomField" class="form-control" type="text" ng-model="itemAdd.prenom" placeholder="Prénom" required="true" />
 						<div ng-if="monFormJoueur.prenomField.$invalid && alertesJoueur" ng-messages="monFormJoueur.prenomField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">Le prénom est obligatoire.</p>
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.nomField.$invalid && alertesJoueur}">
-						<label for="nomField" class="control-label">Nom</label>
+						<label for="nomField" class="control-label">Nom *</label>
 						<input id="nomField" name="nomField" class="form-control" type="text" ng-model="itemAdd.nom" placeholder="Nom" required="true" />
 						<div ng-if="monFormJoueur.nomField.$invalid && alertesJoueur" ng-messages="monFormJoueur.nomField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">Le nom est obligatoire.</p>
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.emailField.$invalid && alertesJoueur}">
-						<label for="emailField" class="control-label">E-mail</label>
+						<label for="emailField" class="control-label">E-mail *</label>
 						<input id="emailField" name="emailField" class="form-control" type="email" ng-model="itemAdd.email" placeholder="E-mail" required="true" />
 						<div ng-if="monFormJoueur.emailField.$invalid && alertesJoueur" ng-messages="monFormJoueur.emailField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">L'e-mail est obligatoire.</p>
@@ -63,14 +63,14 @@
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.diField.$invalid && alertesJoueur}">
-						<label for="diField" class="control-label">Date inscription</label>
+						<label for="diField" class="control-label">Date inscription *</label>
 						<input id="diField" name="diField" class="form-control" type="date" ng-model="itemAdd.date_inscription" required="true" />
 						<div ng-if="monFormJoueur.diField.$invalid && alertesJoueur" ng-messages="monFormJoueur.diField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">La date d'inscription est obligatoire.</p>
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : monFormJoueur.dnField.$invalid && alertesJoueur}">
-						<label for="dnField" class="control-label">Date naissance</label>
+						<label for="dnField" class="control-label">Date naissance *</label>
 						<input id="dnField" name="dnField" class="form-control" type="date" ng-model="itemAdd.date_naissance" required="true" />
 						<div ng-if="monFormJoueur.dnField.$invalid && alertesJoueur" ng-messages="monFormJoueur.dnField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">La date de naissance est obligatoire.</p>
@@ -92,6 +92,7 @@
 							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
 						</div>
 					</div>
+					<p class="requis">* : champs obligatoire</p>
 					</form>
 				</div>
 			</div>

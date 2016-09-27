@@ -29,7 +29,7 @@
 			
 		</div>
 		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
   				<div class="panel-heading">
   					<span ng-if="affichage.add">Ajouter...</span>
 					<span ng-if="affichage.upd">Modifier...</span>
@@ -38,14 +38,14 @@
 					<form name="monFormAction" ng-submit="enregistrer(monFormAction.$valid)" novalidate>
 					<input type="hidden" ng-model="itemAdd.id" />
 					<div class="form-group" ng-class="{ 'has-error' : monFormAction.libelleField.$invalid && alertesAction}">
-						<label for="libelleField" class="control-label">Libellé</label>
+						<label for="libelleField" class="control-label">Libellé *</label>
 						<input id="libelleField" name="libelleField" class="form-control" type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
 						<div ng-if="monFormAction.libelleField.$invalid && alertesAction" ng-messages="monFormAction.libelleField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">Le libellé est obligatoire.</p>
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : !monFormAction.positionList.$modelValue && alertesAction}">
-						<label for="positionList" class="control-label">Position</label>
+						<label for="positionList" class="control-label">Position *</label>
 						<select id="positionList" name="positionList" size="1" class="form-control" ng-model="itemAdd.id_position" convert-to-number>
 							<option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option>
 						</select>
@@ -61,6 +61,7 @@
 							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
 						</div>
 					</div>
+					<p class="requis">* : champs obligatoire</p>
 					</form>
 				</div>
 			</div>

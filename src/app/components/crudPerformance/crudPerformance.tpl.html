@@ -29,7 +29,7 @@
 			
 		</div>
 		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
   				<div class="panel-heading">
   					<span ng-if="affichage.add">Ajouter...</span>
 					<span ng-if="affichage.upd">Modifier...</span>
@@ -38,7 +38,7 @@
 					<form name="monFormPerformance" ng-submit="enregistrer(monFormPerformance.$valid)" novalidate>
 					<input type="hidden" ng-model="itemAdd.id" />
 					<div class="form-group" ng-class="{ 'has-error' : monFormPerformance.noteField.$invalid && alertesPerformance}">
-						<label for="noteField" class="control-label">Note {{item.note}}</label>
+						<label for="noteField" class="control-label">Note *</label>
 						<input id="noteField" name="noteField" class="form-control" type="number" ng-model="itemAdd.note" placeholder="Note" required="true" min="1" max="5" />
 						<div ng-if="monFormPerformance.noteField.$invalid && alertesPerformance" ng-messages="monFormPerformance.noteField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="min">La note doit être supérieure ou égale à 1.</p>
@@ -47,7 +47,7 @@
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : monFormPerformance.minField.$invalid && alertesPerformance }">
-						<label for="minField" class="control-label">Min</label>
+						<label for="minField" class="control-label">Min *</label>
 						<input id="minField" name="minField" class="form-control" type="number" ng-model="itemAdd.min" placeholder="Min" required="true" min="0" />
 						<div ng-if="monFormPerformance.minField.$invalid && alertesPerformance" ng-messages="monFormPerformance.minField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="min">Le min doit être supérieure ou égale à 0.</p>
@@ -55,7 +55,7 @@
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : monFormPerformance.maxField.$invalid && alertesPerformance }">
-						<label for="maxField" class="control-label">Max</label>
+						<label for="maxField" class="control-label">Max *</label>
 						<input id="maxField" name="maxField" class="form-control" type="number" ng-model="itemAdd.max" placeholder="Max" required="true" min="0" />
 						<div ng-if="monFormPerformance.maxField.$invalid && alertesPerformance" ng-messages="monFormPerformance.maxField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="min">Le max doit être supérieure ou égale à 0.</p>
@@ -63,7 +63,7 @@
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : !monFormPerformance.actionList.$modelValue  && alertesPerformance}">
-						<label for="actionList" class="control-label">Action</label>
+						<label for="actionList" class="control-label">Action *</label>
 						<select id="actionList" name="actionList" class="form-control" size="1" ng-model="itemAdd.id_action" convert-to-number>
 							<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>
 						</select>
@@ -79,6 +79,7 @@
 							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
 						</div>
 					</div>
+					<p class="requis">* : champs obligatoire</p>
 					</form>
 				</div>
 			</div>

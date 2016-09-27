@@ -47,7 +47,7 @@
 			
 		</div>
 		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
-			<div class="panel panel-default">
+			<div class="panel panel-primary">
   				<div class="panel-heading">
   					<span ng-if="affichage.add">Ajouter...</span>
 					<span ng-if="affichage.upd">Modifier...</span>
@@ -56,7 +56,7 @@
 					<form name="monFormResultat" ng-submit="enregistrer(monFormResultat.$valid)" novalidate>
 					<input type="hidden" ng-model="itemAdd.id" />
 					<div class="form-group" ng-class="{ 'has-error' : !monFormResultat.actionList.$modelValue && alertesResultat}">
-						<label for="actionList" class="control-label">Action</label>
+						<label for="actionList" class="control-label">Action *</label>
 						<select id="actionList" name="actionList" class="form-control" size="1" ng-model="itemAdd.id_action" convert-to-number>
 							<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>
 						</select>
@@ -65,7 +65,7 @@
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : !monFormResultat.joueurList.$modelValue && alertesResultat}">
-						<label for="joueurList" class="control-label">Joueur</label>
+						<label for="joueurList" class="control-label">Joueur *</label>
 						<select id="joueurList" name="joueurList" class="form-control" size="1" ng-model="itemAdd.id_joueur" convert-to-number>
 							<option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option>
 						</select>
@@ -74,14 +74,14 @@
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : monFormResultat.dateRealisationField.$invalid && alertesResultat}">
-						<label for="dateRealisationField" class="control-label">Date réalisation</label>
+						<label for="dateRealisationField" class="control-label">Date réalisation *</label>
 						<input id="dateRealisationField" name="dateRealisationField" class="form-control" type="datetime-local" ng-model="itemAdd.date_realisation" required="true" />
 						<div ng-if="monFormResultat.dateRealisationField.$invalid && alertesResultat" ng-messages="monFormResultat.dateRealisationField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">La date de réalisation est obligatoire.</p>
 						</div>
 					</div>
 					<div class="form-group" ng-class="{ 'has-error' : monFormResultat.performanceField.$invalid && alertesResultat}">
-						<label for="performanceField" class="control-label">Performance</label>
+						<label for="performanceField" class="control-label">Performance *</label>
 						<input id="performanceField" name="performanceField" class="form-control" type="number" class="form-control" ng-model="itemAdd.performance" placeholder="Performance" required="true" min="0" />
 						<div ng-if="monFormResultat.performanceField.$invalid && alertesResultat" ng-messages="monFormResultat.performanceField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">La performance est obligatoire.</p>
@@ -104,6 +104,7 @@
 							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
 						</div>
 					</div>
+					<p class="requis">* : champs obligatoire</p>
 					</form>
 				</div>
 			</div>
