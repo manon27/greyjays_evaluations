@@ -10,6 +10,7 @@
 					<th ng-if="positionSelected.length!=1">Position</th>
 					<th>Date</th>
 					<th>Performance</th>
+					<th>Contexte</th>
 					<th>Note</th>
 				</tr>
 			</thead>
@@ -20,6 +21,7 @@
 					<td ng-if="positionSelected.length!=1">{{item.action.position.description}}</td>
 					<td>{{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
 					<td>{{item.performance}}</td>
+					<td>{{item.test | formaterContexte}}</td>
 					<td>
 						<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
 						<div ng-if="item.maNote!='???'">

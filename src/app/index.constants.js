@@ -10,7 +10,7 @@
 		}
 	};
 
-	var AUTH_ROLES = {public: "public", user: "user", admin: "admin"};
+	var AUTH_ROLES = {joueur: "joueur", evaluateur: "evaluateur", coach: "coach"};
 
 	angular
 		.module('greyjays.evaluations')

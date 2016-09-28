@@ -13,12 +13,15 @@
 		login.user = {};
 
 		login.connecter = function() {
-			if ((login.user.username === 'admin') && (login.user.password === 'admin')) {
-				SessionService.create(123456789,12,"admin");
-				$location.url('/admin');
-			} else if ((login.user.username === 'user') && (login.user.password === 'user')) {
-				SessionService.create(123456789,12,"user");
-				$location.url('/main');
+			if ((login.user.username === 'coach') && (login.user.password === '123456')) {
+				SessionService.create(123456789,12,"coach");
+				$location.url('/coach');
+			} else if ((login.user.username === 'evaluateur') && (login.user.password === '123456')) {
+				SessionService.create(123456789,12,"evaluateur");
+				$location.url('/evaluateur');
+			} else if ((login.user.username === 'joueur') && (login.user.password === '123456')) {
+				SessionService.create(123456789,12,"joueur");
+				$location.url('/joueur');
 			} else {
 				$location.url('/login');
 			}

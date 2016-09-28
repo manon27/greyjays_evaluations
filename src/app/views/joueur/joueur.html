@@ -1,0 +1,17 @@
+<mon-header></mon-header>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-12">
+			<uib-accordion>
+				<select-joueur items="donneesService.dataSets.joueurListData" selected="filterData.joueurIds.length>0"></select-joueur>
+				<br/>
+				<select-position items="donneesService.dataSets.positionListData" selected="filterData.positionIds.length>0"></select-position>
+				<br/>
+				<select-action items="donneesService.dataSets.actionListData" selected="filterData.actionIds.length>0"></select-action>
+				<br/>
+				<list-resultat items="donneesService.dataSets.resultatListData" joueur-selected="filterData.joueurIds" position-selected="filterData.positionIds" action-selected="filterData.actionIds" le-service="resultatService"></list-resultat>
+			</uib-accordion>
+		</div>
+	</div>
+</div>
+<mon-footer></mon-footer>

@@ -31,14 +31,11 @@
 								<span class="glyphicon glyphicon-star stars" ng-repeat="star in item.maNote"></span>
 							</div>
 						</td>
-						<td>
-							<span ng-if="item.test=='0'" class="glyphicon glyphicon-eye-close" title="Entraînement"></span>
-							<span ng-if="item.test=='1'" class="glyphicon glyphicon-eye-open" style="color:green" title="Match"></span>
-						</td>
+						<td>{{item.test | formaterContexte}}</td>
 						<td>
 							<div class="btn-group">
-							<a class="btn btn-default btn-xs" ng-click="afficherModification(item)" title="Modifier ce résultat"><span class="glyphicon glyphicon-edit"></span></a>
-							<a class="btn btn-primary btn-xs" ng-click="effacer(item)" title="Supprimer ce résultat"><span class="glyphicon glyphicon-trash"></span></a>
+							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier ce résultat"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer ce résultat"><span class="glyphicon glyphicon-trash"></span></a>
 							</div>
 						</td>
 					</tr>
