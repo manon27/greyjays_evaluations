@@ -13,6 +13,7 @@
 CREATE TABLE `action` (
   `id` int(11) NOT NULL,
   `libelle` varchar(250) NOT NULL,
+  `description` varchar(1000) NOT NULL,
   `id_position` int(11) NOT NULL,
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
