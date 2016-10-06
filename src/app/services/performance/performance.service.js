@@ -137,6 +137,33 @@
 			return maNote;
 		};
 
+		/**
+		@name 		getLibelle
+		@desc 		obtenir le libellé pour une action et une perf données
+		@param 		
+		@returns 	Note
+		*/
+		MonService.prototype.getLibelle = function(actionId, noteVal) {
+			var monLibelle = '???';
+			_.each(this.all, function(item) {
+				if (item.id_action === actionId) {
+					var maVal = parseInt(noteVal,10);
+					var min = item.min;
+					var max = item.max;
+					if (min > max) {
+						if ((maVal >= max) && (maVal <= min)) {
+							monLibelle = item.libelle;
+						}
+					} else {
+						if ((maVal <= max) && (maVal >= min)) {
+							monLibelle = item.libelle;
+						}
+					}
+				}
+			});
+			return monLibelle;
+		};
+
 		return new MonService();
 	}
 

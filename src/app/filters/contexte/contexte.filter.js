@@ -3,16 +3,20 @@
 
 	angular
 		.module('greyjays.evaluations')
-		.filter('formaterContexte', formaterContexte);
+		.filter('formaterTexte', formaterTexte);
 
 	/** @ngInject */
-	function formaterContexte() {
-		return function(input) {
+	function formaterTexte() {
+		return function(input, champs) {
 			var str = '';
 			if (input === 0) {
-				str += 'Entraînement';
+				if (champs === 'inmatch') str += 'Entraînement';
+				if (champs === 'mesurable') str += 'Non';
 			} else if (input === 1) {
-				str += 'Match';
+				if (champs === 'inmatch') str += 'Match';
+				if (champs === 'mesurable') str += 'Oui (+)';
+			} else if (input === 2) {
+				if (champs === 'mesurable') str += 'Oui (-)';
 			}
 			return str;
 		};

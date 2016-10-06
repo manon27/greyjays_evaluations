@@ -13,12 +13,13 @@
 	*/
 
 	/** @ngInject */
-	function crudAction(PositionService, _) {
+	function crudAction(_) {
 		var directive = {
 			restrict: 'E',
 			scope: {
 				items: '=',
-				leService: '='
+				leService: '=',
+				allPositions: '='
 			},
 			templateUrl: 'app/components/crudAction/crudAction.tpl.html',
 			link: linkF
@@ -34,7 +35,6 @@
 			scope.items = scope.items || [];
 			scope.itemsF = [];
 			scope.itemAdd = {};
-			scope.allPositions = PositionService.all;
 			scope.positionSel = "-1";
 			scope.maxSize = 5;
 			scope.itemsPerPage = 20;
@@ -100,6 +100,8 @@
 			scope.afficherAjout = function() {
 				scope.alertesAction=false;
 				scope.itemAdd = {};
+				scope.itemAdd.mesurable = 0;
+				scope.itemAdd.id_position="";
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
 			};

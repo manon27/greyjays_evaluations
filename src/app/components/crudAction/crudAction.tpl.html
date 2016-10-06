@@ -8,6 +8,8 @@
 					<tr>
 						<th>#</th>
 						<th>Libellé</th>
+						<th>Description</th>
+						<th>Mesurable</th>
 						<th>Position</th>
 						<th>Actions</th>
 					</tr>
@@ -16,6 +18,8 @@
 					<tr ng-repeat="item in pageItems()">
 						<td>{{item.id}}</td>
 						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette action">{{item.libelle}}</a></td>
+						<td ng-attr-title="{{item.description}}">...</td>
+						<td>{{item.mesurable | formaterTexte : 'mesurable'}}</td>
 						<td>{{item.position.libelle}} : {{item.position.description}}</td>
 						<td>
 							<div class="btn-group">
@@ -44,9 +48,25 @@
 							<p ng-message="required">Le libellé est obligatoire.</p>
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="descriptionField" class="control-label">Description</label>
+						<textarea id="descriptionField" name="descriptionField" class="form-control" type="text" ng-model="itemAdd.description"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="mesurableField1" class="radio-inline">
+						<input id="mesurableField1" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="0" />Non mesurable
+						</label><br/>
+						<label for="mesurableField2" class="radio-inline">
+						<input id="mesurableField2" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="1" />Mesurable (croissant)
+						</label><br/>
+						<label for="mesurableField3" class="radio-inline">
+						<input id="mesurableField3" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="2" />Mesurable (décroissant)
+						</label>
+					</div>
 					<div class="form-group" ng-class="{ 'has-error' : !monFormAction.positionList.$modelValue && alertesAction}">
 						<label for="positionList" class="control-label">Position *</label>
-						<select id="positionList" name="positionList" size="1" class="form-control" ng-model="itemAdd.id_position" convert-to-number>
+						<select id="positionList" name="positionList" size="1" class="form-control" ng-model="itemAdd.id_position" convert-to-number required="true">
+							<option value="">Choisir une position...</option>
 							<option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option>
 						</select>
 						<div ng-if="!monFormAction.positionList.$modelValue && alertesAction" class="alert alert-warning" role="alert">

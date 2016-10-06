@@ -41,6 +41,7 @@
 			_.each(this.all, function(action) {
 				action.id = parseInt(action.id,10);
 				action.id_position = parseInt(action.id_position,10);
+				action.mesurable = parseInt(action.mesurable,10);
 			});
 		};
 

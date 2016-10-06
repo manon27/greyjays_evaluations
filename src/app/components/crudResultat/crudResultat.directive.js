@@ -18,7 +18,9 @@
 			restrict: 'E',
 			scope: {
 				items: '=',
-				leService: '='
+				leService: '=',
+				allActions: '=',
+				allJoueurs: '='
 			},
 			templateUrl: 'app/components/crudResultat/crudResultat.tpl.html',
 			link: linkF
@@ -34,14 +36,14 @@
 			scope.items = scope.items || [];
 			scope.itemsF = [];
 			scope.itemAdd = {};
-			scope.allActions = ActionService.all;
-			scope.allJoueurs = JoueurService.all;				
 			scope.actionSel = "-1";
 			scope.joueurSel = "-1";				
 			scope.maxSize = 5;
 			scope.itemsPerPage = 20;
 			scope.currentPage = 1;
 			scope.count = 1000;
+			scope.affMesurable=false;
+			scope.allPerfs=[];
 
 			/**
 			@name		watcher
@@ -107,6 +109,32 @@
 			};
 
 			/**
+			@name		watcher
+			@desc 		surveille les modifications sur itemAdd.id_action
+						et change l'affichage de performance si mesurable ou pas
+			@param		newVal	nouvelle valeur
+			@return 	void
+			*/	
+			scope.$watch('itemAdd.id_action', function(newVal){
+				scope.allPerfs = [];
+				if (typeof scope.itemAdd.id === 'undefined') {
+					scope.itemAdd.performance="";
+				}
+				if ((typeof newVal !== 'undefined')&&(newVal!=='')) {
+					var monAction = ActionService.filtrerParId(newVal);
+					if (monAction.mesurable === 0) {
+						scope.affMesurable=false;
+						var aActs = [];
+						aActs.push(newVal);
+						scope.allPerfs = PerformanceService.filtrerParActions(aActs);
+					} else {
+						scope.affMesurable=true;
+					}
+				}
+				
+			});
+
+			/**
 			@name		pageItems
 			@desc 		liste des items en fonction de la pagination
 			@return 	lesItems à afficher
@@ -126,9 +154,13 @@
 				scope.alertesResultat=false;
 				scope.itemAdd = {};
 				scope.itemAdd.date_realisation = new Date();				
-				scope.itemAdd.test = 0;				
+				scope.itemAdd.inmatch = 0;				
+				scope.itemAdd.performance = "";				
+				scope.itemAdd.id_action = "";				
+				scope.itemAdd.id_joueur = "";				
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
+				scope.allPerfs = [];
 			};
 
 			/**

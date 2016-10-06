@@ -18,7 +18,8 @@
 			restrict: 'E',
 			scope: {
 				items: '=',
-				leService: '='
+				leService: '=',
+				allActions: '='
 			},
 			templateUrl: 'app/components/crudPerformance/crudPerformance.tpl.html',
 			link: linkF
@@ -34,7 +35,6 @@
 			scope.items = scope.items || [];
 			scope.itemsF = [];
 			scope.itemAdd = {};
-			scope.allActions = ActionService.all;
 			scope.actionSel = "-1";
 			scope.maxSize = 5;
 			scope.itemsPerPage = 20;
@@ -99,6 +99,7 @@
 			scope.afficherAjout = function() {
 				scope.alertesPerformance=false;
 				scope.itemAdd = {};
+				scope.itemAdd.id_action="";
 				scope.affichage.add=true;
 				scope.affichage.upd=false;
 			};

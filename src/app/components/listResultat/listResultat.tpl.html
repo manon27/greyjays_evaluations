@@ -21,7 +21,7 @@
 					<td ng-if="positionSelected.length!=1">{{item.action.position.description}}</td>
 					<td>{{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
 					<td>{{item.performance}}</td>
-					<td>{{item.test | formaterContexte}}</td>
+					<td>{{item.inmatch | formaterTexte : 'inmatch'}}</td>
 					<td>
 						<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
 						<div ng-if="item.maNote!='???'">
@@ -63,11 +63,11 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="testField1" class="radio-inline">
-						<input id="testField1" name="testField" type="radio" ng-model="itemAdd.test" value="0" />Entraînement
+						<label for="inmatchField1" class="radio-inline">
+						<input id="inmatchField1" name="inmatchField" type="radio" ng-model="itemAdd.inmatch" value="0" />Entraînement
 						</label>
-						<label for="testField2" class="radio-inline">
-						<input id="testField2" name="testField" type="radio" ng-model="itemAdd.test" value="1" />Match
+						<label for="inmatchField2" class="radio-inline">
+						<input id="inmatchField2" name="inmatchField" type="radio" ng-model="itemAdd.inmatch" value="1" />Match
 						</label>
 					</div>
 					<div class="btn-group btn-group-justified" role="group" aria-label="...">

@@ -16,7 +16,7 @@
 	*/
 
 	/** @ngInject */
-	function ResultatService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _, PerformanceService) {
+	function ResultatService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
 
 		/**
 		@name 		MonService
@@ -43,17 +43,7 @@
 				resultat.id_action 	= parseInt(resultat.id_action,10);
 				resultat.id_joueur 	= parseInt(resultat.id_joueur,10);
 				resultat.performance= parseInt(resultat.performance,10);
-				resultat.test		= parseInt(resultat.test,10);
-				var laNote = PerformanceService.getNote(resultat.id_action, resultat.performance);
-				if (angular.isNumber(laNote)) {
-					var aNote = [];
-					for (var i=0; i<laNote; i++) {
-						aNote.push(i);
-					}
-					resultat.maNote = aNote;
-				} else {
-					resultat.maNote = laNote;
-				}
+				resultat.inmatch	= parseInt(resultat.inmatch,10);
 			});
 		};
 
@@ -157,6 +147,36 @@
 					});
 				});
 			}
+		};
+
+		/**
+		@name 		getPerformanceMin
+		@desc 		Filtre les resultats en fonction d'un tableau d'ids action
+		@param 		Tableau des ids de actions
+		@returns 	Tableau des resultats filtrés
+		*/
+		MonService.prototype.getPerformanceMin = function(actionId) {
+			var results = _.filter(this.all, function(item) {
+				return item.id_action === actionId;
+			});
+			return _.min(results, function(item) {
+				return item.performance;
+			});
+		};
+
+		/**
+		@name 		getPerformanceMax
+		@desc 		Filtre les resultats en fonction d'un tableau d'ids action
+		@param 		Tableau des ids de actions
+		@returns 	Tableau des resultats filtrés
+		*/
+		MonService.prototype.getPerformanceMax = function(actionId) {
+			var results = _.filter(this.all, function(item) {
+				return item.id_action === actionId;
+			});
+			return _.max(results, function(item) {
+				return item.performance;
+			});
 		};
 
 		return new MonService();

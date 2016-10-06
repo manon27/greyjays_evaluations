@@ -40,6 +40,8 @@
 			data.performanceListData = lesPerformances;
 			data.positionListData = lesPositions;
 			data.resultatListData = lesResultats;
+
+			this.enrichir();
 			
 			// si le filtre est initialise -> superFiltre !
 			if (typeof(filterData) !== 'undefined') {
@@ -47,7 +49,7 @@
 			}
 
 			data.joueurListData = _.sortBy(data.joueurListData, 'nom');
-			data.positionListData = _.sortBy(data.positionListData, 'libelle');
+			data.positionListData = _.sortBy(data.positionListData, 'id');
 			data.actionListData = _.sortBy(data.actionListData, 'libelle');
 			data.performanceListData = _.sortBy(data.performanceListData, 'id_action');
 			data.resultatListData = _.sortBy(data.resultatListData, 'performance').reverse();
@@ -126,6 +128,58 @@
 				resultat.type = 'resultat';
 			});
 			return resultats;
+		};
+
+		this.enrichir = function() {
+			_.each(this.dataSets.resultatListData, function(item) {
+				var aNote = [];
+				if (item.action.mesurable === 0) {
+					item.libPerformance = PerformanceService.getLibelle(item.id_action, item.performance);
+					for (var i=0; i<item.performance; i++) {
+						aNote.push(i);
+					}
+					item.maNote = aNote;
+				} else if (item.action.mesurable === 1) {
+					item.libPerformance = item.performance;
+					var laNote=0;
+					var min = ResultatService.getPerformanceMin(item.id_action).performance;
+					var max = ResultatService.getPerformanceMax(item.id_action).performance;
+					if (item.performance === min) { laNote = 1;}
+					if (item.performance === max) { laNote = 5;}
+					if (laNote===0) {
+						var lePas = (max - min) / 3;
+						for (var j=0; j<3; j++) {
+							if (item.performance >= min + lePas * j) {
+								laNote = j+2;
+							}
+						}
+					}
+					for (var k=0; k<laNote; k++) {
+						aNote.push(k);
+					}
+					item.maNote = aNote;
+				} else if (item.action.mesurable === 2) {
+					item.libPerformance = item.performance;
+					var laNote=0;
+					var min = ResultatService.getPerformanceMin(item.id_action).performance;
+					var max = ResultatService.getPerformanceMax(item.id_action).performance;
+					if (item.performance === min) { laNote = 5;}
+					if (item.performance === max) { laNote = 1;}
+					if (laNote===0) {
+						var lePas = (max - min) / 3;
+						for (var j=0; j<3; j++) {
+							if (item.performance <= max - lePas * j) {
+								laNote = j+2;
+							}
+						}
+					}
+					for (var k=0; k<laNote; k++) {
+						aNote.push(k);
+					}
+					item.maNote = aNote;
+				}
+			});
+
 		};
 
 		/**
