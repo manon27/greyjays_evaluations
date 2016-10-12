@@ -31,26 +31,26 @@
 					method: 'POST',
 					data: credentials
 				});
-        	});
-        	var promise3 = promise2.then(function () {
-        		return JoueurService.getAll();
-        	});
-        	promise3.then(function() {
-        		var allJ = JoueurService.all;
-        		var joueurConnecte = _.filter(allJ, function(joueur) {
-        			return joueur.email === credentials.username;
-        		});
-        		if (joueurConnecte.length !== 1) {
-        			$location.url('/login');
-        			return;
-        		}
-        		SessionService.create(Math.random()*100000, joueurConnecte[0].id, joueurConnecte[0].role);
-        		if (joueurConnecte[0].role === 'joueur') {
-        			$location.url('/' + joueurConnecte[0].role + '/' + joueurConnecte[0].id);
-        		} else {
-	        		$location.url('/' + joueurConnecte[0].role);
-	        	}
-        	});
+			});
+			var promise3 = promise2.then(function () {
+				return JoueurService.getAll();
+			});
+			promise3.then(function() {
+				var allJ = JoueurService.all;
+				var joueurConnecte = _.filter(allJ, function(joueur) {
+					return joueur.email === credentials.username;
+				});
+				if (joueurConnecte.length !== 1) {
+					$location.url('/login');
+					return;
+				}
+				SessionService.create(Math.random()*100000, joueurConnecte[0].id, joueurConnecte[0].role);
+				if (joueurConnecte[0].role === 'joueur') {
+					$location.url('/' + joueurConnecte[0].role + '/' + joueurConnecte[0].id);
+				} else {
+					$location.url('/' + joueurConnecte[0].role);
+				}
+			});
 		};
 
 		/**
@@ -64,12 +64,12 @@
 					method: 'POST',
 					data: {"action":"logout"}
 				});
-        	});
-        	promise2.then(function () {
-        		SessionService.destroy();
-        		$location.url('/');
-        	});
- 		};
+			});
+			promise2.then(function () {
+				SessionService.destroy();
+				$location.url('/');
+			});
+		};
 
 		/**
 		 * Vérifier si la session existe
