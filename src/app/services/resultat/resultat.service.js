@@ -6,37 +6,32 @@
 		.service('ResultatService', ResultatService);
 
 	/**
-	@name 		ResultatService
-	@desc 		Service pour les resultats
-	@param 		ModelService - Service qui sert de prototype de base
-	@param 		APPLICATION_PARAMS
-	@param  	APPLICATION_ENV
-	@param 		_ librairie underscore
-	@returns	Service
-	*/
+	 * Service pour les resultats
+	 * @param {service} ModelService - Service qui sert de prototype de base
+	 * @param {Object} APPLICATION_PARAMS - Paramètres de l'application
+	 * @param {string} APPLICATION_ENV - Environnement
+	 * @param {service} _ - librairie underscore
+	 * @returns	{service}
+	 */
 
 	/** @ngInject */
 	function ResultatService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
 
 		/**
-		@name 		MonService
-		@desc 		constructeur
-		*/
+		 * Constructeur
+		 */
 		var MonService = function() {
-			this.entite=ModelService.setEntite('resultat');
+			this.entite=ModelService.setEntite('gj_resultat');
 			this.url = ModelService.setUrl(APPLICATION_PARAMS, APPLICATION_ENV,this.entite);
 		};
 
-		/**
-		prototype initial
-		*/
+		/* prototype initial */
 		MonService.prototype = Object.create(ModelService);
 		MonService.prototype.constructor = MonService;
 
 		/**
-		@name 		cleanDatas
-		@desc 		methode pour nettoyer les donnees json
-		*/
+		 * nettoyer les donnees json
+		 */
 		MonService.prototype.cleanDatas = function() {
 			_.each(this.all, function(resultat) {
 				resultat.id 		= parseInt(resultat.id,10);
@@ -48,9 +43,10 @@
 		};
 
 		/**
-		@name 		linkModels
-		@desc 		methode pour lier les resultats aux actions te joueurs
-		*/
+		 * Lier les resultats aux actions et joueurs
+		 * @param {Number[]} actionsById - ids des actions
+		 * @param {Number[]} joueursById - ids des joueurs
+		 */
 		MonService.prototype.linkModels = function(actionsById, joueursById) {
 
 			_.each(this.all, function(resultat) {
@@ -94,11 +90,10 @@
 		};
 
 		/**
-		@name 		filtrerParId
-		@desc 		methode pour filtrer sur un identifiant
-		@param 		id : identifiant du filtre
-		@returns 	object correspondant
-		*/
+		 * Filtrer sur un identifiant
+		 * @param {Number} id - identifiant du filtre
+		 * @returns {Object}
+		 */
 		MonService.prototype.filtrerParId = function(id) {
 			return _.find(this.all, function(item) {
 				return item.id === id;
@@ -106,11 +101,10 @@
 		};
 
 		/**
-		@name 		filtrerParActions
-		@desc 		Filtre les resultats en fonction d'un tableau d'ids action
-		@param 		Tableau des ids de actions
-		@returns 	Tableau des resultats filtrés
-		*/
+		 * Filtrer les resultats en fonction d'un tableau d'ids action
+		 * @param {Number[]} actionIds - ids d'action
+		 * @returns {Object[]}
+		 */
 		MonService.prototype.filtrerParActions = function(actionIds) {
 			if (actionIds.length > 0) {
 				return _.filter(this.all, function(item) {
@@ -128,11 +122,10 @@
 		};
 
 		/**
-		@name 		filtrerParJoueurs
-		@desc 		Filtre les resultats en fonction d'un tableau d'ids joueur
-		@param 		Tableau des ids de joueurs
-		@returns 	Tableau des resultats filtrés
-		*/
+		 * Filtrer les resultats en fonction d'un tableau d'ids joueur
+		 * @param {Number[]} joueurId - ids de joueur
+		 * @returns {Object[]}
+		 */
 		MonService.prototype.filtrerParJoueurs = function(joueurIds) {
 			if (joueurIds.length > 0) {
 				return _.filter(this.all, function(item) {
@@ -150,11 +143,10 @@
 		};
 
 		/**
-		@name 		getPerformanceMin
-		@desc 		Filtre les resultats en fonction d'un tableau d'ids action
-		@param 		Tableau des ids de actions
-		@returns 	Tableau des resultats filtrés
-		*/
+		 * Plus petit resultat sur une action
+		 * @param {Number} actionId  - id de l'action
+		 * @returns {Object}
+		 */
 		MonService.prototype.getPerformanceMin = function(actionId) {
 			var results = _.filter(this.all, function(item) {
 				return item.id_action === actionId;
@@ -165,11 +157,10 @@
 		};
 
 		/**
-		@name 		getPerformanceMax
-		@desc 		Filtre les resultats en fonction d'un tableau d'ids action
-		@param 		Tableau des ids de actions
-		@returns 	Tableau des resultats filtrés
-		*/
+		 * Plus grand resultat sur une action
+		 * @param {Number} actionId  - id de l'action
+		 * @returns {Object}
+		 */
 		MonService.prototype.getPerformanceMax = function(actionId) {
 			var results = _.filter(this.all, function(item) {
 				return item.id_action === actionId;

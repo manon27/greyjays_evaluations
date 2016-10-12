@@ -7,11 +7,10 @@
 		.service('DonneesService', DonneesService);
 
 	/**
-	@name 		DonneesService
-	@desc 		Service qui contient l'intégralité des données présentes dans l'interface
-	@param 		Services + librairie underscore
-	@returns 	
-	*/
+	 * Service qui contient l'intégralité des données présentes dans l'interface
+	 * @param {service} Services + librairie underscore
+	 * @returns {service}
+	 */
 
 	/** @ngInject */
 	function DonneesService(ActionService, JoueurService, PerformanceService, PositionService, ResultatService, _) {
@@ -20,11 +19,9 @@
 		this.dataSets = {};
 
 		/**
-		@name 		updateDataSets
-		@desc 		fonction pour alimenter le jeu de données
-		@param 		filterData : données de filtre
-		@return 	void
-		*/
+		 * Alimenter le jeu de données
+		 * @param {object} - filterData - données de filtre
+		 */
 		this.updateDataSets = function(filterData) {
 
 			var data = this.dataSets;
@@ -41,9 +38,10 @@
 			data.positionListData = lesPositions;
 			data.resultatListData = lesResultats;
 
+			// compléter le jeu de données avec des données calculées
 			this.enrichir();
 			
-			// si le filtre est initialise -> superFiltre !
+			// si le filtre est initialise -> filtre !
 			if (typeof(filterData) !== 'undefined') {
 				this.filtrer(filterData);
 			}
@@ -56,10 +54,10 @@
 		};
 
 		/**
-		@name	actionListData
-		@desc 	ajout la propriété type dans les objets
-		@param 	actions
-		*/
+		 * Ajouter la propriété type dans les actions
+		 * @param {Object[]} actions - les actions
+		 * @returns {Object[]}
+		 */
 		this.actionListData = function(actions) {
 			if (typeof actions === 'undefined') {
 				return [];
@@ -71,10 +69,10 @@
 		};
 
 		/**
-		@name	joueurListData
-		@desc 	ajout la propriété type dans les objets
-		@param 	joueurs
-		*/
+		 * Ajouter la propriété type dans les joueurs
+		 * @param {Object[]} joueurs - les joueurs
+		 * @returns {Object[]}
+		 */
 		this.joueurListData = function(joueurs) {
 			if (typeof joueurs === 'undefined') {
 				return [];
@@ -86,10 +84,10 @@
 		};
 		
 		/**
-		@name	performanceListData
-		@desc 	ajout la propriété type dans les objets
-		@param 	performances
-		*/
+		 * Ajouter la propriété type dans les performances
+		 * @param {Object[]} performances - les performances
+		 * @returns {Object[]}
+		 */
 		this.performanceListData = function(performances) {
 			if (typeof performances === 'undefined') {
 				return [];
@@ -101,10 +99,10 @@
 		};
 
 		/**
-		@name	positionListData
-		@desc 	ajout la propriété type dans les objets
-		@param 	positions
-		*/
+		 * Ajouter la propriété type dans les positions
+		 * @param {Object[]} positions - les positions
+		 * @returns {Object[]}
+		 */
 		this.positionListData = function(positions) {
 			if (typeof positions === 'undefined') {
 				return [];
@@ -116,10 +114,10 @@
 		};
 
 		/**
-		@name	resultatListData
-		@desc 	ajout la propriété type dans les objets
-		@param 	resultats
-		*/
+		 * Ajout la propriété type dans les resultats
+		 * @param {Object[]} resultats - les résultats
+		 * @returns {Object[]}
+		 */
 		this.resultatListData = function(resultats) {
 			if (typeof resultats === 'undefined') {
 				return [];
@@ -130,50 +128,54 @@
 			return resultats;
 		};
 
+		/**
+		 * Enrichir les données avec des informations calculées
+		 */
 		this.enrichir = function() {
 			_.each(this.dataSets.resultatListData, function(item) {
 				var aNote = [];
+				var laNote, min, max, lePas, i, j, k;
 				if (item.action.mesurable === 0) {
 					item.libPerformance = PerformanceService.getLibelle(item.id_action, item.performance);
-					for (var i=0; i<item.performance; i++) {
+					for (i=0; i<item.performance; i++) {
 						aNote.push(i);
 					}
 					item.maNote = aNote;
 				} else if (item.action.mesurable === 1) {
 					item.libPerformance = item.performance;
-					var laNote=0;
-					var min = ResultatService.getPerformanceMin(item.id_action).performance;
-					var max = ResultatService.getPerformanceMax(item.id_action).performance;
+					laNote=0;
+					min = ResultatService.getPerformanceMin(item.id_action).performance;
+					max = ResultatService.getPerformanceMax(item.id_action).performance;
 					if (item.performance === min) { laNote = 1;}
 					if (item.performance === max) { laNote = 5;}
 					if (laNote===0) {
-						var lePas = (max - min) / 3;
-						for (var j=0; j<3; j++) {
+						lePas = (max - min) / 3;
+						for (j=0; j<3; j++) {
 							if (item.performance >= min + lePas * j) {
 								laNote = j+2;
 							}
 						}
 					}
-					for (var k=0; k<laNote; k++) {
+					for (k=0; k<laNote; k++) {
 						aNote.push(k);
 					}
 					item.maNote = aNote;
 				} else if (item.action.mesurable === 2) {
 					item.libPerformance = item.performance;
-					var laNote=0;
-					var min = ResultatService.getPerformanceMin(item.id_action).performance;
-					var max = ResultatService.getPerformanceMax(item.id_action).performance;
+					laNote=0;
+					min = ResultatService.getPerformanceMin(item.id_action).performance;
+					max = ResultatService.getPerformanceMax(item.id_action).performance;
 					if (item.performance === min) { laNote = 5;}
 					if (item.performance === max) { laNote = 1;}
 					if (laNote===0) {
-						var lePas = (max - min) / 3;
-						for (var j=0; j<3; j++) {
+						lePas = (max - min) / 3;
+						for (j=0; j<3; j++) {
 							if (item.performance <= max - lePas * j) {
 								laNote = j+2;
 							}
 						}
 					}
-					for (var k=0; k<laNote; k++) {
+					for (k=0; k<laNote; k++) {
 						aNote.push(k);
 					}
 					item.maNote = aNote;
@@ -183,11 +185,9 @@
 		};
 
 		/**
-		@name 	filtrer
-		@desc 	filtre les datas enfonction du filtre
-		@param 	filterData
-		@return void
-		*/
+		 * filtrer les datas en fonction du filtre
+		 * @param {Object} filterData - données du filtre
+		 */
 		this.filtrer = function(filterData) {
 			var component = this;
 			var aJoueurs = [];
@@ -255,12 +255,11 @@
 		};
 
 		/**
-		@name		propager
-		@desc 		propagation générique
-		@param		donneesDepuis
-		@param		ModelService
-		@param		functionModel
-		@return 	
+		 * propagation générique
+		 * @param {Object[]} donneesDepuis - Donnees qui vont servir à filtrer
+		 * @param {service} ModelService - Service des données à filtrer
+		 * @param {string} functionModel - Methode du service à appeler
+		 * @returns {Object[]}
 		*/
 		this.propager = function(donneesDepuis, ModelService, functionModel) {
 			return ModelService[functionModel](_.pluck(donneesDepuis, 'id'));

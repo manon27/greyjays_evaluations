@@ -6,37 +6,32 @@
 		.service('ActionService', ActionService);
 
 	/**
-	@name 		ActionService
-	@desc 		Service pour les actions
-	@param 		ModelService - Service qui sert de prototype de base
-	@param 		APPLICATION_PARAMS
-	@param  	APPLICATION_ENV
-	@param 		_ librairie underscore
-	@returns	Service
-	*/
+	 * Service pour les actions
+	 * @param {service} ModelService - Service qui sert de prototype de base
+	 * @param {Object} APPLICATION_PARAMS - objet des parametres de l'application
+	 * @param {string} APPLICATION_ENV - Environnement
+	 * @param {module} _ - librairie underscore
+	 * @returns {service}
+	 */
 
 	/** @ngInject */
 	function ActionService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
 
 		/**
-		@name 		MonService
-		@desc 		constructeur
-		*/
+		 * constructeur
+		 */
 		var MonService = function() {
-			this.entite=ModelService.setEntite('action');
+			this.entite=ModelService.setEntite('gj_action');
 			this.url = ModelService.setUrl(APPLICATION_PARAMS, APPLICATION_ENV,this.entite);
 		};
 
-		/**
-		prototype initial
-		*/
+		/* prototype initial */
 		MonService.prototype = Object.create(ModelService);
 		MonService.prototype.constructor = MonService;
 
 		/**
-		@name 		cleanDatas
-		@desc 		methode pour nettoyer les donnees json
-		*/
+		 * nettoyer les donnees json (convertir des chaines en entier)
+		 */
 		MonService.prototype.cleanDatas = function() {
 			_.each(this.all, function(action) {
 				action.id = parseInt(action.id,10);
@@ -46,9 +41,9 @@
 		};
 
 		/**
-		@name 		linkModels
-		@desc 		methode pour lier les actions aux positions
-		*/
+		 * lier les actions aux positions
+		 * @param {Number[]} positionsById - tableau des ids de position
+		 */
 		MonService.prototype.linkModels = function(positionsById) {
 
 			_.each(this.all, function(action) {
@@ -75,11 +70,10 @@
 		};
 
 		/**
-		@name 		filtrerParId
-		@desc 		methode pour filtrer sur un identifiant
-		@param 		id : identifiant du filtre
-		@returns 	object correspondant
-		*/
+		 * filtrer sur un identifiant
+		 * @param {Number} id - identifiant du filtre
+		 * @returns {Object}
+		 */
 		MonService.prototype.filtrerParId = function(id) {
 			return _.find(this.all, function(item) {
 				return item.id === id;
@@ -87,11 +81,10 @@
 		};
 
 		/**
-		@name 		filtrerParPositions
-		@desc 		Filtre les actions en fonction d'un tableau d'ids position
-		@param 		Tableau des ids de positions
-		@returns 	Tableau des actions filtrées
-		*/
+		 * Filtrer les actions en fonction d'un tableau d'ids position
+		 * @param {Number[]} positionIds - Tableau des ids de positions
+		 * @returns {Object[]}
+		 */
 		MonService.prototype.filtrerParPositions = function(positionIds) {
 			if (positionIds.length > 0) {
 				return _.filter(this.all, function(item) {

@@ -6,37 +6,33 @@
 		.service('PerformanceService', PerformanceService);
 
 	/**
-	@name 		PerformanceService
-	@desc 		Service pour les performances
-	@param 		ModelService - Service qui sert de prototype de base
-	@param 		APPLICATION_PARAMS
-	@param  	APPLICATION_ENV
-	@param 		_ librairie underscore
-	@returns	Service
-	*/
+	 * Service pour les performances
+	 * @param {service} ModelService - Service qui sert de prototype de base
+	 * @param {Object} APPLICATION_PARAMS - Paramètres de l'application
+	 * @param {string} APPLICATION_ENV - Environnement
+	 * @param {module} _ - librairie underscore
+	 * @returns {service}
+	 */
 
 	/** @ngInject */
 	function PerformanceService(ModelService, APPLICATION_PARAMS, APPLICATION_ENV, _) {
 
 		/**
-		@name 		MonService
-		@desc 		constructeur
-		*/
+		 * Constructeur
+		 */
 		var MonService = function() {
-			this.entite=ModelService.setEntite('performance');
+			this.entite=ModelService.setEntite('gj_performance');
 			this.url = ModelService.setUrl(APPLICATION_PARAMS, APPLICATION_ENV,this.entite);
 		};
 
-		/**
-		prototype initial
-		*/
+		/* prototype initial */
 		MonService.prototype = Object.create(ModelService);
 		MonService.prototype.constructor = MonService;
 
 		/**
-		@name 		cleanDatas
-		@desc 		methode pour nettoyer les donnees json
-		*/
+		 * Nettoyer les donnees json
+		 * - convertir les chaines en entiers
+		 */
 		MonService.prototype.cleanDatas = function() {
 			_.each(this.all, function(performance) {
 				performance.id = parseInt(performance.id,10);
@@ -48,9 +44,9 @@
 		};
 
 		/**
-		@name 		linkModels
-		@desc 		methode pour lier les performances aux actions
-		*/
+		 * Lier les performances aux actions
+		 * @param {Number[]} actionsById - ids d'action
+		 */
 		MonService.prototype.linkModels = function(actionsById) {
 
 			_.each(this.all, function(performance) {
@@ -77,11 +73,10 @@
 		};
 
 		/**
-		@name 		filtrerParId
-		@desc 		methode pour filtrer sur un identifiant
-		@param 		id : identifiant du filtre
-		@returns 	object correspondant
-		*/
+		 * Filtrer sur un identifiant
+		 * @param {Number} id - identifiant du filtre
+		 * @returns {Object}
+		 */
 		MonService.prototype.filtrerParId = function(id) {
 			return _.find(this.all, function(item) {
 				return item.id === id;
@@ -89,11 +84,10 @@
 		};
 
 		/**
-		@name 		filtrerParActions
-		@desc 		Filtre les performances en fonction d'un tableau d'ids action
-		@param 		Tableau des ids de actions
-		@returns 	Tableau des performances filtrées
-		*/
+		 * Filtre les performances en fonction d'un tableau d'ids action
+		 * @param {Number[]} actionIds - ids de actions
+		 * @returns {Object[]}
+		 */
 		MonService.prototype.filtrerParActions = function(actionIds) {
 			if (actionIds.length > 0) {
 				return _.filter(this.all, function(item) {
@@ -111,54 +105,16 @@
 		};
 
 		/**
-		@name 		getNote
-		@desc 		obtenir la note pour une action et une perf données
-		@param 		
-		@returns 	Note
-		*/
-		MonService.prototype.getNote = function(actionId, noteVal) {
-			var maNote = '???';
-			_.each(this.all, function(item) {
-				if (item.id_action === actionId) {
-					var maVal = parseInt(noteVal,10);
-					var min = item.min;
-					var max = item.max;
-					if (min > max) {
-						if ((maVal >= max) && (maVal <= min)) {
-							maNote = item.note;
-						}
-					} else {
-						if ((maVal <= max) && (maVal >= min)) {
-							maNote = item.note;
-						}
-					}
-				}
-			});
-			return maNote;
-		};
-
-		/**
-		@name 		getLibelle
-		@desc 		obtenir le libellé pour une action et une perf données
-		@param 		
-		@returns 	Note
-		*/
+		 * Obtenir le libellé pour une action et une note
+		 * @param {Number} actionId - id de l'action
+		 * @param {Number} noteVal - note
+		 * @returns {string}
+		 */
 		MonService.prototype.getLibelle = function(actionId, noteVal) {
 			var monLibelle = '???';
 			_.each(this.all, function(item) {
-				if (item.id_action === actionId) {
-					var maVal = parseInt(noteVal,10);
-					var min = item.min;
-					var max = item.max;
-					if (min > max) {
-						if ((maVal >= max) && (maVal <= min)) {
-							monLibelle = item.libelle;
-						}
-					} else {
-						if ((maVal <= max) && (maVal >= min)) {
-							monLibelle = item.libelle;
-						}
-					}
+				if ((item.id_action === actionId) && (item.note === noteVal)) {
+					monLibelle = item.libelle;
 				}
 			});
 			return monLibelle;

@@ -6,26 +6,27 @@
 		.service('SessionService', SessionService);
 
 	/**
-	*	@name		SessionService
-	*	@desc		Service qui va servir pour la gestion des sessions
-	*/
+	 * Service qui va servir pour la gestion des sessions
+	 * @param {service} $cookies - service de gestion des cookies
+	 * @returns {service}
+	 */
 
 	/** @ngInject */
 	function SessionService($cookies) {
 
 		/**
-		@name	MonService
-		@desc	constructeur
-		*/
+		 * Constructeur
+		 */
 		var MonService = function() {
 
 		};
 
 		/**
-		@name	create 
-		@desc 	
-		@param 	
-		*/
+		 * Création d'une session par stockage dans un cookie
+		 * @param {string} sessionId - identifiant de session
+		 * @param {Number} userId - identifiant de l'utilisateur
+		 * @param {string} userRole - role de l'utilisateur
+		 */
 		MonService.prototype.create  = function(sessionId, userId, userRole) {
 			this.id = sessionId;
 			this.userId = userId;
@@ -34,10 +35,8 @@
 		};
 
 		/**
-		@name	destroy 
-		@desc 	
-		@param 	
-		*/
+		 * Destruction de la session
+		 */
 		MonService.prototype.destroy  = function() {
 			this.id = null;
 			this.userId = null;

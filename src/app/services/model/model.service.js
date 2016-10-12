@@ -6,21 +6,18 @@
 		.service('ModelService', ModelService);
 
 	/**
-	*	@name		ModelService
-	*	@desc		Service qui va servir de socle pour les autres entités
-	*	@param  	http : service ajax
-	*	@param 		filter : service de filtre (pour faire appel au transformateur api_crud)
-	*	@param 		httpParamSerializer : service qui transforme un objet json en params de formulaire
-	*	@param 		_ : librairie underscore
-	*/
+	 * Service qui va servir de socle pour les autres entités
+	 * @param {Object} $rootScope - objet root de l'application
+	 * @param {Object} $http - service ajax
+	 * @param {module} _ - librairie underscore
+	 */
 
 	/** @ngInject */
-	function ModelService($rootScope, $http, $filter, $httpParamSerializer, _) {
+	function ModelService($rootScope, $http, _) {
 
 		/**
-		@name	MonService
-		@desc	constructeur
-		*/
+		 * constructeur
+		 */
 		var MonService = function() {
 			this.all = [];
 			this.url = '';
@@ -28,24 +25,23 @@
 		};
 
 		/**
-		@name	setEntite
-		@desc 	setter classique
-		@param 	entiteNom
-		*/
+		 * Définir l'entite du service
+		 * @param {string} entiteNom
+		 * @returns {string}
+		 */
 		MonService.prototype.setEntite = function(entiteNom) {
 			return entiteNom;
 		};
 
 		/**
-		@name 	setUrl
-		@desc 	setter classique
-		@param 	params : objet global de parametrage
-		@param 	env : environnement local ou production
-		@param 	entite : position, joueur....
-		*/
+		 * Définir l'url du service
+		 * @param {Object} params - Parametres de l'application
+		 * @param {string} env - environnement local ou production
+		 * @param {sttring} entite - position, joueur....
+		 */
 		MonService.prototype.setUrl = function(params, env, entite) {
 			var monUrl = '';
-			if (env === 'local') {
+			if (env === 'json') {
 				monUrl = params[env].RESOURCE_URL + '/datas/json/' + entite + 's.json';
 			} else {
 				monUrl = params[env].RESOURCE_URL + entite;
@@ -54,20 +50,19 @@
 		};
 
 		/**
-		@name		parse
-		@desc 		
-		@param 		response : json après application de la transformation
-		@returns	objet "entites" qui est un tableau d'objet de type entite
-		*/
+		 * Récupérer les données de la réponse
+		 * @param {Object} response - 
+		 * @returns {Object[]}
+		 */
 		MonService.prototype.parse = function(response) {
-			return response[this.entite+'s'];
+			//return response[this.entite+'s'];
+			return response;
 		};
 
 		/**
-		@name 		getAll
-		@desc 		récuperer tous les objets
-		@returns	promise http
-		*/
+		 * Récuperer tous les objets
+		 * @returns {Object []}
+		 */
 		MonService.prototype.getAll = function() {
 			var self = this;
 			if (self.url === '') {
@@ -77,9 +72,10 @@
 				url: self.url,
 				method: 'GET'
 			}).then(
-				// callback success
+				//callback success
 				function(response) {
-					self.all = self.parse($filter('php_crud_api_transform')(response.data));
+					//self.all = self.parse($filter('php_crud_api_transform')(response.data));
+					self.all = self.parse(response.data);
 				}/*,
 				// callback erreur
 				function() {
@@ -90,11 +86,10 @@
 		};
 
 		/**
-		@name 		get
-		@desc 		
-		@param 		id de l'objet à obtenir
-		@returns	objet correspondant
-		*/
+		 * Obtenir un objet
+		 * @param {Number} id - identifiant de l'objet à obtenir
+		 * @returns {Object}
+		 */
 		MonService.prototype.get = function(id) {
 			return _.find(this.all, function(item) {
 				return item.id === id;
@@ -102,11 +97,10 @@
 		};
 
 		/**
-		@name		delete
-		@desc 		efface via requete ajax
-		@param 		id de l'objet à effacer
-		@returns 	promise http
-		*/
+		 * Effacer via requete ajax
+		 * @param {Number} id - identifiant de l'objet à effacer
+		 * @returns
+		 */
 		MonService.prototype.delete = function(id) {
 			var self = this;
 			return $http({
@@ -119,7 +113,6 @@
 				}/*,
 				// callback erreur
 				function() {
-					// suppression dans le local
 					var newItems = [];
 					_.each(self.all, function(item) {
 						if (item.id !== id) {
@@ -134,17 +127,16 @@
 		};
 
 		/**
-		@name		save
-		@desc 		enregistre via requete ajax
-		@param 		item : objet à ajouter ou modifier
-		@returns 	promise http
-		*/
+		 * Enregistrer via requete ajax
+		 * @param {Object} item - objet à ajouter ou modifier
+		 * @returns
+		 */
 		MonService.prototype.save = function (item) {
 			var self = this;
 			var requeteHttp;
 			item.date_modification = new Date();
 			if (typeof item.id === 'undefined') {
-				// creation => POST
+				//creation => POST
 				item.date_creation = new Date();
 				requeteHttp = $http({
 					url: self.url,
@@ -152,11 +144,11 @@
 					data: item
 				});
 			} else {
-				//	modification => PUT /api.php/models/id?champs=valeur
+				//modification => PUT
 				requeteHttp = $http({
 					url: self.url+'/'+item.id,
 					method: 'PUT',
-					data: $httpParamSerializer(item)
+					data: item
 				});
 
 			}
@@ -166,9 +158,8 @@
 		};
 
 		/**
-		@name 		count
-		@desc 		compte le nombre d'objets
-		@returns 	le nombre total d'objets
+		 * Compter le nombre d'objets
+		 * @returns
 		*/
 		MonService.prototype.count = function() {
 			return this.all.length;
