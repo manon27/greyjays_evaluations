@@ -1,0 +1,27 @@
+.accueil .panel-default {
+	min-height:200px;
+}
+.panel-color0 {
+	background-color:#CCCCCC;
+	color: #FFFFFF;
+}
+.panel-color1 {
+	background-color:#FB7E84;
+	color: #FFFFFF;
+}
+.panel-color2 {
+	background-color:#E14E56;
+	color: #FFFFFF;
+}
+.panel-color3 {
+	background-color:#D0262E;
+	color: #FFFFFF;
+}
+.panel-color4 {
+	background-color:#A6121A;
+	color: #FFFFFF;
+}
+.panel-color5 {
+	background-color:#7F0006;
+	color: #FFFFFF;
+}
