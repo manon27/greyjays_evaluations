@@ -5,26 +5,27 @@
 	.module('greyjays.evaluations')
 	.controller('LoginController', LoginController);
 
+	/**
+	 * Controlleur pour la page de login
+	 * @param {Object} $scope
+	 * @param {service} AuthService - Service pour l'authentification
+	 */
+
 	/** @ngInject */
-	function LoginController($scope, $location, SessionService) {
+	function LoginController($scope, AuthService) {
 
 		var login = $scope;
 
 		login.user = {};
 
+		/**
+		 * Se connecter
+		 */
 		login.connecter = function() {
-			if ((login.user.username === 'coach') && (login.user.password === '123456')) {
-				SessionService.create(123456789,12,"coach");
-				$location.url('/coach');
-			} else if ((login.user.username === 'evaluateur') && (login.user.password === '123456')) {
-				SessionService.create(123456789,12,"evaluateur");
-				$location.url('/evaluateur');
-			} else if ((login.user.username === 'joueur') && (login.user.password === '123456')) {
-				SessionService.create(123456789,12,"joueur");
-				$location.url('/joueur');
-			} else {
-				$location.url('/login');
-			}
+			var credits = {};
+			credits.username = login.user.username;
+			credits.password = login.user.password;
+			AuthService.connecter(credits);
 		};
 
 	}

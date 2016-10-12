@@ -3,67 +3,38 @@
 
 	angular
 	.module('greyjays.evaluations')
-	.controller('EvaluateurController', EvaluateurController);
+	.controller('AccueilController', AccueilController);
 
 	/**
-	 * Controlleur pour la page de l'evaluateur
+	 * Controlleur pour la page d'accueil
 	 * @param {Object} $scope
-	 * @param {Object} $q
+	 * @param {Object} $cookies
 	 * @param {module} _ - librairie underscore
 	 * @param ...
 	 */
-
 	/** @ngInject */
-	function EvaluateurController($scope, $q, _, ActionService, JoueurService, PerformanceService, PositionService, ResultatService, DonneesService) {
+	function AccueilController($scope, $cookies, _, ActionService, JoueurService, PerformanceService, PositionService, ResultatService, DonneesService) {
 
-		var evaluateur = $scope;
+		var accueil = $scope;
 
-		evaluateur.loading = true;
+		accueil.isLogged = false;
+		if (typeof $cookies.getObject("gjSession") !== 'undefined') {
+			accueil.isLogged = true;
+		}
 
-		//initialisation des filtres pour chaque entite
-		evaluateur.filterData = {
-			actionIds: [],
-			joueurIds: [],
-			performanceIds: [],
-			positionIds: [],
-			resultatIds: []
-		};
+		accueil.loading = true;
 
-		DonneesService.updateDataSets(evaluateur.filterData);
+		DonneesService.updateDataSets();
 
 		init();
 
 		// declaration des services dans le scope pour pouvoir les utiliser dans la vue
-		evaluateur.actionService = ActionService;
-		evaluateur.joueurService = JoueurService;
-		evaluateur.performanceService = PerformanceService;
-		evaluateur.positionService = PositionService;
-		evaluateur.resultatService = ResultatService;
-		evaluateur.donneesService = DonneesService;
-		
-		evaluateur.$on('refresh', function() {
-			var deferred = $q.defer();
-
-			function applyRefresh() {
-				_.delay(function() {
-					$scope.$apply(function() {
-						// mise à jour du jeu de donnees
-						init();
-						deferred.resolve('Finished refresh');
-					});
-				}, 250);
-
-				return deferred.promise;
-			}
-
-			//	Calculs en cours
-			evaluateur.loading = true;
-
-			applyRefresh().then(function() {
-				//	Calculs en cours termine
-				evaluateur.loading = false;
-			});
-		});
+		accueil.actionService = ActionService;
+		accueil.joueurService = JoueurService;
+		accueil.performanceService = PerformanceService;
+		accueil.positionService = PositionService;
+		accueil.resultatService = ResultatService;
+		accueil.donneesService = DonneesService;
 
 		/**
 		 * Actualiser les données via les services
@@ -93,14 +64,14 @@
 						var positionsById = _.indexBy(PositionService.all, 'id');
 						var resultatsById = _.indexBy(ResultatService.all, 'id');
 
+
 						//---------------linkModels-----------------------
 						ActionService.linkModels(positionsById);
 						PerformanceService.linkModels(actionsById);
 						ResultatService.linkModels(actionsById, joueursById);
 
-						DonneesService.updateDataSets(evaluateur.filterData);
-
-						evaluateur.loading = false;
+						DonneesService.updateDataSets();
+						accueil.loading = false;
 					}
 				});
 			});

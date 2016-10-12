@@ -3,22 +3,19 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<uib-tabset active="active">
-				<uib-tab index="0" heading="Accueil">
-					<coach-accueil></coach-accueil>
-				</uib-tab>
-				<uib-tab index="1" heading="Joueurs">
+				<uib-tab index="0" heading="Joueurs">
 					<crud-joueur items="donneesService.dataSets.joueurListData" le-service="joueurService"></crud-joueur>
 				</uib-tab>
-				<uib-tab index="2" heading="Positions">
+				<uib-tab index="1" heading="Positions">
 					<crud-position items="donneesService.dataSets.positionListData" le-service="positionService"></crud-position>
 				</uib-tab>
-				<uib-tab index="3" heading="Actions">
+				<uib-tab index="2" heading="Actions">
 					<crud-action items="donneesService.dataSets.actionListData" le-service="actionService" all-positions="donneesService.dataSets.positionListData"></crud-action>
 				</uib-tab>
-				<uib-tab index="4" heading="Performances">
+				<uib-tab index="3" heading="Performances">
 					<crud-performance items="donneesService.dataSets.performanceListData" le-service="performanceService" all-actions="donneesService.dataSets.actionListData"></crud-performance>
 				</uib-tab>
-				<uib-tab index="5" heading="Résultats">
+				<uib-tab index="4" heading="Résultats">
 					<crud-resultat items="donneesService.dataSets.resultatListData" le-service="resultatService" all-actions="donneesService.dataSets.actionListData" all-joueurs="donneesService.dataSets.joueurListData"></crud-resultat>
 				</uib-tab>
 			</uib-tabset>

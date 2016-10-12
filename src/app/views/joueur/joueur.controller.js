@@ -5,8 +5,16 @@
 	.module('greyjays.evaluations')
 	.controller('JoueurController', JoueurController);
 
+	/**
+	 * Controlleur pour la page du joueur
+	 * @param {Object} $scope
+	 * @param {Object} $q
+	 * @param {module} _ - librairie underscore
+	 * @param ...
+	 */
+
 	/** @ngInject */
-	function JoueurController($scope, $rootScope, $location, $q, _, ActionService, JoueurService, PerformanceService, PositionService, ResultatService, DonneesService) {
+	function JoueurController($scope, $q, _, ActionService, JoueurService, PerformanceService, PositionService, ResultatService, DonneesService) {
 
 		var joueurCtrl = $scope;
 
@@ -15,7 +23,7 @@
 		//initialisation des filtres pour chaque entite
 		joueurCtrl.filterData = {
 			actionIds: [],
-			joueurIds: [],
+			joueurIds: [parseInt($routeParams.id,10)],
 			performanceIds: [],
 			positionIds: [],
 			resultatIds: []
@@ -23,16 +31,15 @@
 
 		DonneesService.updateDataSets(joueurCtrl.filterData);
 
+		init();
+
+		// declaration des services dans le scope pour pouvoir les utiliser dans la vue
+		joueurCtrl.donneesService = DonneesService;
 		joueurCtrl.actionService = ActionService;
 		joueurCtrl.joueurService = JoueurService;
 		joueurCtrl.performanceService = PerformanceService;
 		joueurCtrl.positionService = PositionService;
 		joueurCtrl.resultatService = ResultatService;
-
-		init();
-
-		//Bind component data services to the scope, so we can use them in the views
-		joueurCtrl.donneesService = DonneesService;
 		
 		joueurCtrl.$on('refresh', function() {
 			var deferred = $q.defer();
@@ -58,6 +65,9 @@
 			});
 		});
 
+		/**
+		 * Actualiser les données via les services
+		 */
 		function init() {
 			var modelCount = 0;
 			var models = [
@@ -65,7 +75,7 @@
 			];
 
 			_.each(models, function(Model) {
-				Model.getAll(false).then(function() {
+				Model.getAll().then(function() {
 					modelCount++;
 					if (modelCount === models.length) {
 

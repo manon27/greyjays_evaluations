@@ -5,8 +5,16 @@
 	.module('greyjays.evaluations')
 	.controller('CoachController', CoachController);
 
+	/**
+	 * Controlleur pour la page du coach
+	 * @param {Object} $scope
+	 * @param {Object} $q
+	 * @param {module} _ - librairie underscore
+	 * @param ...
+	 */
+
 	/** @ngInject */
-	function CoachController($scope, $rootScope, $location, $q, _, ActionService, JoueurService, PerformanceService, PositionService, ResultatService, DonneesService) {
+	function CoachController($scope, $q, _, ActionService, JoueurService, PerformanceService, PositionService, ResultatService, DonneesService) {
 
 		var coach = $scope;
 
@@ -14,15 +22,14 @@
 
 		DonneesService.updateDataSets();
 
+		init();
+
+		// declaration des services dans le scope pour pouvoir les utiliser dans la vue
 		coach.actionService = ActionService;
 		coach.joueurService = JoueurService;
 		coach.performanceService = PerformanceService;
 		coach.positionService = PositionService;
 		coach.resultatService = ResultatService;
-
-		init();
-
-		//Bind component data services to the scope, so we can use them in the views
 		coach.donneesService = DonneesService;
 		
 		coach.$on('refresh', function() {
@@ -50,10 +57,8 @@
 		});
 
 		/**
-		@name		init
-		@desc 		actualisation des données via les services
-		@return 	void
-		*/
+		 * Actualiser les données via les services
+		 */
 		function init() {
 			var modelCount = 0;
 			var models = [
@@ -61,7 +66,7 @@
 			];
 
 			_.each(models, function(Model) {
-				Model.getAll(false).then(function() {
+				Model.getAll().then(function() {
 					modelCount++;
 					if (modelCount === models.length) {
 

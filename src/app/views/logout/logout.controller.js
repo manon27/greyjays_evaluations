@@ -5,11 +5,16 @@
 	.module('greyjays.evaluations')
 	.controller('LogoutController', LogoutController);
 
-	/** @ngInject */
-	function LogoutController($location, SessionService) {
+	/**
+	 * Controlleur pour la page de logout
+	 * @param {Object} $location
+	 * @param {service} AuthService - Service pour l'authentification
+	 */
 
-		SessionService.destroy();
-		$location.url('/login');
+	/** @ngInject */
+	function LogoutController(AuthService) {
+
+		AuthService.deconnecter();
 
 	}
 
