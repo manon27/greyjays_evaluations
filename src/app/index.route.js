@@ -5,6 +5,11 @@
 		.module('greyjays.evaluations')
 		.config(routeConfig);
 
+	/**
+	 * Configuration de l'aiguillage de l'application
+	 * @param {provider} $routeProvider - Provider du module ngRoute pour l'aiguillage
+	 * @param {Object} AUTH_ROLES - Rôles
+	 */
 
 	function routeConfig($routeProvider, AUTH_ROLES) {
 
@@ -21,7 +26,7 @@
 			controllerAs: 'evaluateur',
 			roles: {authorizedRoles: [AUTH_ROLES.coach, AUTH_ROLES.evaluateur]}
 		})
-		.when('/joueur', {
+		.when('/joueur/:id', {
 			templateUrl: 'app/views/joueur/joueur.html',
 			controller: 'JoueurController',
 			controllerAs: 'joueurCtrl',
@@ -37,8 +42,13 @@
 			controller: 'LogoutController',
 			controllerAs: 'logout'
 		})
+		.when('/', {
+			templateUrl: 'app/views/accueil/accueil.html',
+			controller: 'AccueilController',
+			controllerAs: 'accueil'
+		})
 		.otherwise({
-			redirectTo: '/login'
+			redirectTo: '/'
 		});
 	}
 

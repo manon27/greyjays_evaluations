@@ -5,6 +5,10 @@
 		.module('greyjays.evaluations')
 		.run(runBlock);
 
+	/**
+	 * 
+	 */
+
 	/** @ngInject */
 	function runBlock($location, $rootScope, AuthService) {
 		$rootScope.$on('$routeChangeStart', function (event, next) {
