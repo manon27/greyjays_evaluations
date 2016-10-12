@@ -89,9 +89,9 @@
 						//---------------indexById-----------------------
 						var actionsById = _.indexBy(ActionService.all, 'id');
 						var joueursById = _.indexBy(JoueurService.all, 'id');
-						var performancesById = _.indexBy(PerformanceService.all, 'id');
+						//var performancesById = _.indexBy(PerformanceService.all, 'id');
 						var positionsById = _.indexBy(PositionService.all, 'id');
-						var resultatsById = _.indexBy(ResultatService.all, 'id');
+						//var resultatsById = _.indexBy(ResultatService.all, 'id');
 
 						//---------------linkModels-----------------------
 						ActionService.linkModels(positionsById);

@@ -8,13 +8,14 @@
 	/**
 	 * Controlleur pour la page du joueur
 	 * @param {Object} $scope
+	 * @param {Object} $routeParams
 	 * @param {Object} $q
 	 * @param {module} _ - librairie underscore
 	 * @param ...
 	 */
 
 	/** @ngInject */
-	function JoueurController($scope, $q, _, ActionService, JoueurService, PerformanceService, PositionService, ResultatService, DonneesService) {
+	function JoueurController($scope, $routeParams, $q, _, ActionService, JoueurService, PerformanceService, PositionService, ResultatService, DonneesService) {
 
 		var joueurCtrl = $scope;
 
@@ -89,9 +90,9 @@
 						//---------------indexById-----------------------
 						var actionsById = _.indexBy(ActionService.all, 'id');
 						var joueursById = _.indexBy(JoueurService.all, 'id');
-						var performancesById = _.indexBy(PerformanceService.all, 'id');
+						//var performancesById = _.indexBy(PerformanceService.all, 'id');
 						var positionsById = _.indexBy(PositionService.all, 'id');
-						var resultatsById = _.indexBy(ResultatService.all, 'id');
+						//var resultatsById = _.indexBy(ResultatService.all, 'id');
 
 
 						//---------------linkModels-----------------------
