@@ -6,14 +6,15 @@
 		.directive("listResultat", listResultat);
 
 	/**
-	@name		listResultat
-	@desc 		<list-resultat items></list-resultat>
-	@param		Services pour les listes liées
-	@returns	GUI de gestion CRUD des positions
-	*/
+	 * GUI d'affichage des résultats
+	 * @desc <list-resultat items="" joueur-selected="" action-selected="" position-selected="" le-service=""></list-resultat>
+	 * @param {service} ActionService/JoueurService/PerformanceService - Services pour les listes liées
+	 * @param {module} _
+	 * @returns	{directive}
+	 */
 
 	/** @ngInject */
-	function listResultat(ActionService, JoueurService, _) {
+	function listResultat(ActionService, JoueurService, PerformanceService, _) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -38,21 +39,20 @@
 			scope.itemsPerPage = 20;
 			scope.currentPage = 1;
 			scope.count = 1000;
+			scope.affMesurable=false;
+			scope.allPerfs=[];
 
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur les items
-			@param		newList	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur les items
+			 * @param {Object[]} items - nouvelle valeur
+			 */	
 			scope.$watch('items', function(newList) {
 				scope.count = newList.length;
 			});
 			
 			/**
-			@name		pageItems
-			@desc 		liste des items en fonction de la pagination
-			@return 	lesItems à afficher
+			 * Lister les items en fonction de la pagination 
+			 * @returns {Object[]}
 			*/	
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
@@ -62,25 +62,33 @@
 			};
 
 			/**
-			@name	afficherAjout
-			@desc 	affichage de la GUI d'ajout avec init du param
-			*/
+			 * Afficher la GUI d'ajout
+			 */
 			scope.afficherAjout = function() {
 				if ((scope.joueurSelected.length==1) && (scope.actionSelected.length==1)) {
 					scope.alertesResultat=false;
 					scope.itemAdd = {};
 					scope.itemAdd.date_realisation = new Date();				
-					scope.itemAdd.test = 0;	
+					scope.itemAdd.inmatch = 0;	
 					scope.itemAdd.joueur = JoueurService.filtrerParId(scope.joueurSelected[0]);		
-					scope.itemAdd.action = ActionService.filtrerParId(scope.actionSelected[0]);		
+					scope.itemAdd.action = ActionService.filtrerParId(scope.actionSelected[0]);
+					scope.itemAdd.performance="";	
 					scope.affichage.add=true;
+					if (scope.itemAdd.action.mesurable === 0) {
+						scope.affMesurable=false;
+						var aActs = [];
+						aActs.push(scope.itemAdd.action.id);
+						scope.allPerfs = PerformanceService.filtrerParActions(aActs);
+					} else {
+						scope.affMesurable=true;
+					}
 				}
 			};
 
 			/**
-			@name		enregistrer
-			@desc 		appel du service save + refresh via la root
-			*/
+			 * Enregistrer
+			 * @param {boolean} estValide
+			 */
 			scope.enregistrer = function(estValide) {
 				scope.alertesResultat=true;
 				if (estValide) {
@@ -103,9 +111,8 @@
 			};
 
 			/**
-			@name 	annuler
-			@desc 	Masquer les interfaces add et upd
-			*/
+			 * Annuler
+			 */
 			scope.annuler = function() {
 				scope.affichage.add=false;
 			};

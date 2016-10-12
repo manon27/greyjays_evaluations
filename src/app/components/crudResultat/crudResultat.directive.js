@@ -6,11 +6,11 @@
 		.directive("crudResultat", crudResultat);
 
 	/**
-	@name		crudResultat
-	@desc 		<crud-resultat items="" le-service=""></crud-resultat>
-	@param		Services pour les listes liées
-	@returns	GUI de gestion CRUD des positions
-	*/
+	 * GUI de gestion CRUD des resultats
+	 * @desc <crud-resultat items="" le-service="" all-actions="" all-joueurs=""></crud-resultat>
+	 * @param Services pour les listes liées
+	 * @returns	{directive}
+	 */
 
 	/** @ngInject */
 	function crudResultat(ActionService, JoueurService, PerformanceService, _) {
@@ -29,10 +29,11 @@
 		
 		function linkF(scope) {
 
-			scope.affichage={};
-			scope.affichage.add=false;
-			scope.affichage.upd=false;
-			scope.affichage.liste=true;
+			scope.affichage = {
+				"add" : false,
+				"upd" : false,
+				"liste": true
+			};
 			scope.items = scope.items || [];
 			scope.itemsF = [];
 			scope.itemAdd = {};
@@ -46,11 +47,9 @@
 			scope.allPerfs=[];
 
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur les items
-			@param		newList	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur les items
+			 * @param {Object[]} items - nouvelle valeur
+			 */	
 			scope.$watch('items', function(newList) {
 				scope.itemsF = newList;
 				scope.count = scope.itemsF.length;
@@ -58,34 +57,26 @@
 			});
 
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur actionSel
-						et filtre les items
-			@param		newVal	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur actionSel
+			 * @param {string} actionSel - nouvelle valeur
+			 */	
 			scope.$watch('actionSel', function(newVal){
 				filtrer(newVal,scope.joueurSel);
 			});
 
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur joueurSel
-						et filtre les items
-			@param		newVal	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur joueurSel
+			 * @param {string} joueurSel - nouvelle valeur
+			 */	
 			scope.$watch('joueurSel', function(newVal){
 				filtrer(scope.actionSel,newVal);
 			});
 
 			/**
-			@name		filtrer
-			@desc 		filtre les items en fonction des params
-			@param		actionS	action selectionnee
-			@param 		joueurS joueur selectionne
-			@return 	void
-			*/	
+			 * Filtrer les items en fonction des params
+			 * @param {string} actionS - action sélectionnée
+			 * @param {string} joueurS - joueur sélectionné
+			 */	
 			var filtrer = function(actionS, joueurS) {
 				if (joueurS == "-1") {
 					if (actionS == "-1") {
@@ -109,12 +100,10 @@
 			};
 
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur itemAdd.id_action
-						et change l'affichage de performance si mesurable ou pas
-			@param		newVal	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur itemAdd.id_action
+			 * et changer l'affichage de performance si mesurable ou pas
+			 * @param {Number} itemAdd.id_action - nouvelle valeur
+			 */	
 			scope.$watch('itemAdd.id_action', function(newVal){
 				scope.allPerfs = [];
 				if (typeof scope.itemAdd.id === 'undefined') {
@@ -135,10 +124,8 @@
 			});
 
 			/**
-			@name		pageItems
-			@desc 		liste des items en fonction de la pagination
-			@return 	lesItems à afficher
-			*/	
+			 * Lister les items en fonction de la pagination
+			 */	
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);
@@ -147,9 +134,8 @@
 			};
 
 			/**
-			@name	afficherAjout
-			@desc 	affichage de la GUI d'ajout avec init du param
-			*/
+			 * Afficher la GUI d'ajout
+			 */
 			scope.afficherAjout = function() {
 				scope.alertesResultat=false;
 				scope.itemAdd = {};
@@ -158,36 +144,38 @@
 				scope.itemAdd.performance = "";				
 				scope.itemAdd.id_action = "";				
 				scope.itemAdd.id_joueur = "";				
-				scope.affichage.add=true;
-				scope.affichage.upd=false;
+				scope.affichage = {
+					"add" : true,
+					"upd" : false,
+					"liste": false
+				};
 				scope.allPerfs = [];
 			};
 
 			/**
-			@name		afficherModification
-			@desc 		affichage de la GUI de modif
-			@param	 	it : item de position
-			*/
+			 * Afficher la GUI de modif
+			 * @param {Object}it - resultat à modifier
+			 */
 			scope.afficherModification = function(it) {
 				scope.alertesResultat=false;
-				scope.itemAdd = {};
-				for (var noeud in it) {
-					if (angular.isString(it[noeud])) {
-						scope.itemAdd[noeud] = it[noeud];
-					}
-					if (angular.isNumber(it[noeud])) {
-						scope.itemAdd[noeud] = it[noeud];
-					}
-				}
-				scope.itemAdd.date_realisation = new Date(scope.itemAdd.date_realisation);
-				scope.affichage.add=false;
-				scope.affichage.upd=true;
+				scope.itemAdd = {
+					"id": it.id,
+					"id_action": it.id_action,
+					"id_joueur": it.id_joueur,
+					"performance": it.performance,
+					"inmatch": it.inmatch,
+					"date_realisation": new Date(it.date_realisation)
+				};
+				scope.affichage = {
+					"add" : false,
+					"upd" : true,
+					"liste": false
+				};
 			};
 
 			/**
-			@name		enregistrer
-			@desc 		appel du service save + refresh via la root
-			*/
+			 * Enregistrer
+			 */
 			scope.enregistrer = function(estValide) {
 				scope.alertesResultat=true;
 				if (estValide) {
@@ -197,26 +185,31 @@
 						itemAjout.id=scope.itemAdd.id;
 					}
 					scope.leService.save(itemAjout);
-					scope.affichage.add=false;
-					scope.affichage.upd=false;
+					scope.affichage = {
+						"add" : false,
+						"upd" : false,
+						"liste": true
+					};
 				} else {
 					return false;
 				}
 			};
 
 			/**
-			@name 	annuler
-			@desc 	Masquer les interfaces add et upd
-			*/
+			 * Masquer les interfaces add et upd
+			 */
 			scope.annuler = function() {
-				scope.affichage.add=false;
-				scope.affichage.upd=false;
+				scope.affichage = {
+					"add" : false,
+					"upd" : false,
+					"liste": true
+				};
 			};
 
 			/**
-			@name 	effacer
-			@desc 	Appel du service (service.delete)
-			*/
+			 * Effacer
+			 * @param {Object} itemDel - Résultat à supprimer
+			 */
 			scope.effacer = function(itemDel) {
 				scope.leService.delete(itemDel.id);
 			};

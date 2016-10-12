@@ -9,18 +9,17 @@
 					<th ng-if="actionSelected.length!=1">Action</th>
 					<th ng-if="positionSelected.length!=1">Position</th>
 					<th>Date</th>
-					<th>Performance</th>
 					<th>Contexte</th>
 					<th>Note</th>
+					<th>Performance</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in pageItems()">
 					<td ng-if="joueurSelected.length!=1">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
 					<td ng-if="actionSelected.length!=1">{{item.action.libelle}}</td>
-					<td ng-if="positionSelected.length!=1">{{item.action.position.description}}</td>
+					<td ng-if="positionSelected.length!=1">{{item.action.position.libelle}} - {{item.action.position.description}}</td>
 					<td>{{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
-					<td>{{item.performance}}</td>
 					<td>{{item.inmatch | formaterTexte : 'inmatch'}}</td>
 					<td>
 						<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
@@ -28,6 +27,7 @@
 							<span class="glyphicon glyphicon-star stars" ng-repeat="star in item.maNote"></span>
 						</div>
 					</td>
+					<td>{{item.libPerformance}}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -54,12 +54,22 @@
 							<p ng-message="required">La date de réalisation est obligatoire.</p>
 						</div>
 					</div>
-					<div class="form-group" ng-class="{ 'has-error' : monFormResultat.performanceField.$invalid && alertesResultat}">
-						<label for="performanceField" class="control-label">Performance</label>
+					<div ng-if="affMesurable" class="form-group" ng-class="{ 'has-error' : monFormResultat.performanceField.$invalid && alertesResultat}">
+						<label for="performanceField" class="control-label">Performance *</label>
 						<input id="performanceField" name="performanceField" class="form-control" type="number" class="form-control" ng-model="itemAdd.performance" placeholder="Performance" required="true" min="0" />
 						<div ng-if="monFormResultat.performanceField.$invalid && alertesResultat" ng-messages="monFormResultat.performanceField.$error" class="alert alert-warning" role="alert">
 							<p ng-message="required">La performance est obligatoire.</p>
 							<p ng-message="min">La performance est supérieure ou égale à 0.</p>
+						</div>
+					</div>
+					<div ng-if="!affMesurable" class="form-group" ng-class="{ 'has-error' : !monFormResultat.performanceList.$modelValue && alertesResultat}">
+						<label for="performanceList" class="control-label">Performance *</label>
+						<select id="performanceList" name="performanceList" class="form-control" size="1" ng-model="itemAdd.performance" convert-to-number required="true">
+							<option value="">Choisir une performance...</option>
+							<option ng-repeat="itemP in allPerfs" value="{{itemP.note}}">{{itemP.note}} --> {{itemP.libelle}}</option>
+						</select>
+						<div ng-if="!monFormResultat.performanceList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">
+							<p>Aucune performance n'est sélectionnée.</p>
 						</div>
 					</div>
 					<div class="form-group">

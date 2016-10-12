@@ -6,13 +6,13 @@
 		.directive("monFooter", monFooter);
 
 	/**
-	@name		monFooter
-	@desc 		<mon-footer></mon-footer>
-	@returns	GUI du footer
-	*/
+	 * GUI du footer
+	 * @desc <mon-footer></mon-footer>
+	 * @returns	{directive}
+	 */
 
 	/** @ngInject */
-	function monFooter() {
+	function monFooter(VERSION) {
 		var directive = {
 			restrict: 'E',
 			templateUrl: 'app/components/monFooter/monFooter.tpl.html',
@@ -22,6 +22,7 @@
 
 		function linkF(scope) {
 			scope.aujourdhui = new Date();
+			scope.version = VERSION;
 		}
 	}
 

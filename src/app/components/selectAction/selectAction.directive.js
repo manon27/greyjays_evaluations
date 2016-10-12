@@ -6,11 +6,11 @@
 		.directive("selectAction", selectAction);
 
 	/**
-	@name		selectAction
-	@desc 		<select-action items="" tab=""></select-position>
-	@param		
-	@returns	GUI de gestion CRUD des actions
-	*/
+	 * GUI de sélection d'une action
+	 * @desc <select-action items="" selected=""></select-action>
+	 * @param {Object} $rootScope
+	 * @returns	{directive}
+	 */
 
 	/** @ngInject */
 	function selectAction($rootScope) {
@@ -30,11 +30,9 @@
 			scope.items = scope.items || [];
 
 			/**
-			@name		selectionner
-			@desc 		filtre des donnees selon l action
-			@param 		item : action selectionnée
-			@return 	void
-			*/
+			 * Sélectionner l'action et actualiser les données
+			 * @param {Object} item - action selectionnée
+			 */
 			scope.selectionner = function(item) {
 				scope.$parent.filterData.actionIds.push(item.id);
 				scope.selected=true;
@@ -43,10 +41,8 @@
 			};
 
 			/**
-			@name		deselectionner
-			@desc 		supprimer le filtre des donnees selon l action
-			@return 	void
-			*/
+			 * Déselectionner l'action et actualiser les données
+			 */
 			scope.deselectionner = function() {
 				scope.$parent.filterData.actionIds=[];
 				scope.selected=false;

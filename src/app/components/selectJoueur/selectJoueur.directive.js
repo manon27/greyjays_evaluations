@@ -6,11 +6,11 @@
 		.directive("selectJoueur", selectJoueur);
 
 	/**
-	@name		selectJoueur
-	@desc 		<select-joueur items="" le-service=""></select-position>
-	@param		filter
-	@returns	GUI de gestion CRUD des joueurs
-	*/
+	 * GUI de sélection d'un joueur
+	 * @desc <select-joueur items="" selected=""></select-joueur>
+	 * @param {Object} $rootScope
+	 * @returns	{directive}
+	 */
 
 	/** @ngInject */
 	function selectJoueur($rootScope) {
@@ -30,11 +30,9 @@
 			scope.items = scope.items || [];
 
 			/**
-			@name		selectionner
-			@desc 		filtre des donnees selon le joueur
-			@param 		item : joueur selectionné
-			@return 	void
-			*/
+			 * Sélectionner un joueur at actualiser les données
+			 * @param {Object} item - joueur selectionné
+			 */
 			scope.selectionner = function(item) {
 				scope.$parent.filterData.joueurIds.push(item.id);
 				scope.selected=true;
@@ -43,10 +41,8 @@
 			};
 
 			/**
-			@name		deselectionner
-			@desc 		supprimer le filtre des donnees selon la position
-			@return 	void
-			*/
+			 * Déselectionner un joueur at actualiser les données
+			 */
 			scope.deselectionner = function() {
 				scope.$parent.filterData.joueurIds=[];
 				scope.selected=false;

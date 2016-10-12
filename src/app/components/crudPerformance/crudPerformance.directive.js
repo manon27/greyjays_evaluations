@@ -6,11 +6,12 @@
 		.directive("crudPerformance", crudPerformance);
 
 	/**
-	@name		crudPerformance
-	@desc 		<crud-performance items="" le-service=""></crud-performance>
-	@param		service ActionService pour afficher la liste des actions pour une perf
-	@returns	GUI de gestion CRUD des performances
-	*/
+	 * GUI de gestion CRUD des performances
+	 * @desc <crud-performance items="" le-service="" all-actions=""></crud-performance>
+	 * @param {service} ActionService - Service afficher la liste des actions pour une perf
+	 * @param {module} _
+	 * @returns {directive}	
+	 */
 
 	/** @ngInject */
 	function crudPerformance(ActionService, _) {
@@ -28,10 +29,11 @@
 		
 		function linkF(scope) {
 
-			scope.affichage={};
-			scope.affichage.add=false;
-			scope.affichage.upd=false;
-			scope.affichage.liste=true;
+			scope.affichage = {
+				"add" : false,
+				"upd" : false,
+				"liste": true
+			};
 			scope.items = scope.items || [];
 			scope.itemsF = [];
 			scope.itemAdd = {};
@@ -42,11 +44,9 @@
 			scope.count = 1000;
 				
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur les items
-			@param		newList	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur les items
+			 * @param {Object[]} items - nouvelle valeur
+			 */	
 			scope.$watch('items', function(newList){
 				scope.itemsF = newList;
 				scope.count = newList.length;
@@ -54,22 +54,17 @@
 			});
 
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur actionSel
-						et filtre les items
-			@param		newVal	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur actionSel
+			 * @param {string} actionSel
+			 */
 			scope.$watch('actionSel', function(newVal){
 				filtrer(newVal);
 			});
 
 			/**
-			@name		filtrer
-			@desc 		filtre les items en fonction des params
-			@param		actionS	action selectionnee
-			@return 	void
-			*/	
+			 * Filtrer les items en fonction d'une action
+			 * @param {Number} actionS - id de l'action selectionnee
+			 */	
 			var filtrer = function(actionS) {
 				if (actionS == "-1") {
 					scope.itemsF = scope.items;
@@ -80,11 +75,10 @@
 				}
 				scope.count = scope.itemsF.length;
 			};
+
 			/**
-			@name		pageItems
-			@desc 		liste des items en fonction de la pagination
-			@return 	lesItems à afficher
-			*/	
+			 * Lister les items en fonction de la pagination
+			 */
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);
@@ -93,41 +87,43 @@
 			};
 
 			/**
-			@name	afficherAjout
-			@desc 	affichage de la GUI d'ajout avec init du param
-			*/
+			 * Afficher la GUI d'ajout
+			 */
 			scope.afficherAjout = function() {
 				scope.alertesPerformance=false;
-				scope.itemAdd = {};
-				scope.itemAdd.id_action="";
-				scope.affichage.add=true;
-				scope.affichage.upd=false;
+				scope.itemAdd = {
+					"id_action": ""
+				};
+				scope.affichage = {
+					"add" : true,
+					"upd" : false,
+					"liste": false
+				};
 			};
 
 			/**
-			@name		afficherModification
-			@desc 		affichage de la GUI de modif
-			@param	 	it : item de position
-			*/
+			 * Afficher la GUI de modif
+			 * @param {Object} it - position à modifier
+			 */
 			scope.afficherModification = function(it) {
 				scope.alertesPerformance=false;
-				scope.itemAdd = {};
-				for (var noeud in it) {
-					if (angular.isString(it[noeud])) {
-						scope.itemAdd[noeud] = it[noeud];
-					}
-					if (angular.isNumber(it[noeud])) {
-						scope.itemAdd[noeud] = it[noeud];
-					}
-				}
-				scope.affichage.add=false;
-				scope.affichage.upd=true;
+				scope.itemAdd = {
+					"id": it.id,
+					"libelle": it.libelle,
+					"id_action": it.id_action,
+					"note": it.note
+				};
+				scope.affichage = {
+					"add" : false,
+					"upd" : true,
+					"liste": false
+				};
 			};
 
 			/**
-			@name		enregistrer
-			@desc 		appel du service save + refresh via la root
-			*/
+			 * Enregistrer
+			 * @param {boolean} estValide - 
+			 */
 			scope.enregistrer = function(estValide) {
 				scope.alertesPerformance=true;
 				if (estValide) {
@@ -137,26 +133,31 @@
 						itemAjout.id=scope.itemAdd.id;
 					}
 					scope.leService.save(itemAjout);
-					scope.affichage.add=false;
-					scope.affichage.upd=false;
+					scope.affichage = {
+						"add" : false,
+						"upd" : false,
+						"liste": true
+					};
 				} else {
 					return false;
 				}
 			};
 
 			/**
-			@name 	annuler
-			@desc 	Masquer les interfaces add et upd
-			*/
+			 * Masquer les interfaces add et upd
+			 */
 			scope.annuler = function() {
-				scope.affichage.add=false;
-				scope.affichage.upd=false;
+				scope.affichage = {
+					"add" : false,
+					"upd" : false,
+					"liste": true
+				};
 			};
 
 			/**
-			@name 	effacer
-			@desc 	Appel du service (service.delete)
-			*/
+			 * Effacer une performance
+			 * @param {Object} itemDel - performance à supprimer
+			 */
 			scope.effacer = function(itemDel) {
 				scope.leService.delete(itemDel.id);
 			};

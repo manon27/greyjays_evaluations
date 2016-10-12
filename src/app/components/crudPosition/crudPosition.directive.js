@@ -6,11 +6,9 @@
 		.directive("crudPosition", crudPosition);
 
 	/**
-	@name		crudPosition
-	@desc 		<crud-position items="" le-service=""></crud-position>
-	@param		rootScope pour appeler la fonction refresh du scope root
-	@returns	GUI de gestion CRUD des positions
-	*/
+	 * GUI de gestion CRUD des positions
+	 * @desc <crud-position items="" le-service=""></crud-position>
+	 */
 
 	/** @ngInject */
 	function crudPosition() {
@@ -27,10 +25,11 @@
 		
 		function linkF(scope) {
 
-			scope.affichage={};
-			scope.affichage.add=false;
-			scope.affichage.upd=false;
-			scope.affichage.liste=true;
+			scope.affichage = {
+				"add" : false,
+				"upd" : false,
+				"liste": true
+			};
 			scope.items = scope.items || [];
 			scope.itemAdd = {};
 			scope.maxSize = 5;
@@ -39,20 +38,16 @@
 			scope.count = 1000;
 			
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur les items
-			@param		newList	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur les items
+			 * @param {Object[]} items - nouvelle valeur
+			 */	
 			scope.$watch('items', function(newList) {
 				scope.count = newList.length;
 			});
 
 			/**
-			@name		pageItems
-			@desc 		liste des items en fonction de la pagination
-			@return 	lesItems à afficher
-			*/	
+			 * Lister les items en fonction de la pagination
+			 */	
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);
@@ -61,40 +56,40 @@
 			};
 
 			/**
-			@name	afficherAjout
-			@desc 	affichage de la GUI d'ajout avec init du param
-			*/
+			 * Affichaer la GUI d'ajout
+			 */
 			scope.afficherAjout = function() {
 				scope.alertesPosition=false;
 				scope.itemAdd = {};
-				scope.affichage.add=true;
-				scope.affichage.upd=false;
+				scope.affichage = {
+					"add" : true,
+					"upd" : false,
+					"liste": false
+				};
 			};
 
 			/**
-			@name		afficherModification
-			@desc 		affichage de la GUI de modif
-			@param	 	it : item de position
-			*/
+			 * Afficher la GUI de modification
+			 * @param {Object} it - position à modifier
+			 */
 			scope.afficherModification = function(it) {
 				scope.alertesPosition=false;
-				scope.itemAdd = {};
-				for (var noeud in it) {
-					if (angular.isString(it[noeud])) {
-						scope.itemAdd[noeud] = it[noeud];
-					}
-					if (angular.isNumber(it[noeud])) {
-						scope.itemAdd[noeud] = it[noeud];
-					}
-				}
-				scope.affichage.add=false;
-				scope.affichage.upd=true;
+				scope.itemAdd = {
+					"id": it.id,
+					"libelle": it.libelle,
+					"description": it.description
+				};
+				scope.affichage = {
+					"add" : false,
+					"upd" : true,
+					"liste": false
+				};
 			};
 
 			/**
-			@name		enregistrer
-			@desc 		appel du service save + refresh via la root
-			*/
+			 * Enregistrer
+			 * @param {boolean} estValide -
+			 */
 			scope.enregistrer = function(estValide) {
 				scope.alertesPosition=true;
 				if (estValide) {
@@ -104,26 +99,31 @@
 						itemAjout.id=scope.itemAdd.id;
 					}
 					scope.leService.save(itemAjout);
-					scope.affichage.add=false;
-					scope.affichage.upd=false;
+					scope.affichage = {
+						"add" : false,
+						"upd" : false,
+						"liste": true
+					};
 				} else {
 					return false;
 				}
 			};
 
 			/**
-			@name 	annuler
-			@desc 	Masquer les interfaces add et upd
-			*/
+			 * Masquer les interfaces add et upd
+			 */
 			scope.annuler = function() {
-				scope.affichage.add=false;
-				scope.affichage.upd=false;
+				scope.affichage = {
+					"add" : false,
+					"upd" : false,
+					"liste": true
+				};
 			};
 
 			/**
-			@name 	effacer
-			@desc 	Appel du service (service.delete)
-			*/
+			 * Effacer un joueur
+			 * @param {Object} itemDel - position à supprimer
+			 */
 			scope.effacer = function(itemDel) {
 				scope.leService.delete(itemDel.id);
 			};

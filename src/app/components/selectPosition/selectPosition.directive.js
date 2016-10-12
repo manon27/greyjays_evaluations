@@ -6,10 +6,11 @@
 		.directive("selectPosition", selectPosition);
 
 	/**
-	@name		selectPosition
-	@desc 		<select-position items leService></select-position>
-	@returns	GUI de selection de la position sur le terrain
-	*/
+	 * GUI de selection de la position sur le terrain
+	 * @desc <select-position items="" selected=""></select-position>
+	 * @param {Object} $rootScope
+	 * @returns	{directive}
+	 */
 
 	/** @ngInject */
 	function selectPosition($rootScope) {
@@ -29,11 +30,9 @@
 			scope.items = scope.items || [];
 
 			/**
-			@name		selectionner
-			@desc 		filtre des donnees selon la position
-			@param 		item : position selectionnée
-			@return 	void
-			*/
+			 * Sélectionner une position et actualiser les données
+			 * @param {Object} item - position selectionnée
+			 */
 			scope.selectionner = function(item) {
 				scope.$parent.filterData.positionIds.push(item.id);
 				scope.selected=true;
@@ -42,10 +41,8 @@
 			};
 
 			/**
-			@name		deselectionner
-			@desc 		supprimer le filtre des donnees selon la position
-			@return 	void
-			*/
+			 * Désélectionner
+			 */
 			scope.deselectionner = function() {
 				scope.$parent.filterData.positionIds=[];
 				scope.selected=false;

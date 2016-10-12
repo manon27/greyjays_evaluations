@@ -6,10 +6,10 @@
 		.directive("monHeader", monHeader);
 
 	/**
-	@name		monHeader
-	@desc 		<mon-header></mon-header>
-	@returns	GUI du footer
-	*/
+	 * GUI du header
+	 * @desc <mon-header></mon-header>
+	 * @returns	{directive}
+	 */
 
 	/** @ngInject */
 	function monHeader($location, $cookies) {
@@ -26,6 +26,7 @@
 			scope.interfaceJoueur=false;
 			scope.user_role='';
 			if (typeof $cookies.getObject("gjSession") !== 'undefined') {
+				scope.user_id = $cookies.getObject("gjSession").userId;
 				scope.user_role = $cookies.getObject("gjSession").userRole;
 				scope.interfaceCoach = ($location.path().indexOf('coach') > 0);
 				scope.interfaceEvaluateur = ($location.path().indexOf('evaluateur') > 0);

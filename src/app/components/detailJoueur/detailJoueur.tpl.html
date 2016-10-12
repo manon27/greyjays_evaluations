@@ -1,0 +1,33 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">{{qui.prenom}} {{qui.nom}}</div>
+				<div class="panel-body">
+					<p>Né(e) le : {{qui.date_naissance | formaterDate : 'JJ/MM/AAAA'}}</p>
+					<p>Inscrit(e) le : {{qui.date_inscription | formaterDate : 'JJ/MM/AAAA'}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">Caractéristiques</div>
+				<div class="panel-body">
+					<p>Taille : {{qui.taille}} cm</p>
+					<p>Poids : {{qui.poids}} Kg</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6" ng-repeat="i in [0,1,2,3,4,5]">
+			<div class="panel panel-default">
+				<div class="panel-heading">{{allTitres[i]}}</div>
+				<div class="panel-body">
+					<canvas id="radar{{i}}" class="chart chart-radar" chart-data="allDonnees[i]" chart-labels="allLabels[i]" chart-series="allSeries" chart-options="allOptions" chart-colors="allColors" chart-dataset-override="allDSOverride">
+					</canvas> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

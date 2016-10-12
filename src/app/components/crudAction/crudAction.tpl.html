@@ -1,8 +1,8 @@
 <div class="container-fluid">
-	<h2>Actions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une action"><span class="glyphicon glyphicon-plus"></span></a></h2>
-	<form novalidate class="form-inline">Filtrer sur la position <select class="form-control" size="1" ng-model="positionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select></form>
+	<h2><span class="glyphicon glyphicon-flash"></span> Actions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une action"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
-		<div class="col-sm-8">
+		<div ng-show="affichage.liste">
+			<form novalidate class="form-inline">Filtrer sur la position <select class="form-control" size="1" ng-model="positionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select></form>
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
@@ -30,73 +30,87 @@
 					</tr>
 				</tbody>
 			</table>
-			
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-4">
+						<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
+							<option value="10">10 actions par page</option>
+							<option value="20">20 actions par page</option>
+							<option value="50">50 actions par page</option>
+						</select>
+					</div>
+					<div class="col-sm-8">
+						<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
+					</div>
+				</div>
+			</div>			
 		</div>
-		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
-			<div class="panel panel-primary">
+		<div ng-show="affichage.add||affichage.upd">
+			<div class="panel panel-default">
   				<div class="panel-heading">
-  					<span ng-if="affichage.add">Ajouter...</span>
-					<span ng-if="affichage.upd">Modifier...</span>
+  					<span ng-if="affichage.add">Ajouter</span>
+					<span ng-if="affichage.upd">Modifier</span> une action 
+					<small class="requis">(* : saisie requise)</small>
 				</div>
 				<div class="panel-body">
 					<form name="monFormAction" ng-submit="enregistrer(monFormAction.$valid)" novalidate>
 					<input type="hidden" ng-model="itemAdd.id" />
-					<div class="form-group" ng-class="{ 'has-error' : monFormAction.libelleField.$invalid && alertesAction}">
-						<label for="libelleField" class="control-label">Libellé *</label>
-						<input id="libelleField" name="libelleField" class="form-control" type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
-						<div ng-if="monFormAction.libelleField.$invalid && alertesAction" ng-messages="monFormAction.libelleField.$error" class="alert alert-warning" role="alert">
-							<p ng-message="required">Le libellé est obligatoire.</p>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-xs-12 col-sm-6">
+								<div class="form-group" ng-class="{ 'has-error' : monFormAction.libelleField.$invalid && alertesAction}">
+									<label for="libelleField" class="control-label">Libellé *</label>
+									<input id="libelleField" name="libelleField" class="form-control" type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
+									<div ng-if="monFormAction.libelleField.$invalid && alertesAction" ng-messages="monFormAction.libelleField.$error" class="alert alert-warning" role="alert">
+										<p ng-message="required">Le libellé est obligatoire.</p>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="descriptionField" class="control-label">Description</label>
+									<textarea id="descriptionField" name="descriptionField" class="form-control" type="text" ng-model="itemAdd.description" rows="5"></textarea>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Mesurabilité *</label><br>
+									<label for="mesurableField1" class="radio-inline">
+									<input id="mesurableField1" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="0" />Non mesurable
+									</label><br/>
+									<label for="mesurableField2" class="radio-inline">
+									<input id="mesurableField2" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="1" />Mesurable (croissant)
+									</label><br/>
+									<label for="mesurableField3" class="radio-inline">
+									<input id="mesurableField3" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="2" />Mesurable (décroissant)
+									</label>
+								</div>
+								<div class="form-group" ng-class="{ 'has-error' : !monFormAction.positionList.$modelValue && alertesAction}">
+									<label for="positionList" class="control-label">Position *</label>
+									<select id="positionList" name="positionList" size="1" class="form-control" ng-model="itemAdd.id_position" convert-to-number required="true">
+										<option value="">Choisir une position...</option>
+										<option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option>
+									</select>
+									<div ng-if="!monFormAction.positionList.$modelValue && alertesAction" class="alert alert-warning" role="alert">
+										<p>Aucune position n'est sélectionnée.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-8 col-sm-offset-2">
+								<div class="btn-group btn-group-justified" role="group" aria-label="...">
+									<div class="btn-group" role="group">
+										<button type="submit" class="btn btn-primary">Enregistrer</button>
+									</div>
+									<div class="btn-group" role="group">
+										<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="descriptionField" class="control-label">Description</label>
-						<textarea id="descriptionField" name="descriptionField" class="form-control" type="text" ng-model="itemAdd.description"></textarea>
-					</div>
-					<div class="form-group">
-						<label for="mesurableField1" class="radio-inline">
-						<input id="mesurableField1" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="0" />Non mesurable
-						</label><br/>
-						<label for="mesurableField2" class="radio-inline">
-						<input id="mesurableField2" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="1" />Mesurable (croissant)
-						</label><br/>
-						<label for="mesurableField3" class="radio-inline">
-						<input id="mesurableField3" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="2" />Mesurable (décroissant)
-						</label>
-					</div>
-					<div class="form-group" ng-class="{ 'has-error' : !monFormAction.positionList.$modelValue && alertesAction}">
-						<label for="positionList" class="control-label">Position *</label>
-						<select id="positionList" name="positionList" size="1" class="form-control" ng-model="itemAdd.id_position" convert-to-number required="true">
-							<option value="">Choisir une position...</option>
-							<option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option>
-						</select>
-						<div ng-if="!monFormAction.positionList.$modelValue && alertesAction" class="alert alert-warning" role="alert">
-							<p>Aucune position n'est sélectionnée.</p>
-						</div>
-					</div>
-					<div class="btn-group btn-group-justified" role="group" aria-label="...">
-						<div class="btn-group" role="group">
-							<button type="submit" class="btn btn-primary">Enregistrer</button>
-						</div>
-						<div class="btn-group" role="group">
-							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
-						</div>
-					</div>
-					<p class="requis">* : champs obligatoire</p>
 					</form>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-4">
-			<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
-				<option value="10">10 actions par page</option>
-				<option value="20">20 actions par page</option>
-				<option value="50">50 actions par page</option>
-			</select>
-		</div>
-		<div class="col-sm-8">
-			<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
 		</div>
 	</div>
 </div>

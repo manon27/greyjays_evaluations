@@ -1,7 +1,7 @@
 <div class="container-fluid">
-	<h2>Positions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une position"><span class="glyphicon glyphicon-plus"></span></a></h2>
+	<h2><span class="glyphicon glyphicon-screenshot"></span> Positions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une position"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
-		<div class="col-sm-8">
+		<div ng-show="affichage.liste">
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
@@ -25,55 +25,64 @@
 					</tr>
 				</tbody>
 			</table>
-			
-		</div>
-		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
-			<div class="panel panel-primary">
-  				<div class="panel-heading">
-  					<span ng-if="affichage.add">Ajouter...</span>
-					<span ng-if="affichage.upd">Modifier...</span>
-				</div>
-				<div class="panel-body">
-					<form name="monFormPosition" ng-submit="enregistrer(monFormPosition.$valid)" novalidate>
-					<input type="hidden" ng-model="itemAdd.id" />
-					<div class="form-group" ng-class="{ 'has-error' : monFormPosition.libelleField.$invalid && alertesPosition}">
-						<label for="libelleField">Libellé *</label>
-						<input id="libelleField" name="libelleField" class="form-control" type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
-						<div ng-if="monFormPosition.libelleField.$invalid && alertesPosition" ng-messages="monFormPosition.libelleField.$error" class="alert alert-warning" role="alert">
-							<p ng-message="required">Le libellé est obligatoire.</p>
-						</div>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-4">
+						<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
+							<option value="10">10 joueurs par page</option>
+							<option value="20">20 joueurs par page</option>
+							<option value="50">50 joueurs par page</option>
+						</select>
 					</div>
-					<div class="form-group" ng-class="{ 'has-error' : monFormPosition.descriptionField.$invalid && alertesPosition}">
-						<label for="descriptionField">Description *</label>
-						<input id="descriptionField" name="descriptionField" class="form-control" type="text" ng-model="itemAdd.description" placeholder="Description" required="true" />
-						<div ng-if="monFormPosition.descriptionField.$invalid && alertesPosition" ng-messages="monFormPosition.descriptionField.$error" class="alert alert-warning" role="alert">
-							<p ng-message="required">La description est obligatoire.</p>
-						</div>
+					<div class="col-sm-8">
+						<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
 					</div>
-					<div class="btn-group btn-group-justified" role="group" aria-label="...">
-						<div class="btn-group" role="group">
-							<button type="submit" class="btn btn-primary">Enregistrer</button>
-						</div>
-						<div class="btn-group" role="group">
-							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
-						</div>
-					</div>
-					<p class="requis">* : champs obligatoire</p>
-					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-4">
-			<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
-				<option value="10">10 positions par page</option>
-				<option value="20">20 positions par page</option>
-				<option value="50">50 positions par page</option>
-			</select>
-		</div>
-		<div class="col-sm-8">
-			<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
+	<div ng-show="affichage.add||affichage.upd">
+		<div class="panel panel-default">
+				<div class="panel-heading">
+					<span ng-if="affichage.add">Ajouter</span>
+				<span ng-if="affichage.upd">Modifier</span> une position 
+				<small class="requis">(* : saisie requise)</small>
+			</div>
+			<div class="panel-body">
+				<form name="monFormPosition" ng-submit="enregistrer(monFormPosition.$valid)" novalidate>
+				<input type="hidden" ng-model="itemAdd.id" />
+				<div class="container-fluid">
+					<div class="row">
+						<div class="form-group" ng-class="{ 'has-error' : monFormPosition.libelleField.$invalid && alertesPosition}">
+							<label for="libelleField">Libellé *</label>
+							<input id="libelleField" name="libelleField" class="form-control" type="text" ng-model="itemAdd.libelle" placeholder="Libellé" required="true" />
+							<div ng-if="monFormPosition.libelleField.$invalid && alertesPosition" ng-messages="monFormPosition.libelleField.$error" class="alert alert-warning" role="alert">
+								<p ng-message="required">Le libellé est obligatoire.</p>
+							</div>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error' : monFormPosition.descriptionField.$invalid && alertesPosition}">
+							<label for="descriptionField">Description *</label>
+							<input id="descriptionField" name="descriptionField" class="form-control" type="text" ng-model="itemAdd.description" placeholder="Description" required="true" />
+							<div ng-if="monFormPosition.descriptionField.$invalid && alertesPosition" ng-messages="monFormPosition.descriptionField.$error" class="alert alert-warning" role="alert">
+								<p ng-message="required">La description est obligatoire.</p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<div class="btn-group btn-group-justified" role="group" aria-label="...">
+								<div class="btn-group" role="group">
+									<button type="submit" class="btn btn-primary">Enregistrer</button>
+								</div>
+								<div class="btn-group" role="group">
+									<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

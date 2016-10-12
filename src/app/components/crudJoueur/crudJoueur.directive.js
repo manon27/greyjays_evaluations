@@ -6,11 +6,10 @@
 		.directive("crudJoueur", crudJoueur);
 
 	/**
-	@name		crudJoueur
-	@desc 		<crud-joueur items="" le-service=""></crud-position>
-	@param		filter
-	@returns	GUI de gestion CRUD des joueurs
-	*/
+	 * GUI de gestion CRUD des joueurs
+	 * @desc <crud-joueur items="" le-service=""></crud-joueur>
+	 * @returns {directive}
+	 */
 
 	/** @ngInject */
 	function crudJoueur() {
@@ -27,32 +26,30 @@
 		
 		function linkF(scope) {
 
-			scope.affichage={};
-			scope.affichage.add=false;
-			scope.affichage.upd=false;
-			scope.affichage.liste=true;
+			scope.affichage = {
+				"add" : false,
+				"upd" : false,
+				"liste": true
+			};
 			scope.items = scope.items || [];
 			scope.itemAdd = {};
 			scope.maxSize = 5;
 			scope.itemsPerPage = 20;
 			scope.currentPage = 1;
 			scope.count = 1000;
+			scope.joueurDetail=false;
 
 			/**
-			@name		watcher
-			@desc 		surveille les modifications sur les items
-			@param		newList	nouvelle valeur
-			@return 	void
-			*/	
+			 * Surveiller les modifications sur les items
+			 * @param {Object[]} items - nouvelle valeur
+			 */	
 			scope.$watch('items', function(newList){
 				scope.count = newList.length;
 			});
 
 			/**
-			@name		pageItems
-			@desc 		liste des items en fonction de la pagination
-			@return 	lesItems à afficher
-			*/	
+			 * lister les items en fonction de la pagination
+			 */
 			scope.pageItems = function() {
 				var start = (scope.currentPage - 1) * parseInt(scope.itemsPerPage, 10);
 				var limit = parseInt(scope.itemsPerPage, 10);
@@ -61,42 +58,55 @@
 			};
 
 			/**
-			@name	afficherAjout
-			@desc 	affichage de la GUI d'ajout avec init du param
-			*/
+			 * Afficher la GUI d'ajout
+			 */
 			scope.afficherAjout = function() {
 				scope.alertesJoueur=false;
 				scope.itemAdd = {};
-				scope.affichage.add=true;
-				scope.affichage.upd=false;
+				scope.affichage = {
+					"add" : true,
+					"upd" : false,
+					"liste": false
+				};
 			};
 
 			/**
-			@name		afficherModification
-			@desc 		affichage de la GUI de modif
-			@param	 	it : item de position
-			*/
+			 * Afficher la GUI de modif
+			 * @param {Object} it - le joueur à modifier
+			 */
 			scope.afficherModification = function(it) {
 				scope.alertesJoueur=false;
-				scope.itemAdd = {};
-				for (var noeud in it) {
-					if (angular.isString(it[noeud])) {
-						scope.itemAdd[noeud] = it[noeud];
-					}
-					if (angular.isNumber(it[noeud])) {
-						scope.itemAdd[noeud] = it[noeud];
-					}
-				}
-				scope.itemAdd.date_naissance = new Date(scope.itemAdd.date_naissance);
-				scope.itemAdd.date_inscription = new Date(scope.itemAdd.date_inscription);
-				scope.affichage.add=false;
-				scope.affichage.upd=true;
+				scope.itemAdd = {
+					"id": it.id,
+					"nom": it.nom,
+					"prenom": it.prenom,
+					"email": it.email,
+					"date_naissance": new Date(it.date_naissance),
+					"date_inscription": new Date(it.date_inscription),
+					"poids": it.poids,
+					"taille": it.taille,
+					"role": it.role
+				};
+				scope.affichage = {
+					"add" : false,
+					"upd" : true,
+					"liste": false
+				};
 			};
 
 			/**
-			@name		enregistrer
-			@desc 		appel du service save + refresh via la root
-			*/
+			 * Obtenir l'url d'affichage detail du joueur
+			 * @param {Object} it - joueur
+			 * @returns {string}
+			 */
+			scope.getUrlJoueur = function(it) {
+				return '#/joueur/' + it.id;
+			};
+
+			/**
+			 * Enregistrer
+			 * @param {boolean} estValide - 
+			 */
 			scope.enregistrer = function(estValide) {
 				scope.alertesJoueur=true;
 				if (estValide) {
@@ -106,26 +116,31 @@
 						itemAjout.id=scope.itemAdd.id;
 					}
 					scope.leService.save(itemAjout);
-					scope.affichage.add=false;
-					scope.affichage.upd=false;
+					scope.affichage = {
+						"add" : false,
+						"upd" : false,
+						"liste": true
+					};
 				} else {
 					return false;
 				}
 			};
 
 			/**
-			@name 	annuler
-			@desc 	Masquer les interfaces add et upd
-			*/
+			 * Masquer les interfaces add et upd
+			 */
 			scope.annuler = function() {
-				scope.affichage.add=false;
-				scope.affichage.upd=false;
+				scope.affichage = {
+					"add" : false,
+					"upd" : false,
+					"liste": true
+				};
 			};
 
 			/**
-			@name 	effacer
-			@desc 	Appel du service (service.delete)
-			*/
+			 * Effacer le joueur
+			 * @param {Object} itemDel - joueur à supprimer
+			 */
 			scope.effacer = function(itemDel) {
 				scope.leService.delete(itemDel.id);
 			};

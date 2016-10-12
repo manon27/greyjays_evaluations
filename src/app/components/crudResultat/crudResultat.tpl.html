@@ -1,10 +1,10 @@
 <div class="container-fluid">
-	<h2>Résultats <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un résultat"><span class="glyphicon glyphicon-plus"></span></a></h2>
-	<form novalidate class="form-inline">Filtrer sur l'action <select class="form-control" size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select>
-	et sur le joueur <select size="1" ng-model="joueurSel" class="form-control"><option value="-1">Sans filtre</option><option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option></select>
-	</form>
+	<h2><span class="glyphicon glyphicon-tasks"></span> Résultats <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un résultat"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
-		<div class="col-sm-8">
+		<div ng-show="affichage.liste">
+			<form novalidate class="form-inline">Filtrer sur l'action <select class="form-control" size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select>
+			et sur le joueur <select size="1" ng-model="joueurSel" class="form-control"><option value="-1">Sans filtre</option><option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option></select>
+			</form>
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
@@ -39,94 +39,108 @@
 					</tr>
 				</tbody>
 			</table>
-			
-		</div>
-		<div ng-if="affichage.add||affichage.upd" class="col-sm-4">
-			<div class="panel panel-primary">
-  				<div class="panel-heading">
-  					<span ng-if="affichage.add">Ajouter...</span>
-					<span ng-if="affichage.upd">Modifier...</span>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-4">
+						<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
+							<option value="10">10 joueurs par page</option>
+							<option value="20">20 joueurs par page</option>
+							<option value="50">50 joueurs par page</option>
+						</select>
+					</div>
+					<div class="col-sm-8">
+						<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
+					</div>
 				</div>
-				<div class="panel-body">
-					<form name="monFormResultat" ng-submit="enregistrer(monFormResultat.$valid)" novalidate>
-					<input type="hidden" ng-model="itemAdd.id" />
-					<div class="form-group" ng-class="{ 'has-error' : !monFormResultat.actionList.$modelValue && alertesResultat}">
-						<label for="actionList" class="control-label">Action *</label>
-						<select id="actionList" name="actionList" class="form-control" size="1" ng-model="itemAdd.id_action" convert-to-number required="true">
-							<option value="">Choisir une action...</option>
-							<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>	
-						</select>
-						<div ng-if="!monFormResultat.actionList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">
-							<p>Aucune action n'est sélectionnée.</p>
-						</div>
-					</div>
-					<div class="form-group" ng-class="{ 'has-error' : !monFormResultat.joueurList.$modelValue && alertesResultat}">
-						<label for="joueurList" class="control-label">Joueur *</label>
-						<select id="joueurList" name="joueurList" class="form-control" size="1" ng-model="itemAdd.id_joueur" convert-to-number required="true">
-							<option value="">Choisir un joueur...</option>
-							<option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option>
-						</select>
-						<div ng-if="!monFormResultat.joueurList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">
-							<p>Aucun joueur n'est sélectionné.</p>
-						</div>
-					</div>
-					<div class="form-group" ng-class="{ 'has-error' : monFormResultat.dateRealisationField.$invalid && alertesResultat}">
-						<label for="dateRealisationField" class="control-label">Date réalisation *</label>
-						<input id="dateRealisationField" name="dateRealisationField" class="form-control" type="datetime-local" ng-model="itemAdd.date_realisation" required="true" />
-						<div ng-if="monFormResultat.dateRealisationField.$invalid && alertesResultat" ng-messages="monFormResultat.dateRealisationField.$error" class="alert alert-warning" role="alert">
-							<p ng-message="required">La date de réalisation est obligatoire.</p>
-						</div>
-					</div>
-					<div ng-if="affMesurable" class="form-group" ng-class="{ 'has-error' : monFormResultat.performanceField.$invalid && alertesResultat}">
-						<label for="performanceField" class="control-label">Performance *</label>
-						<input id="performanceField" name="performanceField" class="form-control" type="number" class="form-control" ng-model="itemAdd.performance" placeholder="Performance" required="true" min="0" />
-						<div ng-if="monFormResultat.performanceField.$invalid && alertesResultat" ng-messages="monFormResultat.performanceField.$error" class="alert alert-warning" role="alert">
-							<p ng-message="required">La performance est obligatoire.</p>
-							<p ng-message="min">La performance est supérieure ou égale à 0.</p>
-						</div>
-					</div>
-					<div ng-if="!affMesurable" class="form-group" ng-class="{ 'has-error' : !monFormResultat.performanceList.$modelValue && alertesResultat}">
-						<label for="performanceList" class="control-label">Performance *</label>
-						<select id="performanceList" name="performanceList" class="form-control" size="1" ng-model="itemAdd.performance" convert-to-number required="true">
-							<option value="">Choisir une performance...</option>
-							<option ng-repeat="itemP in allPerfs" value="{{itemP.note}}">{{itemP.note}} --> {{itemP.libelle}}</option>
-						</select>
-						<div ng-if="!monFormResultat.performanceList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">
-							<p>Aucune performance n'est sélectionnée.</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="inmatchField1" class="radio-inline">
-						<input id="inmatchField1" name="inmatchField" type="radio" ng-model="itemAdd.inmatch" value="0" />Entraînement
-						</label>
-						<label for="inmatchField2" class="radio-inline">
-						<input id="inmatchField2" name="inmatchField" type="radio" ng-model="itemAdd.inmatch" value="1" />Match
-						</label>
-					</div>
-					<div class="btn-group btn-group-justified" role="group" aria-label="...">
-						<div class="btn-group" role="group">
-							<button type="submit" class="btn btn-primary">Enregistrer</button>
-						</div>
-						<div class="btn-group" role="group">
-							<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
-						</div>
-					</div>
-					<p class="requis">* : champs obligatoire</p>
-					</form>
-				</div>
-			</div>
+			</div>			
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-4">
-			<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
-				<option value="10">10 résultats par page</option>
-				<option value="20">20 résultats par page</option>
-				<option value="50">50 résultats par page</option>
-			</select>
-		</div>
-		<div class="col-sm-8">
-			<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
+	<div ng-show="affichage.add||affichage.upd">
+		<div class="panel panel-default">
+				<div class="panel-heading">
+					<span ng-if="affichage.add">Ajouter</span>
+				<span ng-if="affichage.upd">Modifier</span> un résultat 
+				<small class="requis">(* : saisie requise)</small>
+			</div>
+			<div class="panel-body">
+				<form name="monFormResultat" ng-submit="enregistrer(monFormResultat.$valid)" novalidate>
+				<input type="hidden" ng-model="itemAdd.id" />
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-12 col-sm-6">
+							<div class="form-group" ng-class="{ 'has-error' : !monFormResultat.actionList.$modelValue && alertesResultat}">
+								<label for="actionList" class="control-label">Action *</label>
+								<select id="actionList" name="actionList" class="form-control" size="1" ng-model="itemAdd.id_action" convert-to-number required="true">
+									<option value="">Choisir une action...</option>
+									<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>	
+								</select>
+								<div ng-if="!monFormResultat.actionList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">
+									<p>Aucune action n'est sélectionnée.</p>
+								</div>
+							</div>
+							<div class="form-group" ng-class="{ 'has-error' : !monFormResultat.joueurList.$modelValue && alertesResultat}">
+								<label for="joueurList" class="control-label">Joueur *</label>
+								<select id="joueurList" name="joueurList" class="form-control" size="1" ng-model="itemAdd.id_joueur" convert-to-number required="true">
+									<option value="">Choisir un joueur...</option>
+									<option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option>
+								</select>
+								<div ng-if="!monFormResultat.joueurList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">
+									<p>Aucun joueur n'est sélectionné.</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6">
+							<div class="form-group" ng-class="{ 'has-error' : monFormResultat.dateRealisationField.$invalid && alertesResultat}">
+								<label for="dateRealisationField" class="control-label">Date réalisation *</label>
+								<input id="dateRealisationField" name="dateRealisationField" class="form-control" type="datetime-local" ng-model="itemAdd.date_realisation" required="true" />
+								<div ng-if="monFormResultat.dateRealisationField.$invalid && alertesResultat" ng-messages="monFormResultat.dateRealisationField.$error" class="alert alert-warning" role="alert">
+									<p ng-message="required">La date de réalisation est obligatoire.</p>
+								</div>
+							</div>
+							<div ng-if="affMesurable" class="form-group" ng-class="{ 'has-error' : monFormResultat.performanceField.$invalid && alertesResultat}">
+								<label for="performanceField" class="control-label">Performance *</label>
+								<input id="performanceField" name="performanceField" class="form-control" type="number" class="form-control" ng-model="itemAdd.performance" placeholder="Performance" required="true" min="0" />
+								<div ng-if="monFormResultat.performanceField.$invalid && alertesResultat" ng-messages="monFormResultat.performanceField.$error" class="alert alert-warning" role="alert">
+									<p ng-message="required">La performance est obligatoire.</p>
+									<p ng-message="min">La performance est supérieure ou égale à 0.</p>
+								</div>
+							</div>
+							<div ng-if="!affMesurable" class="form-group" ng-class="{ 'has-error' : !monFormResultat.performanceList.$modelValue && alertesResultat}">
+								<label for="performanceList" class="control-label">Performance *</label>
+								<select id="performanceList" name="performanceList" class="form-control" size="1" ng-model="itemAdd.performance" convert-to-number required="true">
+									<option value="">Choisir une performance...</option>
+									<option ng-repeat="itemP in allPerfs" value="{{itemP.note}}">{{itemP.note}} --> {{itemP.libelle}}</option>
+								</select>
+								<div ng-if="!monFormResultat.performanceList.$modelValue && alertesResultat" class="alert alert-warning" role="alert">
+									<p>Aucune performance n'est sélectionnée.</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label">Contexte *</label><br>
+								<label for="inmatchField1" class="radio-inline">
+								<input id="inmatchField1" name="inmatchField" type="radio" ng-model="itemAdd.inmatch" value="0" />Entraînement
+								</label>
+								<label for="inmatchField2" class="radio-inline">
+								<input id="inmatchField2" name="inmatchField" type="radio" ng-model="itemAdd.inmatch" value="1" />Match
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2">
+							<div class="btn-group btn-group-justified" role="group" aria-label="...">
+								<div class="btn-group" role="group">
+									<button type="submit" class="btn btn-primary">Enregistrer</button>
+								</div>
+								<div class="btn-group" role="group">
+									<button type="button" ng-click="annuler()" class="btn btn-default">Annuler</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

@@ -1,18 +1,21 @@
 <nav class="navbar navbar-gj">
-  <div class="container-fluid">
-      <ul class="nav navbar-nav">
-        <li role="presentation" ng-class="{'active' : interfaceJoueur}" ng-if="user_role=='joueur' || user_role=='evaluateur' || user_role=='coach'">
-          <a href="#/joueur" title="Aller à l'interface joueur">Interface Joueur</a>
-        </li>
-        <li role="presentation" ng-class="{'active' : interfaceEvaluateur}" ng-if="user_role=='evaluateur' || user_role=='coach'">
-          <a href="#/evaluateur" title="Aller à l'interface évaluateur">Interface Evaluateur</a>
-        </li>
-        <li role="presentation" ng-class="{'active' : interfaceCoach}" ng-if="user_role=='coach'">
-          <a href="#/coach" title="Aller à l'interface coach">Interface Coach</a>
-        </li>
-        <li>
-          <a href="#/logout" title="Quitter" alt="Quitter"><span class="glyphicon glyphicon-off"></span></a>
-        </li>
-      </ul>
-  </div>
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">Evaluations Base-ball</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li role="presentation" ng-class="{'active' : interfaceJoueur}" ng-if="user_role=='joueur' || user_role=='evaluateur' || user_role=='coach'">
+			<a ng-href="#/joueur/{{user_id}}" title="Aller à l'interface joueur">Interface Joueur</a>
+			</li>
+			<li role="presentation" ng-class="{'active' : interfaceEvaluateur}" ng-if="user_role=='evaluateur' || user_role=='coach'">
+			<a href="#/evaluateur" title="Aller à l'interface évaluateur">Interface Evaluateur</a>
+			</li>
+			<li role="presentation" ng-class="{'active' : interfaceCoach}" ng-if="user_role=='coach'">
+			<a href="#/coach" title="Aller à l'interface coach">Interface Coach</a>
+			</li>
+			<li ng-if="user_role!=''">
+			<a href="#/logout" title="Quitter" alt="Quitter"><span class="glyphicon glyphicon-off"></span></a>
+			</li>
+		</ul>
+	</div>
 </nav>
