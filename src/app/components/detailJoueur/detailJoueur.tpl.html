@@ -20,14 +20,31 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-6" ng-repeat="i in [0,1,2,3,4,5]">
-			<div class="panel panel-default">
-				<div class="panel-heading">{{allTitres[i]}}</div>
-				<div class="panel-body">
-					<canvas id="radar{{i}}" class="chart chart-radar" chart-data="allDonnees[i]" chart-labels="allLabels[i]" chart-series="allSeries" chart-options="allOptions" chart-colors="allColors" chart-dataset-override="allDSOverride">
-					</canvas> 
-				</div>
-			</div>
+		<div class="col-sm-12">
+			<uib-tabset active="active">
+				<uib-tab index="0" heading="Moyennes">
+					<div class="col-sm-6" ng-repeat="monradar in mesradars.allGraphs">
+						<div class="panel panel-default">
+							<div class="panel-heading">{{monradar.monTitre}}</div>
+							<div class="panel-body">
+								<canvas ng-attr-id="{{monradar.ind}}" class="chart chart-radar" chart-data="monradar.mesDonnees" chart-labels="monradar.mesLabels" chart-series="mesradars.allSeries" chart-options="mesradars.allOptions" chart-colors="mesradars.allColors" chart-dataset-override="mesradars.allDSOverride">
+								</canvas> 
+							</div>
+						</div>
+					</div>
+				</uib-tab>
+				<uib-tab index="1" heading="Evolutions">
+					<div class="col-sm-6" ng-repeat="maLine in mesLines.allGraphs">
+						<div class="panel panel-default">
+							<div class="panel-heading">{{maLine.monTitre}}</div>
+							<div class="panel-body">
+								<canvas ng-attr-id="{{maLine.ind}}" class="chart chart-line" chart-series="maLine.mesSeries" chart-data="maLine.mesDonnees" chart-labels="maLine.mesLabels" chart-options="mesLines.allOptions" chart-colors="mesLines.allColors" chart-dataset-override="mesLines.allDSOverride">
+								</canvas> 
+							</div>
+						</div>
+					</div>
+				</uib-tab>
+			</uib-tabset>
 		</div>
 	</div>
 </div>
