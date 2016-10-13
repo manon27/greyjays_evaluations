@@ -39,8 +39,8 @@ if ($input != null) {
 if ($method == 'POST') {
 	//debut authentification
 	if ($table == 'login') {
-		if (($columns[1]=='password') && ($values[1] == 'gj12345678!')) {
-			$_SESSION["gj_app"] = "123456789";
+		if (($columns[1]=='password') && ($values[1] == GJ_PASS)) {
+			$_SESSION["gj_app"] = GJ_SESSION;
 			http_response_code(200);
 			echo('{"login":"ok"}');
 			exit();
@@ -57,7 +57,7 @@ if ($method == 'POST') {
 
 //	si methode<>GET -> Test de l'authentification
 if (($method != 'GET') && ($_SERVER['HTTP_HOST']!='localhost')) {
-	if ($_SESSION["gj_app"] != "123456789") {
+	if ($_SESSION["gj_app"] != GJ_SESSION) {
 		http_response_code(403);
 		exit();
 	}
