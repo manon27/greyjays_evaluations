@@ -1,0 +1,23 @@
+<div class="filtre-select">
+	<div ng-show="chargement">
+		Calculs en cours...
+	</div>
+	<div ng-show="!chargement&&selectedItemId==0" class="form-group">
+		<div class="controls">
+
+			<div class="data">
+				<select size="1" class="form-control" ng-model="selectedItemId" convert-to-number>
+					<option value="0">{{defaultOption}}</option>
+					<option ng-repeat="item in itemsOption" value="{{item.id}}">{{item.libelle}} - {{item.description}}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="dataset" ng-show="!chargement&&selectedItemId!==0">
+		<div class="list-item" ng-click="deselectionnerItem()">
+			{{ selectedItem.libelle }} - {{ selectedItem.description }}
+			<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+		</div>
+		<a href="#"></a>
+	</div>
+</div>

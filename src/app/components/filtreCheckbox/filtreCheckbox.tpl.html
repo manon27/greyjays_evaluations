@@ -1,0 +1,13 @@
+<div class="filtre-checkbox">
+	<div ng-show="chargement">
+		Calculs en cours...
+	</div>
+	<div ng-show="!chargement" class="form-group">
+		<div class="list-item checkbox" ng-repeat="item in items">
+			<label>
+				<input type="checkbox" ng-checked="item.coche" ng-click="cocherItem(item)">
+				<span ng-if="item.type=='joueur'">{{ item.prenom }} {{ item.nom }}</span>
+			</label>
+		</div>
+	</div>
+</div>

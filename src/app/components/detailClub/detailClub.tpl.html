@@ -1,0 +1,23 @@
+<div class="container-fluid">
+	<h2><span class="glyphicon glyphicon-signal"></span> Statistiques</h2>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">Filtres...</div>
+				<div class="panel-body">
+					<filtre-select items="mesDonnees.positionListData" default-option="Choisir une position..." filter-property="positionIds" total="mesDonnees.positionListData.length" chargement="loading"></filtre-select>
+					<filtre-checkbox items="mesDonnees.joueurListData" filter-property="joueurIds" chargement="loading"></filtre-checkbox>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			<div class="panel panel-default">
+				<div class="panel-heading">{{titre}}</div>
+				<div class="panel-body">
+					<canvas id="leRadar" class="chart chart-radar" chart-data="leRadar.mesDonnees" chart-labels="leRadar.mesLabels" chart-series="leRadar.mesSeries" chart-options="leRadar.mesOptions" chart-colors="leRadar.mesColors" chart-dataset-override="leRadar.mesDSOverride">
+					</canvas> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
