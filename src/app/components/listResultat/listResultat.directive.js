@@ -9,12 +9,11 @@
 	 * GUI d'affichage des résultats
 	 * @desc <list-resultat items="" joueur-selected="" action-selected="" position-selected="" le-service=""></list-resultat>
 	 * @param {service} ActionService/JoueurService/PerformanceService - Services pour les listes liées
-	 * @param {module} _
 	 * @returns	{directive}
 	 */
 
 	/** @ngInject */
-	function listResultat(ActionService, JoueurService, PerformanceService, _) {
+	function listResultat(ActionService, JoueurService, PerformanceService) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -67,12 +66,13 @@
 			scope.afficherAjout = function() {
 				if ((scope.joueurSelected.length==1) && (scope.actionSelected.length==1)) {
 					scope.alertesResultat=false;
-					scope.itemAdd = {};
-					scope.itemAdd.date_realisation = new Date();				
-					scope.itemAdd.inmatch = 0;	
-					scope.itemAdd.joueur = JoueurService.filtrerParId(scope.joueurSelected[0]);		
-					scope.itemAdd.action = ActionService.filtrerParId(scope.actionSelected[0]);
-					scope.itemAdd.performance="";	
+					scope.itemAdd = {
+						date_realisation : new Date(),
+						inmatch : 0,
+						joueur : JoueurService.filtrerParId(scope.joueurSelected[0]),
+						action : ActionService.filtrerParId(scope.actionSelected[0]),
+						performance : ""
+					};
 					scope.affichage.add=true;
 					if (scope.itemAdd.action.mesurable === 0) {
 						scope.affMesurable=false;
@@ -92,17 +92,14 @@
 			scope.enregistrer = function(estValide) {
 				scope.alertesResultat=true;
 				if (estValide) {
-					var itemAjout = {};
-					for (var noeud in scope.itemAdd) {
-						if (angular.isString(scope.itemAdd[noeud])) {
-							itemAjout[noeud] = scope.itemAdd[noeud];
-						}
-						if (angular.isNumber(scope.itemAdd[noeud])) {
-							itemAjout[noeud] = scope.itemAdd[noeud];
-						}
-					}
-					itemAjout.id_joueur = scope.itemAdd.joueur.id;
-					itemAjout.id_action = scope.itemAdd.action.id;
+					var itemAjout = {
+						"id": scope.itemAdd.id,
+						"id_action": scope.itemAdd.action.id,
+						"id_joueur": scope.itemAdd.joueur.id,
+						"performance": scope.itemAdd.performance,
+						"inmatch": scope.itemAdd.inmatch,
+						"date_realisation": new Date(scope.itemAdd.date_realisation)
+					};
 					scope.leService.save(itemAjout);
 					scope.affichage.add=false;
 				} else {
