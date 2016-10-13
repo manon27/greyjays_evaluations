@@ -2,8 +2,8 @@
 	<h2><span class="glyphicon glyphicon-tasks"></span> Résultats <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un résultat"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
 		<div ng-show="affichage.liste">
-			<form novalidate class="form-inline">Filtrer sur l'action <select class="form-control" size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select>
-			et sur le joueur <select size="1" ng-model="joueurSel" class="form-control"><option value="-1">Sans filtre</option><option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option></select>
+			<form novalidate class="form-inline">Filtrer sur l'action&nbsp;<select class="form-control" size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select>&nbsp;
+			et sur le joueur&nbsp;<select size="1" ng-model="joueurSel" class="form-control"><option value="-1">Sans filtre</option><option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option></select>
 			</form>
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
@@ -13,6 +13,7 @@
 						<th ng-if="joueurSel=='-1'">Joueur</th>
 						<th>Date</th>
 						<th>Note</th>
+						<th>Perf.</th>
 						<th>Contexte</th>
 						<th>Actions</th>
 					</tr>
@@ -23,12 +24,13 @@
 						<td ng-if="actionSel=='-1'">{{item.action.libelle}}</td>
 						<td ng-if="joueurSel=='-1'">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
 						<td>Le {{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
-						<td ng-attr-title="{{item.libPerformance}}">
+						<td>
 							<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
 							<div ng-if="item.maNote!='???'">
 								<span class="glyphicon glyphicon-star stars" ng-repeat="star in item.maNote"></span>
 							</div>
 						</td>
+						<td>{{item.libPerformance}}</td>
 						<td>{{item.inmatch | formaterTexte : 'inmatch'}}</td>
 						<td>
 							<div class="btn-group">
