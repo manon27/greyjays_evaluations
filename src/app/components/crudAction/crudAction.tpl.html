@@ -2,7 +2,7 @@
 	<h2><span class="glyphicon glyphicon-flash"></span> Actions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une action"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
 		<div ng-show="affichage.liste">
-			<form novalidate class="form-inline">Filtrer sur la position <select class="form-control" size="1" ng-model="positionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select></form>
+			<form novalidate class="form-inline">Filtrer sur la position&nbsp;<select class="form-control" size="1" ng-model="positionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select></form>
 			<table class="table table-hover table-condensed table-striped">
 				<thead>
 					<tr>
