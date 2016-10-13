@@ -26,6 +26,9 @@
 
     <script type="text/javascript">
     var APPLICATION_ENV = 'production';
+    if (window.location.hostname.indexOf('localhost') !== -1) {
+        APPLICATION_ENV = 'local';
+    }
     //-------------------------------------------------------
     </script>
     <div id="greyjaysEvaluations" class="greyjaysEvaluations" ng-view></div>
