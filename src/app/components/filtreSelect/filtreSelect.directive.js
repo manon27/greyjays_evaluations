@@ -35,18 +35,11 @@
 					if (newVals.length > 0) {
 						scope.itemsOption = [];
 						_.each(newVals, function(item) {
-							var myItem = {
-								id: item.id,
-								libelle: item.libelle,
-								description: item.description
-							};
+							var myItem = setItem(item);
 							scope.itemsOption.push(myItem);
 							if (_.contains(scope.$parent.filterData[scope.filterProperty], item.id)) {
 								scope.selectedItemId = item.id;
-								scope.selectedItem = {
-									libelle: item.libelle,
-									description: item.description
-								};
+								scope.selectedItem = setItem(item);
 							}
 						});
 					}
@@ -56,10 +49,7 @@
 					if (newVal !== 0) {
 						_.each(scope.items, function(item) {
 							if (item.id === newVal) {
-								scope.selectedItem = {
-									libelle: item.libelle,
-									description: item.description
-								};
+								scope.selectedItem = setItem(item);
 							}
 						});
 						scope.$parent.filterData[scope.filterProperty].push(newVal);
@@ -72,6 +62,16 @@
 					scope.selectedItem = {};
 					scope.$parent.filterData[scope.filterProperty] = [];
 					$rootScope.$broadcast('filtrerDatas');
+				};
+
+				var setItem = function(it) {
+					if (it.type === 'joueur') {
+						return {id: it.id, label: it.prenom + ' ' + it.nom + ' (' + it.date_naissance + ')', type: it.type};
+					} else if (it.type === 'position') {
+						return {id: it.id, label: it.libelle + ' - ' + it.description, type: it.type};
+					} else if (it.type === 'action') {
+						return {id: it.id, label: it.libelle, description: it.description, type: it.type};
+					}
 				};
 
 			}

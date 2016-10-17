@@ -3,21 +3,18 @@
 		Calculs en cours...
 	</div>
 	<div ng-show="!chargement&&selectedItemId==0" class="form-group">
-		<div class="controls">
-
-			<div class="data">
-				<select size="1" class="form-control" ng-model="selectedItemId" convert-to-number>
-					<option value="0">{{defaultOption}}</option>
-					<option ng-repeat="item in itemsOption" value="{{item.id}}">{{item.libelle}} - {{item.description}}</option>
-				</select>
-			</div>
-		</div>
+		<select size="1" class="form-control" ng-model="selectedItemId" convert-to-number>
+			<option value="0">{{defaultOption}}</option>
+			<option ng-repeat="item in itemsOption" value="{{item.id}}">{{item.label}}</option>
+		</select>
 	</div>
-	<div class="dataset" ng-show="!chargement&&selectedItemId!==0">
-		<div class="list-item" ng-click="deselectionnerItem()">
-			{{ selectedItem.libelle }} - {{ selectedItem.description }}
-			<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
-		</div>
-		<a href="#"></a>
+	<div ng-show="!chargement&&selectedItemId!==0" ng-click="deselectionnerItem()">
+		<span ng-if="selectedItem.type=='joueur'" class="glyphicon glyphicon-user"></span>
+		<span ng-if="selectedItem.type=='position'" class="glyphicon glyphicon-screenshot"></span>
+		<span ng-if="selectedItem.type=='action'" class="glyphicon glyphicon-flash"></span>
+		&nbsp;{{selectedItem.label}}
+		<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+		<br/>
+		<div ng-if="selectedItem.type=='action'" class="description" ng-bind-html="selectedItem.description | formaterTexte"></div>
 	</div>
 </div>
