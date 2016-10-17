@@ -2,48 +2,36 @@
 	<h2><span class="glyphicon glyphicon-flash"></span> Actions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une action"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
 		<div ng-show="affichage.liste">
-			<form novalidate class="form-inline">Filtrer sur la position&nbsp;<select class="form-control" size="1" ng-model="positionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select></form>
-			<table class="table table-hover table-condensed table-striped">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Libellé</th>
-						<th>Description</th>
-						<th>Mesurable</th>
-						<th>Position</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in pageItems()">
-						<td>{{item.id}}</td>
-						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette action">{{item.libelle}}</a></td>
-						<td ng-attr-title="{{item.description}}">...</td>
-						<td>{{item.mesurable | formaterTexte : 'mesurable'}}</td>
-						<td>{{item.position.libelle}} : {{item.position.description}}</td>
-						<td>
-							<div class="btn-group">
-							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier cette action"><span class="glyphicon glyphicon-edit"></span></a>
-							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer cette action"><span class="glyphicon glyphicon-trash"></span></a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-sm-3">
+						<select class="form-control" size="1" ng-model="positionSel" style="margin:20px 0" convert-to-number><option value="-1">Filtrer sur la position</option><option ng-repeat="itemP in allPositions | orderBy: 'libelle'" value="{{itemP.id}}">{{itemP.libelle}} : {{itemP.description}}</option></select>
+					</div>
+					<div class="col-sm-3">
 						<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
 							<option value="10">10 actions par page</option>
 							<option value="20">20 actions par page</option>
 							<option value="50">50 actions par page</option>
 						</select>
 					</div>
-					<div class="col-sm-8">
+					<div class="col-sm-6">
 						<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
 					</div>
 				</div>
 			</div>			
+			<div class="col-xs-12" ng-repeat="item in pageItems()">
+				<div class="panel panel-default">
+					<div class="panel-heading"><strong>{{item.libelle}}</strong></div>
+					<div class="panel-body">
+						<p>{{item.mesurable | formaterTexte : 'mesurable'}}</p>
+						<div ng-bind-html="item.description | formaterTexte" class="description"></div>
+						<div style="float: right;">
+							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier cette action"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer cette action"><span class="glyphicon glyphicon-trash"></span></a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div ng-show="affichage.add||affichage.upd">
 			<div class="panel panel-default">
@@ -74,13 +62,13 @@
 								<div class="form-group">
 									<label class="control-label">Mesurabilité *</label><br>
 									<label for="mesurableField1" class="radio-inline">
-									<input id="mesurableField1" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="0" />Non mesurable
+									<input id="mesurableField1" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="0" />{{ 0 | formaterTexte : 'mesurable'}}
 									</label><br/>
 									<label for="mesurableField2" class="radio-inline">
-									<input id="mesurableField2" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="1" />Mesurable (croissant)
+									<input id="mesurableField2" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="1" />{{ 1 | formaterTexte : 'mesurable'}}
 									</label><br/>
 									<label for="mesurableField3" class="radio-inline">
-									<input id="mesurableField3" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="2" />Mesurable (décroissant)
+									<input id="mesurableField3" name="mesurableField" type="radio" ng-model="itemAdd.mesurable" value="2" />{{ 2 | formaterTexte : 'mesurable'}}
 									</label>
 								</div>
 								<div class="form-group" ng-class="{ 'has-error' : !monFormAction.positionList.$modelValue && alertesAction}">

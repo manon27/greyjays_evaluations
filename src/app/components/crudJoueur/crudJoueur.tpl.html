@@ -2,45 +2,41 @@
 	<h2><span class="glyphicon glyphicon-user"></span> Joueurs <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un joueur"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
 		<div ng-show="affichage.liste">
-			<table class="table table-hover table-condensed table-striped">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Prénom NOM</th>
-						<th>Inscrit(e) le</th>
-						<th>Né(e) le</th>
-						<th>Rôle</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in pageItems()">
-						<td>{{item.id}}</td>
-						<td>{{item.prenom}} {{item.nom | uppercase}}</td>
-						<td>{{item.date_inscription | formaterDate : 'JJ/MM/AAAA'}}</td>
-						<td>{{item.date_naissance | formaterDate : 'JJ/MM/AAAA'}}</td>
-						<td>{{item.role}}</td>
-						<td>
-							<div class="btn-group">
-							<a class="btn btn-default" ng-href="{{getUrlJoueur(item)}}" title="Afficher ce joueur"><span class="glyphicon glyphicon-signal"></span></a>
-							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier ce joueur"><span class="glyphicon glyphicon-edit"></span></a>
-							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer ce joueur"><span class="glyphicon glyphicon-trash"></span></a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-xs-12 col-sm-4">
 						<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
 							<option value="10">10 joueurs par page</option>
 							<option value="20">20 joueurs par page</option>
 							<option value="50">50 joueurs par page</option>
 						</select>
 					</div>
-					<div class="col-sm-8">
+					<div class="col-xs-12 col-sm-8">
 						<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="item in pageItems()">
+				<div class="panel panel-default">
+					<div class="panel-heading"><strong>{{item.prenom}} {{item.nom | uppercase}} <small>{{item.role}}</small></strong></div>
+					<div class="panel-body">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-xs-8">
+									<p>Inscrit(e) le {{item.date_inscription | formaterDate : 'JJ/MM/AAAA'}}<br>
+									Né(e) le {{item.date_naissance | formaterDate : 'JJ/MM/AAAA'}}</p>
+								</div>
+								<div class="col-xs-4">
+									<p>{{item.poids}} Kg<br>
+									{{item.taille}} cm</p>
+								</div>
+							</div>
+						</div>
+
+						<div style="float:right"><a class="btn btn-default" ng-href="{{getUrlJoueur(item)}}" title="Afficher ce joueur"><span class="glyphicon glyphicon-signal"></span></a>
+							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier ce joueur"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer ce joueur"><span class="glyphicon glyphicon-trash"></span></a>
+						</div>
 					</div>
 				</div>
 			</div>

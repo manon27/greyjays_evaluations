@@ -2,29 +2,6 @@
 	<h2><span class="glyphicon glyphicon-screenshot"></span> Positions <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une position"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
 		<div ng-show="affichage.liste">
-			<table class="table table-hover table-condensed table-striped">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Libellé</th>
-						<th>Description</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in pageItems()">
-						<td>{{item.id}}</td>
-						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette position">{{item.libelle}}</a></td>
-						<td>{{item.description}}</td>
-						<td>
-							<div class="btn-group">
-							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier cette position"><span class="glyphicon glyphicon-edit"></span></a>
-							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer cette position"><span class="glyphicon glyphicon-trash"></span></a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-sm-4">
@@ -39,12 +16,24 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="item in pageItems()">
+				<div class="panel panel-default">
+					<div class="panel-heading"><strong>{{item.libelle}}</strong></div>
+					<div class="panel-body">
+						<p>{{item.description}}</p>
+						<div style="float: right;">
+							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier cette position"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer cette position"><span class="glyphicon glyphicon-trash"></span></a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div ng-show="affichage.add||affichage.upd">
 		<div class="panel panel-default">
-				<div class="panel-heading">
-					<span ng-if="affichage.add">Ajouter</span>
+			<div class="panel-heading">
+				<span ng-if="affichage.add">Ajouter</span>
 				<span ng-if="affichage.upd">Modifier</span> une position 
 				<small class="requis">(* : saisie requise)</small>
 			</div>

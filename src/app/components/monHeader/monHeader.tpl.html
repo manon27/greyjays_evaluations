@@ -1,17 +1,17 @@
 <nav class="navbar navbar-gj">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Evaluations Base-ball</a>
+			<a class="navbar-brand" href="#"><span class="glyphicon glyphicon-home"></span><span class="bd"> Evaluations Base-ball</span></a>
 		</div>
 		<ul class="nav navbar-nav">
 			<li role="presentation" ng-class="{'active' : interfaceJoueur}" ng-if="user_role=='joueur' || user_role=='evaluateur' || user_role=='coach'">
-			<a ng-href="#/joueur/{{user_id}}" title="Aller à l'interface joueur">Interface Joueur</a>
+			<a ng-href="#/joueur/{{user_id}}" title="Aller à l'interface joueur"><span class="bd">Interface </span>J<span class="bd">oueur</span></a>
 			</li>
 			<li role="presentation" ng-class="{'active' : interfaceEvaluateur}" ng-if="user_role=='evaluateur' || user_role=='coach'">
-			<a href="#/evaluateur" title="Aller à l'interface évaluateur">Interface Evaluateur</a>
+			<a href="#/evaluateur" title="Aller à l'interface évaluateur"><span class="bd">Interface </span>E<span class="bd">valuateur</span></a>
 			</li>
 			<li role="presentation" ng-class="{'active' : interfaceCoach}" ng-if="user_role=='coach'">
-			<a href="#/coach" title="Aller à l'interface coach">Interface Coach</a>
+			<a href="#/coach" title="Aller à l'interface coach"><span class="bd">Interface </span>C<span class="bd">oach</span></a>
 			</li>
 			<li ng-if="user_role!=''">
 			<a href="#/logout" title="Quitter" alt="Quitter"><span class="glyphicon glyphicon-off"></span></a>

@@ -2,43 +2,32 @@
 	<h2><span class="glyphicon glyphicon-scale"></span> Performances <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter une performance"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
 		<div ng-show="affichage.liste">
-			<form novalidate class="form-inline">Filtrer sur l'action&nbsp;<select class="form-control" size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select></form>
-			<table class="table table-hover table-condensed table-striped">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Action</th>
-						<th>Libellé</th>
-						<th>Note</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in pageItems()">
-						<td><a href="" ng-click="afficherModification(item)" title="Modifier cette performance">{{item.id}}</a></td>
-						<td>{{item.action.libelle}}</td>
-						<td>{{item.libelle}}</td>
-						<td>{{item.note}}</td>
-						<td>
-							<div class="btn-group">
-							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier cette performance"><span class="glyphicon glyphicon-edit"></span></a>
-							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer cette performance"><span class="glyphicon glyphicon-trash"></span></a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-sm-3">
+						<select class="form-control" size="1" ng-model="actionSel" style="margin:20px 0" convert-to-number><option value="-1">Filtrer sur l'action</option><option ng-repeat="itemA in allActions | orderBy: 'libelle'" value="{{itemA.id}}">{{itemA.libelle}}</option></select>
+					</div>
+					<div class="col-sm-3">
 						<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
-							<option value="10">10 joueurs par page</option>
-							<option value="20">20 joueurs par page</option>
-							<option value="50">50 joueurs par page</option>
+							<option value="10">10 actions par page</option>
+							<option value="20">20 actions par page</option>
+							<option value="50">50 actions par page</option>
 						</select>
 					</div>
-					<div class="col-sm-8">
+					<div class="col-sm-6">
 						<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
+					</div>
+				</div>
+			</div>			
+			<div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="item in pageItems()">
+				<div class="panel panel-default">
+					<div class="panel-heading"><strong>{{item.libelle}}</strong></div>
+					<div class="panel-body">
+						<p><span class="note">{{item.note}}</span> ({{item.action.libelle}})</p>
+						<div style="float: right;">
+							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier cette performance"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer cette performance"><span class="glyphicon glyphicon-trash"></span></a>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -2,59 +2,44 @@
 	<h2><span class="glyphicon glyphicon-tasks"></span> Résultats <a ng-click="afficherAjout()" class="btn btn-default" title="Ajouter un résultat"><span class="glyphicon glyphicon-plus"></span></a></h2>
 	<div class="row">
 		<div ng-show="affichage.liste">
-			<form novalidate class="form-inline">Filtrer sur l'action&nbsp;<select class="form-control" size="1" ng-model="actionSel"><option value="-1">Sans filtre</option><option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option></select>&nbsp;
-			et sur le joueur&nbsp;<select size="1" ng-model="joueurSel" class="form-control"><option value="-1">Sans filtre</option><option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option></select>
-			</form>
-			<table class="table table-hover table-condensed table-striped">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th ng-if="actionSel=='-1'">Action</th>
-						<th ng-if="joueurSel=='-1'">Joueur</th>
-						<th>Date</th>
-						<th>Note</th>
-						<th>Perf.</th>
-						<th>Contexte</th>
-						<th>Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="item in pageItems()">
-						<td><a href="" ng-click="afficherModification(item)" title="Modifier ce résultat">{{item.id}}</a></td>
-						<td ng-if="actionSel=='-1'">{{item.action.libelle}}</td>
-						<td ng-if="joueurSel=='-1'">{{item.joueur.prenom}} {{item.joueur.nom}}</td>
-						<td>Le {{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</td>
-						<td>
-							<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
-							<div ng-if="item.maNote!='???'">
-								<span class="glyphicon glyphicon-star stars" ng-repeat="star in item.maNote"></span>
-							</div>
-						</td>
-						<td>{{item.libPerformance}}</td>
-						<td>{{item.inmatch | formaterTexte : 'inmatch'}}</td>
-						<td>
-							<div class="btn-group">
-							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier ce résultat"><span class="glyphicon glyphicon-edit"></span></a>
-							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer ce résultat"><span class="glyphicon glyphicon-trash"></span></a>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-4">
+					<div class="col-sm-3">
+						<select class="form-control" size="1" ng-model="actionSel" style="margin:20px 0" convert-to-number><option value="-1">Filtrer sur l'action</option><option ng-repeat="itemA in allActions | orderBy: 'libelle'" value="{{itemA.id}}">{{itemA.libelle}}</option></select>
+					</div>
+					<div class="col-sm-3">
+						<select size="1" ng-model="joueurSel" class="form-control" style="margin:20px 0" convert-to-number><option value="-1">Filtrer sur le joueur</option><option ng-repeat="itemJ in allJoueurs" value="{{itemJ.id}}">{{itemJ.prenom}} {{itemJ.nom}}</option></select>
+					</div>
+					<div class="col-sm-3">
 						<select ng-model="itemsPerPage" size="1" class="form-control" style="margin:20px 0" convert-to-number>
-							<option value="10">10 joueurs par page</option>
-							<option value="20">20 joueurs par page</option>
-							<option value="50">50 joueurs par page</option>
+							<option value="10">10 actions par page</option>
+							<option value="20">20 actions par page</option>
+							<option value="50">50 actions par page</option>
 						</select>
 					</div>
-					<div class="col-sm-8">
+					<div class="col-sm-6">
 						<ul uib-pagination ng-show="count>itemsPerPage" total-items="count" items-per-page="itemsPerPage" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" first-text="Première" previous-text="Précédente" next-text="Suivante" last-text="Dernière"></ul>
 					</div>
 				</div>
 			</div>			
+			<div class="col-xs-12 col-sm-6 col-md-4" ng-repeat="item in pageItems()">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div ng-if="item.maNote=='???'"><span style="color:red">{{item.maNote}}</span></div>
+						<div ng-if="item.maNote!='???'"><span class="glyphicon glyphicon-star stars" ng-repeat="star in item.maNote"></span></div>
+					</div>
+					<div class="panel-body">
+						<p><strong>{{item.action.libelle}}</strong></p>
+						<p>Par {{item.joueur.prenom}} {{item.joueur.nom}}, le {{item.date_realisation | formaterDate : 'JJ/MM/AAAA à HHhMM'}}</p>
+						<p>Perf : <strong>{{item.libPerformance}}</strong></p>
+						<p>En {{item.inmatch | formaterTexte : 'inmatch'}}</p>
+						<div style="float: right;">
+							<a class="btn btn-default" ng-click="afficherModification(item)" title="Modifier ce résultat"><span class="glyphicon glyphicon-edit"></span></a>
+							<a class="btn btn-primary" ng-click="effacer(item)" title="Supprimer ce résultat"><span class="glyphicon glyphicon-trash"></span></a>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div ng-show="affichage.add||affichage.upd">
