@@ -41,7 +41,7 @@
 		evaluateur.resultatService = ResultatService;
 		evaluateur.donneesService = DonneesService;
 		
-		evaluateur.$on('refresh', function() {
+		evaluateur.$on('filtrerDatas', function() {
 			var deferred = $q.defer();
 
 			function applyRefresh() {
