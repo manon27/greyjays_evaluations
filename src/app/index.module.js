@@ -1,3 +1,10 @@
+/**
+ * @license greyjaysEvaluations
+ * (c) 2016 Manon
+ * Version : 1.0.0
+ * https://github.com/manon27/greyjays_evaluations
+ * License: MIT
+ */
 (function(__D) {
 	'use strict';
 
@@ -10,7 +17,7 @@
 	 * @param {module} chart.js
 	 */
 	angular
-		.module('greyjays.evaluations', ['ngRoute', 'ui.bootstrap', 'ngCookies', 'ngMessages', 'chart.js']);
+		.module('greyjays.evaluations', ['ngRoute', 'ui.bootstrap', 'ngCookies', 'ngMessages', 'ngSanitize', 'chart.js']);
 
 	/**
 	 * Chargement du module dans le noeud du dom avec id=greyJaysEvaluations
