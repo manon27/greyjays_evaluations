@@ -25,3 +25,6 @@
 	background-color:#7F0006;
 	color: #FFFFFF;
 }
+.panel-default {
+    border-color: #999;
+}

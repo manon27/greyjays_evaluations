@@ -27,6 +27,11 @@ navbar-gj personnalisation de la navbar
   background-color: #000000;
   border-color: none;
 }
+.navbar-gj .container-fluid>.navbar-header {
+  float: left;
+  margin-right:0;
+  margin-left: 0;
+}
 .navbar-gj .navbar-brand {
   color: #FFF;
 }
@@ -37,6 +42,9 @@ navbar-gj personnalisation de la navbar
 }
 .navbar-gj .navbar-text {
   color: #000;
+}
+.navbar-gj .navbar-nav > li {
+  float:left;
 }
 .navbar-gj .navbar-nav > li > a {
   color: #FFF;
@@ -79,6 +87,9 @@ navbar-gj personnalisation de la navbar
   background-color: #e7e7e7;
 }
 @media (max-width: 767px) {
+  .bd {
+    display: none;
+  }
   .navbar-gj .navbar-nav .open .dropdown-menu > li > a {
     color: #000;
   }
@@ -142,4 +153,14 @@ fieldset[disabled] .navbar-gj .btn-link:focus {
 	font-style: italic;
 	font-size: 0.8em;
 	padding-top: 15px;
+}
+.description {
+  font-style: italic;
+  background-color: #E9EF9A;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+.note {
+  font-size: 2em;
+  font-weight: bold;
 }
