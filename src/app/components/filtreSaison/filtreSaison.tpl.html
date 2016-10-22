@@ -1,0 +1,14 @@
+<div class="filtre-saison">
+	<div ng-show="chargement">
+		Calculs en cours...
+	</div>
+	<div ng-show="!chargement&&dateDebutSaison==0" class="form-group">
+		<select size="1" class="form-control" ng-model="dateDebutSaison" style="margin:20px 0" convert-to-number>
+			<option ng-repeat="item in itemOptions" value="{{item.dateBegin}}">{{item.libelle}}</option>
+		</select>
+	</div>
+	<div ng-show="!chargement&&dateDebutSaison!==0" ng-click="deselectionnerItem()" style="margin:20px 0">
+		{{selectedItem.libelle}}
+		<button type="button" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+	</div>
+</div>
