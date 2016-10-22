@@ -101,6 +101,33 @@
 			}
 		};
 
+		/**
+		 * Filtrer les actions en fonction d'un tableau d'ids performance
+		 * @param {Number[]} performanceIds - Tableau des ids de performances
+		 * @returns {Object[]}
+		 */
+		MonService.prototype.filtrerParPerformances = function(performanceIds) {
+			if (performanceIds.length > 0) {
+				return _.filter(this.all, function(item) {
+					if (typeof item.performance_ids === 'undefined') {
+						return false;
+					}
+					if (item.performance_ids.length === 0) {
+						return false;
+					}
+					if (item.performance_ids.length > performanceIds.length) {
+						return _.find(performanceIds, function(idItem) {
+							return _.contains(item.performance_ids, idItem);
+						});
+					} else {
+						return _.find(item.performance_ids, function(idItem) {
+							return _.contains(performanceIds, idItem);
+						});
+					}
+				});
+			}
+		};
+
 		return new MonService();
 	}
 

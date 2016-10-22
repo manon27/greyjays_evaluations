@@ -13,7 +13,7 @@
 	 */
 
 	/** @ngInject */
-	function ModelService($rootScope, $http, _) {
+	function ModelService($rootScope, $http, $filter, _) {
 
 		/**
 		 * constructeur
@@ -134,10 +134,15 @@
 		MonService.prototype.save = function (item) {
 			var self = this;
 			var requeteHttp;
-			item.date_modification = new Date();
+			_.each(item, function(val,key) {
+				if (key.indexOf('date') === 0) {
+					item[key] = new Date($filter('formaterDate')(val,'sql'));
+				}
+			});
+			item.date_modification = new Date($filter('formaterDate')(new Date(),'sql'));
 			if (typeof item.id === 'undefined') {
 				//creation => POST
-				item.date_creation = new Date();
+				item.date_creation =  new Date($filter('formaterDate')(new Date(),'sql'));
 				requeteHttp = $http({
 					url: self.url,
 					method: 'POST',

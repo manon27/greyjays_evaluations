@@ -196,16 +196,22 @@
 			var aPerformances = [];
 			var aResultats = [];
 
+			if (filterData.positionIds.length > 0) {
+				aPositions.push(PositionService.filtrerParId(filterData.positionIds[0]));
+			} else {
+				aPositions = component.dataSets.positionListData;
+			}
+
 			if (filterData.actionIds.length > 0) {
 				aActions.push(ActionService.filtrerParId(filterData.actionIds[0]));
 			} else {
 				aActions = component.dataSets.actionListData;
 			}
 
-			if (filterData.positionIds.length > 0) {
-				aPositions.push(PositionService.filtrerParId(filterData.positionIds[0]));
+			if (filterData.performanceIds.length > 0) {
+				aPerformances.push(PerformanceService.filtrerParId(filterData.performanceIds[0]));
 			} else {
-				aPositions = component.dataSets.positionListData;
+				aPerformances = component.dataSets.performanceListData;
 			}
 
 			if (filterData.joueurIds.length > 0) {
@@ -243,7 +249,25 @@
 				);
 			}
 
-			aPerformances = component.propager(aActions, PerformanceService, "filtrerParActions");
+			//	si selection de action ==> filtre des performances
+			if ((aActions.length === 1) && (aPerformances.length > 1)) {
+				aPerformances = component.propager(
+					aActions,
+					PerformanceService,
+					"filtrerParActions"
+				);
+			}
+
+			//	si selection de performance ==> filtre des actions
+			if ((aPerformances.length === 1) && (aActions.length > 1)) {
+				aActions = _.intersection(aActions, component.propager(
+					aPerformances,
+					ActionService,
+					"filtrerParPerformances"
+				));
+			}
+
+			aPerformances =  _.intersection(aPerformances,component.propager(aActions, PerformanceService, "filtrerParActions"));
 			aResultats = _.intersection(aResultats, component.propager(aActions, ResultatService, "filtrerParActions"));
 			
 			this.dataSets.joueurListData = aJoueurs;
