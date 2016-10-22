@@ -42,6 +42,36 @@
 		joueurCtrl.positionService = PositionService;
 		joueurCtrl.resultatService = ResultatService;
 		
+		/**
+		 *	Filtrer après sélection
+		 */
+		joueurCtrl.$on('filtrerDatas', function() {
+			var deferred = $q.defer();
+
+			function applyRefresh() {
+				_.delay(function() {
+					$scope.$apply(function() {
+						// mise à jour du jeu de donnees
+						init();
+						deferred.resolve('Finished refresh');
+					});
+				}, 250);
+
+				return deferred.promise;
+			}
+
+			//	Calculs en cours
+			joueurCtrl.loading = true;
+
+			applyRefresh().then(function() {
+				//	Calculs en cours termine
+				joueurCtrl.loading = false;
+			});
+		});
+
+		/**
+		 *	Rafraichir apres appel ajax
+		 */
 		joueurCtrl.$on('refresh', function() {
 			var deferred = $q.defer();
 
