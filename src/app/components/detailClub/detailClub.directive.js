@@ -13,7 +13,7 @@
 	 */
 
 	/** @ngInject */
-	function detailClub($filter, JoueurService, PositionService, _) {
+	function detailClub(JoueurService, PositionService, _) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -29,6 +29,7 @@
 			scope.mesDonnees = scope.mesDonnees || {};
 			scope.titre = 'Pas de graphe si pas de position sélectionnée...';
 			scope.loading=false;
+			scope.dateDebutSaison=0;
 
 			scope.filterData = {
 				actionIds: [],
@@ -107,10 +108,14 @@
 					var moyenne = 0;
 					if ((typeof monAct.resultats !== 'undefined') && (monAct.resultats.length > 0)) {
 						var total = 0;
+						var compteur = 0;
 						_.each(monAct.resultats, function(monRes) {
-							total += monRes.maNote.length;
+							if (checkSaison(monRes.date_realisation)) {
+								total += monRes.maNote.length;
+								compteur++;
+							}
 						});
-						moyenne = Math.round(total/monAct.resultats.length*100)/100;
+						moyenne = Math.round(total/compteur*100)/100;
 					}
 					donneesEquipe.push(moyenne);					
 				});
@@ -129,8 +134,10 @@
 								var compteur = 0;
 								_.each(monAct.resultats, function(monRes) {
 									if (monRes.id_joueur === joueur) {
-										total += monRes.maNote.length;
-										compteur++;
+										if (checkSaison(monRes.date_realisation)) {
+											total += monRes.maNote.length;
+											compteur++;
+										}
 									}
 								});
 								if (compteur>0) {
@@ -146,6 +153,19 @@
 					});
 				}
 			};
+
+			var checkSaison = function(uneDate) {
+				if (scope.dateDebutSaison!==0) {
+					var timeD = scope.dateDebutSaison;
+					var timeR = new Date(uneDate).getTime();
+					var timeF = timeD + 365*24*60*60*1000;
+					if (timeR<timeD || timeR>timeF) {
+						return false;
+					}
+				}
+				return true;
+			};
+
 		}
 	}
 })();

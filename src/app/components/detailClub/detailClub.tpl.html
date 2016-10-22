@@ -6,6 +6,7 @@
 				<div class="panel-heading">Filtres...</div>
 				<div class="panel-body">
 					<filtre-select items="mesDonnees.positionListData" default-option="Choisir une position..." filter-property="positionIds" total="mesDonnees.positionListData.length" chargement="loading"></filtre-select>
+					<filtre-saison></filtre-saison>
 					<filtre-checkbox items="mesDonnees.joueurListData" filter-property="joueurIds" chargement="loading"></filtre-checkbox>
 				</div>
 			</div>

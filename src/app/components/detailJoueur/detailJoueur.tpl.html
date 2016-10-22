@@ -1,50 +1,47 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-if="leJoueur !== 0">
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="panel panel-default">
-				<div class="panel-heading">{{qui.prenom}} {{qui.nom}}</div>
+				<div class="panel-heading">{{leJoueur.prenom}} {{leJoueur.nom}}</div>
 				<div class="panel-body">
-					<p>Né(e) le : {{qui.date_naissance | formaterDate : 'JJ/MM/AAAA'}}</p>
-					<p>Inscrit(e) le : {{qui.date_inscription | formaterDate : 'JJ/MM/AAAA'}}</p>
+					<p>Né(e) le : {{leJoueur.date_naissance | formaterDate : 'JJ/MM/AAAA'}}</p>
+					<p>Inscrit(e) le : {{leJoueur.date_inscription | formaterDate : 'JJ/MM/AAAA'}}</p>
+					<p>Taille : {{leJoueur.taille}} cm</p>
+					<p>Poids : {{leJoueur.poids}} Kg</p>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-6">
 			<div class="panel panel-default">
-				<div class="panel-heading">Caractéristiques</div>
+				<div class="panel-heading">Filtres</div>
 				<div class="panel-body">
-					<p>Taille : {{qui.taille}} cm</p>
-					<p>Poids : {{qui.poids}} Kg</p>
+					<p><a ng-click="afficher('moyenne')">Moyennes</a></p>
+					<p><a ng-click="afficher('evolution')">Evolutions</a></p>
+					<filtre-saison></filtre-saison>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-12">
-			<uib-tabset active="active">
-				<uib-tab index="0" heading="Moyennes">
-					<div class="col-sm-6" ng-repeat="monradar in mesradars.allGraphs">
-						<div class="panel panel-default">
-							<div class="panel-heading">{{monradar.monTitre}}</div>
-							<div class="panel-body">
-								<canvas ng-attr-id="{{monradar.ind}}" class="chart chart-radar" chart-data="monradar.mesDonnees" chart-labels="monradar.mesLabels" chart-series="mesradars.allSeries" chart-options="mesradars.allOptions" chart-colors="mesradars.allColors" chart-dataset-override="mesradars.allDSOverride">
-								</canvas> 
-							</div>
-						</div>
-					</div>
-				</uib-tab>
-				<uib-tab index="1" heading="Evolutions">
-					<div class="col-sm-6" ng-repeat="maLine in mesLines.allGraphs">
-						<div class="panel panel-default">
-							<div class="panel-heading">{{maLine.monTitre}}</div>
-							<div class="panel-body">
-								<canvas ng-attr-id="{{maLine.ind}}" class="chart chart-line" chart-series="maLine.mesSeries" chart-data="maLine.mesDonnees" chart-labels="maLine.mesLabels" chart-options="mesLines.allOptions" chart-colors="mesLines.allColors" chart-dataset-override="mesLines.allDSOverride">
-								</canvas> 
-							</div>
-						</div>
-					</div>
-				</uib-tab>
-			</uib-tabset>
+	<div class="row" ng-if="affichage=='moyenne'">
+		<div class="col-sm-6" ng-repeat="monradar in mesradars.allGraphs">
+			<div class="panel panel-default">
+				<div class="panel-heading">{{monradar.monTitre}}</div>
+				<div class="panel-body">
+					<canvas ng-attr-id="{{monradar.ind}}" class="chart chart-radar" chart-data="monradar.mesDonnees" chart-labels="monradar.mesLabels" chart-series="mesradars.allSeries" chart-options="mesradars.allOptions" chart-colors="mesradars.allColors" chart-dataset-override="mesradars.allDSOverride">
+					</canvas> 
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-if="affichage=='evolution'">
+		<div class="col-sm-6" ng-repeat="maLine in mesLines.allGraphs">
+			<div class="panel panel-default">
+				<div class="panel-heading">{{maLine.monTitre}}</div>
+				<div class="panel-body">
+					<canvas ng-attr-id="{{maLine.ind}}" class="chart chart-line" chart-series="maLine.mesSeries" chart-data="maLine.mesDonnees" chart-labels="maLine.mesLabels" chart-options="mesLines.allOptions" chart-colors="mesLines.allColors" chart-dataset-override="mesLines.allDSOverride">
+					</canvas> 
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -13,7 +13,7 @@
 	 */
 
 	/** @ngInject */
-	function detailJoueur($filter, PositionService, _) {
+	function detailJoueur($filter, JoueurService, PositionService, _) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -26,18 +26,33 @@
 		
 		function linkF(scope) {
 
+			scope.leJoueur = 0;
+			scope.affichage = 'moyenne';
+			scope.dateDebutSaison=0;
 
 			/**
 			 * Surveiller les modifications sur le joueur (qui)
 			 * @param {Object} qui - nouvelle valeur
 			 */	
 			scope.$watch('qui', function(newJoueur) {
-
-				construireRadar(newJoueur);
-
-				construireLine(newJoueur);
+				if (newJoueur.length === 1) {
+					scope.leJoueur = JoueurService.filtrerParId(newJoueur[0].id);
+					scope.afficher('moyenne');
+				} else {
+					scope.leJoueur = 0;
+				}
 
 			});
+
+			scope.afficher = function(what) {
+				scope.affichage = what;
+				if (what === 'moyenne') {
+					construireRadar(scope.leJoueur);
+				}
+				if (what === 'moyenne') {
+					construireLine(scope.leJoueur);
+				}
+			};
 
 			var construireRadar = function(objJoueur) {
 
@@ -88,7 +103,9 @@
 						var res = [];
 						if (typeof objJoueur.resultats !== 'undefined') {
 							res = _.filter(objJoueur.resultats, function(result) {
-								return result.id_action === monAct.id;
+								if (result.id_action === monAct.id) {
+									return checkSaison(result.date_realisation);
+								}
 							});
 						}
 						var max = 0;
@@ -107,11 +124,15 @@
 						// sur l equipe
 						var totEquipe = 0;
 						var moyEquipe = 0;
+						var compteurEquipe = 0;
 						if ((typeof monAct.resultats !== 'undefined') && (monAct.resultats.length > 0)) {
 							_.each(monAct.resultats, function(res0) {
-								totEquipe += res0.maNote.length;
+								if (checkSaison(res0.date_realisation)) {
+									totEquipe += res0.maNote.length;
+									compteurEquipe++;
+								}
 							});
-							moyEquipe = Math.round(totEquipe / monAct.resultats.length * 100) / 100;
+							moyEquipe = Math.round(totEquipe / compteurEquipe * 100) / 100;
 						}
 						donneesMoyEquipe.push(moyEquipe);
 					});
@@ -198,7 +219,9 @@
 						var res = [];
 						if (typeof objJoueur.resultats !== 'undefined') {
 							res = _.filter(objJoueur.resultats, function(result) {
-								return result.id_action === monAct.id;
+								if (result.id_action === monAct.id) {
+									return checkSaison(result.date_realisation);
+								}
 							});
 						}
 						if (res.length > 0) {
@@ -217,7 +240,9 @@
 						var res = [];
 						if (typeof objJoueur.resultats !== 'undefined') {
 							res = _.filter(objJoueur.resultats, function(result) {
-								return result.id_action === monAct.id;
+								if (result.id_action === monAct.id) {
+									return checkSaison(result.date_realisation);
+								}
 							});
 						}
 						if (res.length > 0) {
@@ -250,6 +275,18 @@
 					scope.mesLines.allGraphs.push(unGraph);
 				});
 
+			};
+
+			var checkSaison = function(uneDate) {
+				if (scope.dateDebutSaison!==0) {
+					var timeD = scope.dateDebutSaison;
+					var timeR = new Date(uneDate).getTime();
+					var timeF = timeD + 365*24*60*60*1000;
+					if (timeR<timeD || timeR>timeF) {
+						return false;
+					}
+				}
+				return true;
 			};
 
 		}

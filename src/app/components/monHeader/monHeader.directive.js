@@ -21,6 +21,7 @@
 		return directive;
 
 		function linkF(scope) {
+			scope.interfaceAdmin=false;
 			scope.interfaceCoach=false;
 			scope.interfaceEvaluateur=false;
 			scope.interfaceJoueur=false;
@@ -28,6 +29,7 @@
 			if (typeof $cookies.getObject("gjSession") !== 'undefined') {
 				scope.user_id = $cookies.getObject("gjSession").userId;
 				scope.user_role = $cookies.getObject("gjSession").userRole;
+				scope.interfaceAdmin = ($location.path().indexOf('admin') > 0);
 				scope.interfaceCoach = ($location.path().indexOf('coach') > 0);
 				scope.interfaceEvaluateur = ($location.path().indexOf('evaluateur') > 0);
 				scope.interfaceJoueur = ($location.path().indexOf('joueur') > 0);
