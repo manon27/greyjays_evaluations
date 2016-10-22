@@ -9,6 +9,9 @@
 	function formaterDate() {
 		return function(input, format) {
 			var maDate = new Date(input);
+			/*console.log(input);
+			console.log(maDate);
+			console.log(maDate.getTimezoneOffset());*/
 			var lesMois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 			var lesJours = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
 			var str = '';
@@ -45,6 +48,9 @@
 				str += ' à ' + maDate.getHours() + 'h';
 				if (maDate.getMinutes() < 10) { str += '0'; }
 				str += maDate.getMinutes();
+			} else if (format == 'sql') {
+				var offset = maDate.getTimezoneOffset();
+				str += new Date(maDate.getTime() - offset * 60 * 1000);
 			}
 			return str;
 		};
