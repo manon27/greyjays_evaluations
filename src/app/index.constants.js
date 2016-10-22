@@ -19,7 +19,7 @@
 	/**
 	 * Rôles de l'application
 	 */
-	var AUTH_ROLES = {joueur: "joueur", evaluateur: "evaluateur", coach: "coach"};
+	var AUTH_ROLES = {joueur: "joueur", evaluateur: "evaluateur", coach: "coach", admin: "admin"};
 
 	/**
 	 * Chargement des constantes de l'application

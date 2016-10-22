@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ***** BEGIN LICENSE BLOCK *****
+   - This file is part of DotClear.
+   - Copyright (c) 2004 Olivier Meunier and contributors. All rights
+   - reserved.
+   -
+   - DotClear is free software; you can redistribute it and/or modify
+   - it under the terms of the GNU General Public License as published by
+   - the Free Software Foundation; either version 2 of the License, or
+   - (at your option) any later version.
+   - 
+   - DotClear is distributed in the hope that it will be useful,
+   - but WITHOUT ANY WARRANTY; without even the implied warranty of
+   - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   - GNU General Public License for more details.
+   - 
+   - You should have received a copy of the GNU General Public License
+   - along with DotClear; if not, write to the Free Software
+   - Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+   -
+   - ***** END LICENSE BLOCK ***** -->
+<html>
+  <head>
+    <title>Configuration de DotClear</title>
+  </head>
+  
+  <body>
+    <h1>Configuration de DotClear</h1>
+    
+    <h2>Présentation</h2>
+    <p>Le plugin de configuration de DotClear permet d'éditer le fichier
+    normalement situé dans <em>conf/dotclear.ini</em> à l'aide d'une interface
+    Web.</p>
+    
+    <p>Vous disposez pour cela d'un formulaire dont les informations seront
+    écrites sur le fichier lors de l'enregistrement.</p>
+    
+    <h2>Champs</h2>
+    
+    <dl>
+      <dt id="blog_name">Nom du weblogue</dt>
+      <dd>Il s'agit du nom de votre weblogue. Celui-ci sera utilisé dans le fil
+      RSS et les pings vers d'autres sites. Il est également utilisé comme titre
+      du site dans le thème par défaut. Le code HTML inséré dans ce champ ne sera
+      pas exploité mais affiché comme du texte.</dd>
+      
+      <dt id="blog_desc">Description du weblogue</dt>
+      <dd>C'est une description courte de votre weblogue qui sera envoyée par
+      les fils RSS et Atom.</dd>
+      
+      <dt id="blog_url">URL vers le weblogue</dt>
+      <dd>Vous indiquez dans ce champs l'URL permettant d'accéder à la page
+      d'accueil du blogue et ses autres pages. Ce champs comprends uniquemet
+      l'URL après le nom du serveur. Par exemple, si votre blogue est sur
+      http://www.example.com/blog/, vous indiquerez <strong>/blog/</strong>
+      comme URL de blogue.</dd>
+      
+      <dt id="app_url">Emplacement de l'application</dt>
+      <dd>Cette option indique où se trouve l'application (le répertoire dotclear)
+      depuis la racine du serveur. Vous devez bien indiquer un nom de dossier et
+      changer cette option si vous renommez le répertoire dotclear. Si vous
+      placez DotClear directement à la racine de votre site Web, laissez cette
+      option vide.</dd>
+      
+      <dt id="img_url">Emplacement des images</dt>
+      <dd>Indique à quel endroit se trouvent les images que vous pouvez uploader
+      avec DotClear. Le chemin correspond, comme l'URL vers le blogue, à la
+      partie après la racine du serveur. Par exemple, si vos images sont dans
+      http://www.example.com/blog/img/, vous indiquerez <strong>/img/</strong>
+      comme emplacement des images.</dd>
+      
+      <dt id="blog_rss">Emplacement du fil RSS</dt>
+      <dd>Le fil RSS est une page envoyant les derniers billets ou commentaires
+      de votre blogue dans une format lisible par des outils d'aggrégation de
+      contenu. Normalement, vous n'avez pas à changer cette option. Comme
+      précédemment, l'emplacement est relatif à la racine du serveur.</dd>
+      
+      <dt id="blog_atom">Emplacement du fil Atom</dt>
+      <dd>Le fil Atom est comme le fil RSS mais dans un autre format.</dd>
+      
+      <dt id="trackback_uri">URL de trackback</dt>
+      <dd>Indique l'URL pour réaliser les trackbacks.</dd>
+      
+      <dt id="url_scan">Type des URL</dt>
+      <dd><p>Le type des URL définit la forme des URL (les liens) dans votre
+      weblogue. Il existe trois types dont voici la forme&nbsp;:</p>
+      <ul>
+        <li><strong>Query string</strong>&nbsp;: Vos liens auront la forme
+        <samp>http://votresite/dotclear/index.php?2004/02/</samp>. Cette
+        méthode fonctionne chez tous les hébergeurs. Vous pouvez changer
+        l'<a href="#blog_url">URL vers le blogue</a> pour rendre ces liens
+        un peu moins compliqués, par exemple <samp>/dotclear/</samp>.</p>
+        </li>
+        <li><strong>Path info</strong>&nbsp;: Vos liens auront la forme
+        <samp>http://votresite/dotclear/index.php/2004/02</samp>. Ce type
+        ne fonctionne pas partout. N'oubliez pas non plus de changer votre
+        <a href="#blog_url">URL vers le blogue</a> et d'y ajouter un / à la
+        fin.</li>
+      </ul>
+      </dd>
+      
+      <dt id="nb_post_per_page">Nombre de billets par page</dt>
+      <dd>Indique le nombre de billets affichés sur la page d'accueil générale
+      et sur les pages principales de chaque catégorie.</dd>
+      
+      <dt id="show_previews">Afficher les prévisualisations dans l'interface
+      d'administration</dt>
+      <dd>En désactivant les prévisualisations dans la liste des billets et
+      dans les billets vous pourrez économiser un peu de bande passante,
+      surtout si vos billets contiennent des images. Cette option peut également
+      permettre de résoudre un problème de balisage HTML de votre billet.</dd>
+      
+      <dt id="time_format">Format de date et d'heure</dt>
+      <dd><p>Les champs de format de date et d'heure permettent de changer
+      la forme par défaut des dates et des heures affichées sur votre blogue.
+      Notez cependant qu'un thème peut les changer et que les changements faits
+      dans la configuration n'auront aucun effet.</p>
+      
+      <p>Le format de la date et de l'heure suit les règles de la fonction
+      <a href="http://www.php.net/manual/fr/function.strftime.php">strftime</a>.
+      Voici pour rappel la liste des masques possibles&nbsp;:</p>
+      
+      <ul>
+        <li>%a - nom abr&eacute;g&eacute; du jour de la semaine
+        (local).</li>
+        <li>%A - nom complet du jour de la semaine (local).</li>
+        <li>%b - nom abr&eacute;g&eacute; du mois (local).</li>
+        <li>%B - nom complet du mois (local).</li>
+        <li>%c - repr&eacute;sentation pr&eacute;f&eacute;r&eacute;e pour
+        les dates et heures, en local.</li>
+        <li>%C - num&eacute;ro de si&egrave;cle (l'ann&eacute;e,
+        divis&eacute;e par 100 et arrondie entre 00 et 99)</li>
+        <li>%d - jour du mois en num&eacute;rique (intervalle 01 &agrave;
+        31)</li>
+        <li>%D - identique &agrave; %m/%d/%y</li>
+        <li>%e - num&eacute;ro du jour du mois. Les chiffres sont
+        pr&eacute;c&eacute;d&eacute;s d'un espace (de ' 1' &agrave;
+        '31')</li>
+        <li>%h - identique &agrave; %b</li>
+        <li>%H - heure de la journ&eacute;e en num&eacute;rique, et sur
+        24-heures (intervalle de 00 &agrave; 23)</li>
+        <li>%I - heure de la journ&eacute;e en num&eacute;rique, et sur
+        12- heures (intervalle 01 &agrave; 12)</li>
+        <li>%j - jour de l'ann&eacute;e, en num&eacute;rique (intervalle
+        001 &agrave; 366)</li>
+        <li>%m - mois en num&eacute;rique (intervalle 1 &agrave; 12)</li>
+        <li>%M - minute en num&eacute;rique</li>
+        <li>%n - retour à la ligne</li>
+        <li>%p - soit `am' ou `pm' en fonction de l'heure absolue, ou en
+        fonction des valeurs enregistr&eacute;es en local.</li>
+        <li>%r - l'heure au format a.m. et p.m.</li>
+        <li>%R - l'heure au format 24h</li>
+        <li>%S - secondes en num&eacute;rique</li>
+        <li>%t - tabulation</li>
+        <li>%T - l'heure actuelle (&eacute;gal &agrave; %H:%M:%S)</li>
+        <li>%u - le num&eacute;ro de jour dans la semaine, de 1 &agrave;
+        7. (1 repr&eacute;sente lundi)</li>
+        <li>%U - num&eacute;ro de semaine dans l'ann&eacute;e, en
+        consid&eacute;rant le premier dimanche de l'ann&eacute;e comme le
+        premier jour de la premi&egrave;re semaine.</li>
+        <li>%V - le num&eacute;ro de semaine comme d&eacute;fini dans
+        l'ISO 8601:1988, sous forme d&eacute;cimale, de 01 &agrave; 53.
+        La semaine 1 est la premi&egrave;re semaine qui a plus de 4 jours
+        dans l'ann&eacute;e courante, et dont Lundi est le premier
+        jour.</li>
+        <li>%W - num&eacute;ro de semaine dans l'ann&eacute;e, en
+        consid&eacute;rant le premier lundi de l'ann&eacute;e comme le
+        premier jour de la premi&egrave;re semaine</li>
+        <li>%w - jour de la semaine, num&eacute;rique, avec dimanche =
+        0</li>
+        <li>%x - format pr&eacute;f&eacute;r&eacute; de
+        repr&eacute;sentation de la date sans l'heure</li>
+        <li>%X - format pr&eacute;f&eacute;r&eacute; de
+        repr&eacute;sentation de l'heure sans la date</li>
+        <li>%y - l'ann&eacute;e, num&eacute;rique, sur deux chiffres (de
+        00 &agrave; 99)</li>
+        <li>%Y - l'ann&eacute;e, num&eacute;rique, sur quatre
+        chiffres</li>
+        <li>%Z - fuseau horaire, ou nom ou abr&eacute;viation</li>
+        <li>%% - un caract&egrave;re `%' litt&eacute;ral</li>
+        </ul>
+      </dd>
+      
+      <dt id="default_lang">Langue par défaut</dt>
+      <dd>La langue par défaut est la langue utilisée par l'interface lorsque
+      l'utilisateur n'a pas défini de langue. Elle sera également utilisée pour
+      formater les dates sur la partie publique du blog.</dd>
+      
+      <dt id="theme">Thème du webblogue</dt>
+      <dd>Choisissez ici le thème à utiliser pour votre weblogue.</dd>
+      
+      <dt id="allow_comments">Permettre les commentaires</dt>
+      <dd>Cette option définit si les commentaires sont autorisés sur votre
+      blogue. Cette option est prioritaire à l'activiation ou la suppression
+      des commentaires billets par billet.</dd>
+      
+      <dt id="allow_trackbacks">Permettre les trackbacks</dt>
+      <dd>Cette option indique si les trackbacks sont autorisés. Elle est
+      prioritaire à l'activation ou la suppression des commentaires billet
+      par billet.</dd>
+      
+      <dt id="comments_pub">Publication immédiate des commentaires</dt>
+      <dd>Si cette option est à "non", les commentaires n'apparaîtront pas
+      sur votre weblogue tant que vous ne les aurez pas mis en ligne.</dd>
+      
+      <dt id="comments_ttl">Temps de vie des commentaires et des trackbacks</dt>
+      <dd>Cette option défini le nombre de jours pendant lesquels un visiteur
+      pourra déposer un commentaire sur un billet. Passé ce délai les
+      commentaires et les trackbacks seront fermés (mais seront toujours
+      affichés). Vous pourrez cependant continuer à laisser des commentaires
+      depuis l'interface d'administration. Laissez ce champs vide pour que les
+      commentaires et trackbacks n'expirent jamais.</dd>
+      
+      <dt id="use_smilies">Afficher des émoticones dans les billets et les commentaires</dt>
+      <dd>Si cette option est activée, les moreceaux de texte tels que ":-)" ou
+      encore ";-)" seront transformés en image signifiant l'expression utilisée
+      dans le texte.</dd>
+      
+      <dt id="comment_notification">Notification de chaque commentaire par email</dt>
+      <dd>Si cette option est activée, chaque commentaire posté sur votre blogue
+      sera envoyé par email à l'adresse de l'auteur du billet correspondant.
+      La notification ne fonctionne que si l'auteur du billet a indiqué un email
+      et si l'hébergeur permet l'envoi d'email.</dd>
+      
+      <dt id="short_feeds">Fils RSS et Atom courts</dt>
+      <dd>Si cette option est activée, les fils RSS et Atom ne fourniront qu'une
+      description du billet ou du commentaire, sinon, l'élément complet.</dd>
+      
+      <dt id="http_cache">Activer le cache HTTP</dt>
+      <dd>Cette option permet d'activer le cache HTTP. Le cache HTTP permet de
+      forcer les navigateurs à utiliser une version en cache si rien n'a changé
+      sur votre blogue depuis la dernière visite. Ceci permet d'économiser de
+      la bande passante de façon non négligeable. Le cache HTTP n'est activé que
+      si le fichier <em>conf/UPDATE</em> est accessible en écriture par le
+      serveur. Si vous rencontrez des problèmes tels que des pages blanches,
+      désactivez cette option.</dd>
+    </dl>
+    
+  </body>
+</html>
