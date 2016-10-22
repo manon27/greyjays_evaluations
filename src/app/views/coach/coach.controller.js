@@ -20,7 +20,16 @@
 
 		coach.loading = true;
 
-		DonneesService.updateDataSets();
+		//initialisation des filtres pour chaque entite
+		coach.filterData = {
+			actionIds: [],
+			joueurIds: [],
+			performanceIds: [],
+			positionIds: [],
+			resultatIds: []
+		};
+
+		DonneesService.updateDataSets(coach.filterData);
 
 		init();
 
@@ -32,6 +41,36 @@
 		coach.resultatService = ResultatService;
 		coach.donneesService = DonneesService;
 		
+		/**
+		 *	Filtrer après sélection
+		 */
+		coach.$on('filtrerDatas', function() {
+			var deferred = $q.defer();
+
+			function applyRefresh() {
+				_.delay(function() {
+					$scope.$apply(function() {
+						// mise à jour du jeu de donnees
+						init();
+						deferred.resolve('Finished refresh');
+					});
+				}, 250);
+
+				return deferred.promise;
+			}
+
+			//	Calculs en cours
+			coach.loading = true;
+
+			applyRefresh().then(function() {
+				//	Calculs en cours termine
+				coach.loading = false;
+			});
+		});
+
+		/**
+		 *	Rafraichir apres appel ajax
+		 */
 		coach.$on('refresh', function() {
 			var deferred = $q.defer();
 
@@ -89,7 +128,7 @@
 						PerformanceService.linkModels(actionsById);
 						ResultatService.linkModels(actionsById, joueursById);
 
-						DonneesService.updateDataSets();
+						DonneesService.updateDataSets(coach.filterData);
 						coach.loading = false;
 					}
 				});
