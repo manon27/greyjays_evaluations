@@ -31,20 +31,33 @@ if ($input != null) {
 	$set = '';
 	for ($i=0;$i<count($columns);$i++) {
 		$set.=($i>0?',':'').'`'.$columns[$i].'`=';
+		if (strpos($columns[$i], "date") !== false) {
+			$values[$i] = substr($values[$i], 0, 10).' '.substr($values[$i], 11, 8);
+		}
 		$set.=($values[$i]===null?'NULL':'"'.$values[$i].'"');
 	}
+}
+
+//  si method=OPTIONS (preflight)
+if ($method == 'OPTIONS') {
+	http_response_code(200);
+	exit();
 }
 
 //	si method=POST
 if ($method == 'POST') {
 	//debut authentification
 	if ($table == 'login') {
-		if (($columns[1]=='password') && ($values[1] == GJ_PASS)) {
+		echo($values[1]);
+		if (($columns[1]=='password') && ($values[1] == GJ_PWD_SESSION)) {
 			$_SESSION["gj_app"] = GJ_SESSION;
 			http_response_code(200);
 			echo('{"login":"ok"}');
-			exit();
+		} else {
+			http_response_code(200);
+			echo('{"login":"ko"}');
 		}
+		exit();
 	}
 	//fin authentification
 	elseif ($table == 'logout') {
