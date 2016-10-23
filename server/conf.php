@@ -3,7 +3,7 @@
 define('DB_USER','manoloexpo');
 
 # Mot de passe MySQL
-define('DB_PASS','carbone72');
+define('DB_PASS','**********');
 
 # Nom de machine MySQL (généralement localhost)
 define('DB_HOST','sql.free.fr');
