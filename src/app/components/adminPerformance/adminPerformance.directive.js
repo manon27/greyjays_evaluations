@@ -12,7 +12,7 @@
 	 */
 
 	/** @ngInject */
-	function adminPerformance() {
+	function adminPerformance(_) {
 		var directive = {
 			restrict: 'E',
 			scope: {
@@ -34,6 +34,16 @@
 			};
 			scope.items = scope.items || [];
 			scope.itemAdd = {};
+			scope.allActionsMesurable = [];
+
+			/**
+			 * En cas d'ajout d'actions, mettre à jour cette liste...
+			 */
+			scope.$watch('allActions', function(newValue) {
+				scope.allActionsMesurable = _.filter(newValue, function(act) {
+					return act.mesurable === 0;
+				});
+			});
 
 			/**
 			 * Afficher la GUI d'ajout

@@ -48,7 +48,7 @@
 									<label for="actionList" class="control-label">Action *</label>
 									<select id="actionList" name="actionList" class="form-control" size="1" ng-model="itemAdd.id_action" convert-to-number required="true">
 										<option value="">Choisir une action...</option>
-										<option ng-repeat="itemA in allActions" value="{{itemA.id}}">{{itemA.libelle}}</option>
+										<option ng-repeat="itemA in allActionsMesurable" value="{{itemA.id}}">{{itemA.libelle}}</option>
 									</select>
 									<div ng-if="!monFormPerformance.actionList.$modelValue  && alertesPerformance" class="alert alert-warning" role="alert">
 										<p>Aucune action n'est sélectionnée.</p>
