@@ -36,8 +36,8 @@
 			 */	
 			scope.$watch('qui', function(newJoueur) {
 				if (newJoueur.length === 1) {
-					scope.leJoueur = JoueurService.filtrerParId(newJoueur[0].id);
-					scope.afficher('moyenne');
+						scope.leJoueur = JoueurService.filtrerParId(newJoueur[0].id);
+						scope.afficher('moyenne');
 				} else {
 					scope.leJoueur = 0;
 				}
@@ -65,9 +65,12 @@
 							ticks: {beginAtZero: true, min: 0, max: 5, stepSize: 1}
 						}
 					},
-					allColors : ['#D0262E', '#3F2992', '#D4B427'],
-					allSeries : ['Max du joueur', 'Moyenne du joueur', 'Moyenne équipe'],
+					allColors : ['#D0262E', '#3F2992', '#D4B427', '#289191'],
+					allSeries : ['Max du joueur', 'Moyenne du joueur', 'Moyenne équipe', 'Dernière évaluation'],
 					allDSOverride : [
+						{
+							backgroundColor: "rgba(0,0,0,0.1)"
+						},
 						{
 							backgroundColor: "rgba(0,0,0,0.1)"
 						},
@@ -97,6 +100,7 @@
 					var donneesMax = [];
 					var donneesMoy = [];
 					var donneesMoyEquipe = [];
+					var donneesLast = [];
 					_.each(maPos.actions, function(monAct) {
 						labels.push(monAct.libelle);
 						//	sur le joueur en cours...
@@ -110,6 +114,7 @@
 						}
 						var max = 0;
 						var moy = 0;
+						var last = 0;
 						if (res.length > 0) {
 							max = _.max(res, function(item) {
 								return item.maNote.length;
@@ -118,9 +123,13 @@
 								moy += item.maNote.length;
 							});
 							moy = Math.round(moy / res.length * 100) / 100;
+							last = _.sortBy(res, 'date_realisation').reverse();
+							last = last[0].maNote.length;
 						}
 						donneesMax.push(max);
 						donneesMoy.push(moy);
+						donneesLast.push(last);
+					
 						// sur l equipe
 						var totEquipe = 0;
 						var moyEquipe = 0;
@@ -140,8 +149,11 @@
 					donnees.push(donneesMax);
 					donnees.push(donneesMoy);
 					donnees.push(donneesMoyEquipe);
+					donnees.push(donneesLast);
 					unGraph.mesDonnees = donnees;
-					scope.mesradars.allGraphs.push(unGraph);
+					if (donnees[3].length > 0) {
+						scope.mesradars.allGraphs.push(unGraph);
+					}
 				});
 
 			};
