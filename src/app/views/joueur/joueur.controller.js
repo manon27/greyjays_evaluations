@@ -24,15 +24,16 @@
 		//initialisation des filtres pour chaque entite
 		joueurCtrl.filterData = {
 			actionIds: [],
-			joueurIds: [parseInt($routeParams.id,10)],
+			joueurIds: [],
 			performanceIds: [],
 			positionIds: [],
 			resultatIds: []
 		};
 
-		DonneesService.updateDataSets(joueurCtrl.filterData);
 
 		init();
+
+		DonneesService.updateDataSets(joueurCtrl.filterData);
 
 		// declaration des services dans le scope pour pouvoir les utiliser dans la vue
 		joueurCtrl.donneesService = DonneesService;
@@ -129,7 +130,7 @@
 						ActionService.linkModels(positionsById);
 						PerformanceService.linkModels(actionsById);
 						ResultatService.linkModels(actionsById, joueursById);
-
+						joueurCtrl.filterData.joueurIds[0] = parseInt($routeParams.id,10);
 						DonneesService.updateDataSets(joueurCtrl.filterData);
 
 						joueurCtrl.loading = false;
