@@ -13,7 +13,7 @@
 CREATE TABLE `gj_action` (
   `id` int(11) NOT NULL,
   `libelle` varchar(250) NOT NULL,
-  `description` varchar(1000) NOT NULL,
+  `description` varchar(1000) DEFAULT NULL,
   `mesurable` tinyint(1) NOT NULL DEFAULT '0',
   `id_position` int(11) NOT NULL,
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
