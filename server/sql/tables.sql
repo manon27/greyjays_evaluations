@@ -13,12 +13,12 @@
 CREATE TABLE `gj_action` (
   `id` int(11) NOT NULL,
   `libelle` varchar(250) NOT NULL,
-  `description` varchar(1000) NULL,
+  `description` varchar(1000) NOT NULL,
   `mesurable` tinyint(1) NOT NULL DEFAULT '0',
   `id_position` int(11) NOT NULL,
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modification` timestamp NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déclencheurs `gj_action`
@@ -49,7 +49,7 @@ CREATE TABLE `gj_joueur` (
   `date_inscription` timestamp NULL DEFAULT NULL,
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modification` timestamp NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déclencheurs `gj_joueur`
@@ -72,7 +72,7 @@ CREATE TABLE `gj_performance` (
   `id_action` int(11) NOT NULL,
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modification` timestamp NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,7 @@ CREATE TABLE `gj_position` (
   `description` varchar(250) NOT NULL,
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modification` timestamp NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déclencheurs `gj_position`
@@ -111,7 +111,7 @@ CREATE TABLE `gj_resultat` (
   `date_creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modification` timestamp NOT NULL,
   `date_realisation` timestamp NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Index pour les tables exportées
