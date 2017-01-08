@@ -8,12 +8,13 @@
 	/**
 	 * GUI d'affichage des statistiques du club
 	 * @desc <detail-club mes-donnees=""></detail-club>
+	 * @param {service} JoueurService - 
 	 * @param {service} PositionService - 
 	 * @param {module} _
 	 */
 
 	/** @ngInject */
-	function detailClub($rootScope, JoueurService, PositionService, _) {
+	function detailClub(JoueurService, PositionService, _) {
 		var directive = {
 			restrict: 'E',
 			scope: {
