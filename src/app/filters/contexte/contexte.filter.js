@@ -9,7 +9,9 @@
 	function formaterTexte() {
 		return function(input, champs) {
 			var str = '';
-			if (input === 0) {
+			if (input === null) {
+
+			} else if (input === 0) {
 				if (champs === 'inmatch') str += 'Entraînement';
 				if (champs === 'mesurable') str += 'L\'action n\'est pas dénombrable (mesurée par un nombre).';
 			} else if (input === 1) {
