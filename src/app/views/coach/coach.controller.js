@@ -40,6 +40,7 @@
 		coach.positionService = PositionService;
 		coach.resultatService = ResultatService;
 		coach.donneesService = DonneesService;
+		coach.donneesServiceForStat = null;
 		
 		/**
 		 *	Filtrer après sélection
@@ -129,6 +130,9 @@
 						ResultatService.linkModels(actionsById, joueursById);
 
 						DonneesService.updateDataSets(coach.filterData);
+						if (coach.donneesServiceForStat === null) {
+							coach.donneesServiceForStat = angular.copy(DonneesService);
+						}
 						coach.loading = false;
 					}
 				});

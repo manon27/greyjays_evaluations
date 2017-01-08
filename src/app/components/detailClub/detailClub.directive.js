@@ -13,7 +13,7 @@
 	 */
 
 	/** @ngInject */
-	function detailClub(JoueurService, PositionService, _) {
+	function detailClub($rootScope, JoueurService, PositionService, _) {
 		var directive = {
 			restrict: 'E',
 			scope: {
